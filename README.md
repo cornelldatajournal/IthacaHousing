@@ -1,6 +1,6 @@
 # Ithaca Housing: Finding the Best Bang per Buck
 
-Hi! This is the repository for the Ithaca Housing project in Cornell Data Journal, Fall 2023 Semester.
+Hi! This is the repository for the Ithaca Housing project in the [Cornell Data Journal](https://www.cornelldatajournal.org/) (Fall 2023 and Spring 2024 Semesters).
 
 ## Project Abstract
 

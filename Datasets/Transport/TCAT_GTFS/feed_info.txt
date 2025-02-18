@@ -1,2 +1,0 @@
-feed_publisher_name,feed_publisher_url,feed_lang,feed_start_date,feed_end_date,feed_version
-Tompkins Consolidated Area Transit Inc,http://tcatbus.com/,en,20231022,20240120,20231018

@@ -1,0 +1,28 @@
+import { defineStore } from 'pinia'
+
+const useThemeStore = defineStore({
+  id: 'theme',
+  state: () => ({
+    theme: 'auto'
+  }),
+  actions: {
+    fetch() { 
+      const savedTheme = localStorage.getItem('theme')
+      this.theme = savedTheme || 'auto'
+      this.change(this.theme);
+      console.debug(this.theme)
+    },
+    /**
+     * @param {string} theme The theme to change to
+     */
+    change(theme) {
+      this.theme = theme
+      const isDarkMode = this.theme === 'dark' || 
+      (window.matchMedia('(prefers-color-scheme: dark)').matches && this.theme === 'auto')
+      document.body.classList.toggle('dark', isDarkMode)
+      localStorage.setItem('theme', theme)
+    }
+  }
+})  
+
+export default useThemeStore  

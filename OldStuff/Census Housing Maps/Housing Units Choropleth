@@ -1,0 +1,54 @@
+---
+title: "Housing Supply Map"
+author: "dani smith"
+date: "2023-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidycensus)
+library(dplyr)
+
+v20 <- load_variables(2020, "dhc", cache = TRUE)
+
+View(v20)
+
+v17 <- load_variables(2017, "acs5", cache = TRUE)
+
+View(v17)
+
+tompkins_housing_units <- get_decennial(
+  geography = "block group",
+  state = "NY",
+  county = "Tompkins",
+  variables = c(
+    Housing_Units = "H1_001N"
+  ),
+  year = 2020,
+  geometry = TRUE
+)
+
+View(tompkins_housing_units)
+
+install.packages('tmap')
+library(tmap)
+
+tm_shape(tompkins_housing_units) + 
+  tm_polygons(col = "value",
+              style = "quantile",
+              n = 5,
+              palette = "Purples",
+              title = "2020 US Census",
+              legend.hist = TRUE)+
+  tm_layout(title = "Housing Units by\nCensus Block Group",
+            frame = FALSE,
+            legend.outside = TRUE,
+            bg.color = "grey80",
+            legend.hist.width = 5,
+            fontfamily = "Verdana")
+
+```

@@ -10,7 +10,7 @@ BACKEND_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")
 sys.path.insert(0, BACKEND_PATH)
 from model.fetch_housing_data import fetch_active_listings
 from model.pipeline import housing_data_pipeline
-from model.model_training import train_model
+from model.insert_into_postgredb import psql_insert_copy
 
 
 
@@ -50,7 +50,7 @@ retrain_task = PythonOperator(
 
 upload_to_database = PythonOperator(
     task_id="upload_to_database",
-    python_callable=train_model,
+    python_callable=psql_insert_copy,
     dag=dag,
 )
 

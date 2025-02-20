@@ -12,6 +12,8 @@
     "type-check": "vue-tsc --build"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
     "axios": "^1.7.9",
     "leaflet": "^1.9.4",
     "mapbox-gl": "^3.10.0",

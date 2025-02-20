@@ -7,39 +7,41 @@ import time
 
 api = overpy.Overpass(url="https://overpass.kumi.systems/api/interpreter")
 
-def fetch_amenities(latitude, longitude, radius=200, max_retries=5, timeout=20):
+def fetch_amenities(latitude, longitude, radius=500):
     """
-    Fetches key amenities near a property using OverpassQL with optimized queries and retry handling.
-    
+    Fetches key amenities near a property using OverpassQL.
+    Iterates through result nodes and finds the (amenity, distance) as a key-value pair
+    Adds key-value pair to amenities dictionary if amenity type is not in dictionary or the distance is closer than distance
+
+
     Parameters:
     - latitude, longitude: Coordinates of the rental property.
     - radius: Search radius in meters.
-    - max_retries: Maximum retry attempts in case of rate limiting.
 
     Returns:
     - Dictionary with amenity types and distances.
     """
-    
     query = f"""
-    [out:json][timeout:100];
+    [out:json][timeout:50];
     (
-        node(around:{radius},{latitude},{longitude})["amenity"];
+        node(around:{radius},{latitude},{longitude})["public_transport"];
         node(around:{radius},{latitude},{longitude})["shop"="supermarket"];
+        node(around:{radius},{latitude},{longitude})["amenity"="restaurant"];
+        node(around:{radius},{latitude},{longitude})["amenity"="cafe"];
+        node(around:{radius},{latitude},{longitude})["amenity"="school"];
+        node(around:{radius},{latitude},{longitude})["amenity"="university"];
+        node(around:{radius},{latitude},{longitude})["amenity"="hospital"];
+        node(around:{radius},{latitude},{longitude})["amenity"="clinic"];
+        node(around:{radius},{latitude},{longitude})["amenity"="pharmacy"];
         node(around:{radius},{latitude},{longitude})["leisure"="park"];
     );
     out body;
     """
-
-    for attempt in range(max_retries):
-        try:
-            result = api.query(query, timeout=timeout)
-        except overpy.exception.OverpassTooManyRequests:
-            wait_time = 2 ** attempt 
-            print(f"⚠️ Rate limit hit. Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-        except Exception as e:
-            print(f"⚠️ Error fetching amenities: {e}")
-            return None  
+    try:
+        result = api.query(query)
+    except Exception as e:
+        print(f"⚠️ Error fetching amenities: {e}")
+        return {}
 
     amenities = {}
     for node in result.nodes:

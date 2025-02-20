@@ -1,2 +1,3 @@
 myenv
 .env.local
+backend/airflow/logs

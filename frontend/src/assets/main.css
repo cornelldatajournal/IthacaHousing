@@ -6,6 +6,10 @@
   font-weight: normal;
 }
 
+body {
+  font-family: 'DM Sans', sans-serif;
+}
+
 a,
 .green {
   text-decoration: none;

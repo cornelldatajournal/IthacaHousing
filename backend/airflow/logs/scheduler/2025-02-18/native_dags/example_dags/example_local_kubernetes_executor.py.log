@@ -5179,3 +5179,399 @@ ModuleNotFoundError: No module named 'kubernetes'
 [2025-02-18T11:35:16.195-0500] {logging_mixin.py:190} INFO - [2025-02-18T11:35:16.195-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
 [2025-02-18T11:35:16.195-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
 [2025-02-18T11:35:16.272-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.092 seconds
+[2025-02-18T18:21:35.007-0500] {processor.py:186} INFO - Started process (PID=54672) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:21:35.008-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:21:35.008-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:21:35.008-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:21:35.036-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:21:35.036-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:21:35.037-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:21:35.037-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:21:35.037-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:21:35.144-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.139 seconds
+[2025-02-18T18:22:50.165-0500] {processor.py:186} INFO - Started process (PID=55159) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:22:50.166-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:22:50.166-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:22:50.166-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:22:50.179-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:22:50.179-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:22:50.179-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:22:50.179-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:22:50.179-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:22:50.257-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.093 seconds
+[2025-02-18T18:24:06.063-0500] {processor.py:186} INFO - Started process (PID=55626) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:24:06.074-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:24:06.075-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:24:06.075-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:24:06.119-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:24:06.118-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:24:06.119-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:24:06.119-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:24:06.120-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:24:06.354-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.293 seconds
+[2025-02-18T18:25:27.502-0500] {processor.py:186} INFO - Started process (PID=56111) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:25:27.504-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:25:27.504-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:25:27.504-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:25:27.539-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:25:27.534-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:25:27.542-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:25:27.542-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:25:27.542-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:25:27.730-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.229 seconds
+[2025-02-18T18:26:40.484-0500] {processor.py:186} INFO - Started process (PID=56535) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:26:40.485-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:26:40.485-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:26:40.485-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:26:40.499-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:26:40.499-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:26:40.499-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:26:40.499-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:26:40.499-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:26:40.735-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.253 seconds
+[2025-02-18T18:27:58.653-0500] {processor.py:186} INFO - Started process (PID=56985) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:27:58.654-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:27:58.656-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:27:58.656-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:27:58.704-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:27:58.704-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:27:58.704-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:27:58.704-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:27:58.704-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:27:58.817-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.165 seconds
+[2025-02-18T18:29:05.924-0500] {processor.py:186} INFO - Started process (PID=57423) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:29:05.925-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:29:05.925-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:29:05.925-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:29:05.964-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:29:05.964-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:29:05.964-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:29:05.964-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:29:05.964-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:29:06.050-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.129 seconds
+[2025-02-18T18:30:13.007-0500] {processor.py:186} INFO - Started process (PID=57837) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:30:13.010-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:30:13.010-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:30:13.010-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:30:13.026-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:30:13.025-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:30:13.026-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:30:13.026-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:30:13.026-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:30:13.085-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.086 seconds
+[2025-02-18T18:31:02.880-0500] {processor.py:186} INFO - Started process (PID=58161) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:31:02.880-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:31:02.880-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:31:02.880-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:31:02.892-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:31:02.892-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:31:02.892-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:31:02.892-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:31:02.892-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:31:02.947-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.069 seconds
+[2025-02-18T18:32:08.085-0500] {processor.py:186} INFO - Started process (PID=58534) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:32:08.090-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:32:08.090-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:32:08.090-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:32:08.206-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:32:08.206-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:32:08.206-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:32:08.206-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:32:08.206-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:32:08.323-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.241 seconds
+[2025-02-18T18:33:09.244-0500] {processor.py:186} INFO - Started process (PID=59040) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:33:09.244-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:33:09.245-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:33:09.245-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:33:09.263-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:33:09.263-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:33:09.263-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:33:09.263-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:33:09.263-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:33:09.369-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.128 seconds
+[2025-02-18T18:34:32.013-0500] {processor.py:186} INFO - Started process (PID=59679) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:34:32.014-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:34:32.014-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:34:32.014-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:34:32.027-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:34:32.027-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:34:32.027-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:34:32.027-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:34:32.027-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:34:32.197-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.186 seconds
+[2025-02-18T18:35:34.895-0500] {processor.py:186} INFO - Started process (PID=60142) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:35:34.896-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:35:34.896-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:35:34.896-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:35:34.920-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:35:34.920-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:35:34.920-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:35:34.920-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:35:34.920-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:35:35.028-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.137 seconds
+[2025-02-18T18:37:30.537-0500] {processor.py:186} INFO - Started process (PID=60865) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:37:30.538-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:37:30.538-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:37:30.538-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:37:30.552-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:37:30.551-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:37:30.552-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:37:30.552-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:37:30.552-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:37:30.638-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.103 seconds
+[2025-02-18T18:38:45.782-0500] {processor.py:186} INFO - Started process (PID=61326) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:38:45.783-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:38:45.784-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:38:45.784-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:38:45.814-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:38:45.814-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:38:45.814-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:38:45.814-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:38:45.814-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:38:45.888-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.114 seconds
+[2025-02-18T18:39:46.095-0500] {processor.py:186} INFO - Started process (PID=61681) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:39:46.097-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:39:46.097-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:39:46.097-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:39:46.115-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:39:46.114-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:39:46.115-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:39:46.115-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:39:46.115-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:39:46.190-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.096 seconds
+[2025-02-18T18:41:02.125-0500] {processor.py:186} INFO - Started process (PID=62097) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:41:02.126-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:41:02.126-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:41:02.126-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:41:02.140-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:41:02.140-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:41:02.140-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:41:02.140-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:41:02.140-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:41:02.277-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.154 seconds
+[2025-02-18T18:42:32.635-0500] {processor.py:186} INFO - Started process (PID=62598) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:42:32.636-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:42:32.637-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:42:32.636-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:42:32.671-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:42:32.671-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:42:32.671-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:42:32.671-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:42:32.671-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:42:32.736-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.102 seconds
+[2025-02-18T18:43:26.958-0500] {processor.py:186} INFO - Started process (PID=62925) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:43:26.959-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:43:26.959-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:43:26.959-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:43:27.411-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:43:27.402-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:43:27.412-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:43:27.412-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:43:27.412-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:43:27.660-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.703 seconds
+[2025-02-18T18:44:28.319-0500] {processor.py:186} INFO - Started process (PID=63364) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:44:28.320-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:44:28.321-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:44:28.321-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:44:28.335-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:44:28.334-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:44:28.335-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:44:28.335-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:44:28.335-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:44:28.411-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.094 seconds
+[2025-02-18T18:45:35.574-0500] {processor.py:186} INFO - Started process (PID=63789) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:45:35.575-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:45:35.576-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:45:35.575-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:45:35.602-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:45:35.602-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:45:35.603-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:45:35.603-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:45:35.603-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:45:35.686-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.113 seconds
+[2025-02-18T18:46:40.392-0500] {processor.py:186} INFO - Started process (PID=64194) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:46:40.393-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:46:40.394-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:46:40.394-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:46:40.416-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:46:40.415-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:46:40.416-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:46:40.416-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:46:40.416-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:46:40.501-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.116 seconds
+[2025-02-18T18:47:57.690-0500] {processor.py:186} INFO - Started process (PID=64665) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:47:57.691-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:47:57.691-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:47:57.691-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:47:57.716-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:47:57.715-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:47:57.716-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:47:57.716-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:47:57.716-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:47:57.807-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.118 seconds
+[2025-02-18T18:48:51.822-0500] {processor.py:186} INFO - Started process (PID=65010) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:48:51.823-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:48:51.824-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:48:51.824-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:48:51.845-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:48:51.845-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:48:51.845-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:48:51.845-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:48:51.845-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:48:51.935-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.114 seconds
+[2025-02-18T18:49:45.920-0500] {processor.py:186} INFO - Started process (PID=65399) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:49:45.922-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:49:45.922-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:49:45.922-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:49:45.934-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:49:45.934-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:49:45.934-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:49:45.934-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:49:45.934-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:49:46.034-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.115 seconds
+[2025-02-18T18:50:53.529-0500] {processor.py:186} INFO - Started process (PID=65765) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:50:53.530-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:50:53.530-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:50:53.530-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:50:53.591-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:50:53.591-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:50:53.592-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:50:53.592-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:50:53.592-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:50:53.724-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.197 seconds
+[2025-02-18T18:51:59.779-0500] {processor.py:186} INFO - Started process (PID=66145) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:51:59.780-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:51:59.780-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:51:59.780-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:51:59.825-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:51:59.824-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:51:59.825-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:51:59.825-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:51:59.825-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:51:59.883-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.113 seconds
+[2025-02-18T18:52:58.127-0500] {processor.py:186} INFO - Started process (PID=66499) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:52:58.128-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:52:58.128-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:52:58.128-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:52:58.141-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:52:58.141-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:52:58.141-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:52:58.141-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:52:58.141-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:52:58.232-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.106 seconds
+[2025-02-18T18:53:51.279-0500] {processor.py:186} INFO - Started process (PID=66877) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:53:51.280-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:53:51.280-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:53:51.280-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:53:51.293-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:53:51.293-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:53:51.293-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:53:51.293-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:53:51.293-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:53:51.402-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.125 seconds
+[2025-02-18T18:54:48.184-0500] {processor.py:186} INFO - Started process (PID=67274) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:54:48.186-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:54:48.186-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:54:48.186-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:54:48.214-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:54:48.213-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:54:48.214-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:54:48.214-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:54:48.214-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:54:48.326-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.145 seconds
+[2025-02-18T18:55:32.369-0500] {processor.py:186} INFO - Started process (PID=67581) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:55:32.370-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:55:32.371-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:55:32.371-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:55:32.384-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:55:32.384-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:55:32.384-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:55:32.384-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:55:32.385-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:55:32.449-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.081 seconds
+[2025-02-18T18:56:23.135-0500] {processor.py:186} INFO - Started process (PID=67918) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:56:23.137-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:56:23.138-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:56:23.138-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:56:23.150-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:56:23.150-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:56:23.151-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:56:23.151-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:56:23.151-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:56:23.232-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.102 seconds
+[2025-02-18T18:57:11.007-0500] {processor.py:186} INFO - Started process (PID=68267) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:11.007-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:57:11.008-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:11.008-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:11.021-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:11.020-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:57:11.021-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:11.021-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:57:11.021-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:11.087-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.094 seconds
+[2025-02-18T18:57:58.256-0500] {processor.py:186} INFO - Started process (PID=68581) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:58.257-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:57:58.258-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:58.258-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:58.277-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:58.276-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:57:58.277-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:57:58.277-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:57:58.277-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:57:58.348-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.093 seconds
+[2025-02-18T18:59:08.637-0500] {processor.py:186} INFO - Started process (PID=69056) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:08.638-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:59:08.638-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:08.638-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:08.660-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:08.660-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:59:08.661-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:08.661-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:59:08.661-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:08.736-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.100 seconds
+[2025-02-18T18:59:55.036-0500] {processor.py:186} INFO - Started process (PID=69389) to work on /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:55.037-0500] {processor.py:914} INFO - Processing file /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py for tasks to queue
+[2025-02-18T18:59:55.038-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:55.037-0500] {dagbag.py:588} INFO - Filling up the DagBag from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:55.087-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:55.087-0500] {example_local_kubernetes_executor.py:40} WARNING - Could not import DAGs in example_local_kubernetes_executor.py
+Traceback (most recent call last):
+  File "/Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py", line 38, in <module>
+    from kubernetes.client import models as k8s
+ModuleNotFoundError: No module named 'kubernetes'
+[2025-02-18T18:59:55.087-0500] {logging_mixin.py:190} INFO - [2025-02-18T18:59:55.087-0500] {example_local_kubernetes_executor.py:41} WARNING - Install Kubernetes dependencies with: pip install apache-airflow[cncf.kubernetes]
+[2025-02-18T18:59:55.087-0500] {processor.py:927} WARNING - No viable dags retrieved from /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py
+[2025-02-18T18:59:55.161-0500] {processor.py:208} INFO - Processing /Users/asm/Documents/GitHub/IthacaHousing/backend/myenv/lib/python3.12/site-packages/airflow/example_dags/example_local_kubernetes_executor.py took 0.125 seconds

@@ -4,6 +4,9 @@ import overpy
 import geopy.distance
 import math
 import time
+import os
+import psycopg2 
+
 
 api = overpy.Overpass(url="https://overpass.kumi.systems/api/interpreter")
 
@@ -40,8 +43,7 @@ def fetch_amenities(latitude, longitude, radius=500):
     try:
         result = api.query(query)
     except Exception as e:
-        print(f"⚠️ Error fetching amenities: {e}")
-        return {}
+        raise AmenitiesFetchingFailedError(f"Error fetching amenities: {e}")
 
     amenities = {}
     for node in result.nodes:
@@ -54,7 +56,7 @@ def fetch_amenities(latitude, longitude, radius=500):
 
     return amenities
 
-def compute_amenity_score(latitude, longitude):
+def compute_amenity_score(listing_id, latitude, longitude):
     """
     Computes an overall amenity score based on proximity to key locations.
 
@@ -64,8 +66,12 @@ def compute_amenity_score(latitude, longitude):
     Returns:
     - Final score (1-100).
     """
-
-    amenities = fetch_amenities(latitude, longitude)
+    try:
+        amenities = fetch_amenities(latitude, longitude)
+    except Exception as e:
+        fetched_score = postgresql_amenities_backup(listing_id)
+        print(fetched_score)
+        return fetched_score
 
     weights = {
         "public_transport": 25, "supermarket": 20, "restaurant": 15, "cafe": 15,
@@ -89,7 +95,59 @@ def calculate_amenity_score(apartments_for_rent):
         apartments_for_rent: dataframe with housing data
     """
     apartments_for_rent["amenities_score"] = apartments_for_rent.apply(
-        lambda row: compute_amenity_score(row["latitude"], row["longitude"]), axis=1
+        lambda row: compute_amenity_score(row["ListingId"], row["latitude"], row["longitude"]), axis=1
     )
 
     return apartments_for_rent
+
+
+def postgresql_amenities_backup(listing_id):
+    """
+    Fetches amenity score from database in case Turbo.ai fails
+
+    Args:
+        listing_id: the id of the listing from the database
+    """
+    DB_USER=os.getenv("DB_USER")
+    DB_PWD=os.getenv("DB_PWD")
+    DB_HOST=os.getenv("DB_HOST")
+    DB_PORT=os.getenv("DB_PORT")
+    DB_NAME=os.getenv("DB_NAME")
+
+    conn = psycopg2.connect(
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PWD,
+        host=DB_HOST,
+        port=DB_PORT
+    )
+    cursor = conn.cursor()
+    
+    with conn:
+        with conn.cursor() as cursor:
+            query = """
+                SELECT 
+                    amenities_score
+                FROM housing_listings
+                WHERE
+                    listingid = %s
+            """
+            cursor.execute(query, (listing_id,))
+            rows = cursor.fetchall()
+    
+    if not rows:
+        return None 
+    
+    for row in rows:
+        amenity_score = row[0]
+        return amenity_score
+
+
+def AmenitiesFetchingFailedError(Exception):
+    """
+    Custom exception class if Amenity Fetching Fails.
+    """
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = message
+

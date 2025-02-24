@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import MapView from './components/MapView.vue'
 </script>
 
 <template>
-  <MapView />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <router-view />
 </template>
 
 <style scoped>

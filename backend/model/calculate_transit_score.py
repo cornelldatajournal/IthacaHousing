@@ -36,7 +36,7 @@ def compute_transit_score(lat, lon, stops_df):
     nearest = find_nearest_stop(lat, lon, stops_df)
     distance = nearest["distance_meters"]
 
-    distance_score = 40 * math.exp(-1.5 * (distance / 1000))
+    distance_score = 100 * math.exp(-1.5 * (distance / 1000))
 
     return round(distance_score, 2)
 

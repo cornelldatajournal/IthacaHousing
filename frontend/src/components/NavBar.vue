@@ -24,7 +24,7 @@
 <style scoped>
 /* Navbar Container */
 .navbar-container {
-    background: rgba(255, 255, 255, 0.6);  /* Translucent white */
+    background: rgba(255, 255, 255, 0.9);  /* Translucent white */
     backdrop-filter: blur(12px);            /* Frosted glass effect */
     -webkit-backdrop-filter: blur(12px);    /* For Safari support */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -69,7 +69,7 @@ line-height: 1;
 .navbar-name {
 font-size: 1.4rem;   /* Slightly smaller */
 font-weight: bold;
-color: #1d4ed8;
+color: #151366;
 text-decoration: none;
 transition: color 0.2s ease-in-out;
 }

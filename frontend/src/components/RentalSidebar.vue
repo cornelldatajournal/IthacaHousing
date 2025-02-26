@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
-            <td>Average Walking Time:</td>
+            <td>Avg. Walking Time:</td>
             <td>{{ (listing.avg_walking_time/60).toFixed(0) ?? "N/A" }} min</td>
         </tr>
         </table>
@@ -66,8 +66,8 @@
         </tr>
         <tr>
             <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
-            <td>Safety:</td>
-            <td>{{ listing.overallsafetyratingpct ?? "N/A" }}%</td>
+            <td>Convenience:</td>
+            <td>{{ listing.amenities_score ?? "N/A" }}/100</td>
         </tr>
         </table>
     </div>
@@ -98,7 +98,7 @@
         ${{ listing.predictedrent.toFixed(2) }}
         </span>
     </div>
-    <div class="rent-diff" :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
+    <div class="rent-diff" :class="{'text-red': listing.differenceinfairvalue < 0, 'text-green': listing.differenceinfairvalue > 0}">
         Difference: ${{ Math.abs(listing.differenceinfairvalue).toFixed(2) }}
     </div>
     </div>
@@ -135,7 +135,7 @@ const zoomToLocation = () => {
     background: #ffffff;
     padding: 20px;
     width: 640px;
-    height: 100%;
+    max-height: 99vh;
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
     border: 1px solid #ddd;
     z-index: 500;
@@ -259,12 +259,12 @@ const zoomToLocation = () => {
 }
 
 .rent-box strong {
-    font-size: 1.1rem;
+    font-size: 17uujnm7ujn8ujm n n rem;
     color: #374151;
 }
 
 .rent-box span {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: bold;
     margin-top: 5px;
     color: #111827;
@@ -280,7 +280,7 @@ const zoomToLocation = () => {
 
 .rent-diff {
     grid-column: span 2;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     color: #374151;
     margin-top: 10px;

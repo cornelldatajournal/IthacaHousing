@@ -65,6 +65,7 @@ class HousingListing(Base):
     arts_quad_time = Column(Numeric)
     uris_hall_time = Column(Numeric)
     transit_score = Column(Numeric)
+    amenities_score = Column(Numeric)
     overallsafetyrating = Column(Numeric)
     overallsafetyratingpct = Column(Numeric)
     hasvalidcertificateofoccupancy = Column(Boolean)

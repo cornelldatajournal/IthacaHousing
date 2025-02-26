@@ -7,6 +7,7 @@ import time
 import os
 import psycopg2 
 
+import pandas as pd
 
 api = overpy.Overpass(url="https://overpass.kumi.systems/api/interpreter")
 
@@ -25,7 +26,7 @@ def fetch_amenities(latitude, longitude, radius=500):
     - Dictionary with amenity types and distances.
     """
     query = f"""
-    [out:json][timeout:50];
+    [out:json][timeout:25];
     (
         node(around:{radius},{latitude},{longitude})["public_transport"];
         node(around:{radius},{latitude},{longitude})["shop"="supermarket"];
@@ -69,8 +70,8 @@ def compute_amenity_score(listing_id, latitude, longitude):
     try:
         amenities = fetch_amenities(latitude, longitude)
     except Exception as e:
+        print(f"Overpass API Error: {e}")
         fetched_score = postgresql_amenities_backup(listing_id)
-        print(fetched_score)
         return fetched_score
 
     weights = {
@@ -96,7 +97,9 @@ def calculate_amenity_score(apartments_for_rent):
     """
     apartments_for_rent["amenities_score"] = apartments_for_rent.apply(
         lambda row: compute_amenity_score(row["ListingId"], row["latitude"], row["longitude"]), axis=1
+        # lambda row: postgresql_amenities_backup(row["ListingId"]), axis=1
     )
+    # apartments_for_rent["amenities_score"] = amenity_scores
 
     return apartments_for_rent
 
@@ -143,11 +146,9 @@ def postgresql_amenities_backup(listing_id):
         return amenity_score
 
 
-def AmenitiesFetchingFailedError(Exception):
+def AmenitiesFetchingFailedError(BaseException):
     """
     Custom exception class if Amenity Fetching Fails.
     """
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
+    pass
 

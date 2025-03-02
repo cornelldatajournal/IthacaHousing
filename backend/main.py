@@ -22,7 +22,7 @@ app.add_middleware(
 @app.options("/{full_path:path}")
 async def preflight_handler():
     return {"message": "Preflight OK"}
-
+ 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     logging.info(f"Request: {request.method} {request.url}")

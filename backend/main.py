@@ -36,7 +36,7 @@ def get_listings(db: Session = Depends(get_db)):
     Gets all listings in Database
     """
     listings = db.query(HousingListing).all()
-    return listings 
+    return listings  
 
 @app.get("/listing/")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):

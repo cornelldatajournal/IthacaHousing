@@ -10,7 +10,7 @@ const baseURL = import.meta.env.VITE_API_URL;
 export const fetchListings = async (): Promise<Listing[]> => {
     try {
         const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listings/`);
-        
+        console.log(response)
         if (response.status === 200) {
             return response.data; 
         } else {

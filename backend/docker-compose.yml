@@ -30,6 +30,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
     networks:
       - app-network
+    command: ["airflow", "webserver"]
 
   redis:
     image: redis:6.2

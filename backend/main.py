@@ -19,6 +19,10 @@ app.add_middleware(
     allow_headers=["*"], 
 )
 
+@app.options("/{full_path:path}")
+async def preflight_handler():
+    return {"message": "Preflight OK"}
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     logging.info(f"Request: {request.method} {request.url}")
@@ -32,7 +36,7 @@ def get_listings(db: Session = Depends(get_db)):
     Gets all listings in Database
     """
     listings = db.query(HousingListing).all()
-    return listings
+    return listings 
 
 @app.get("/listing/")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):

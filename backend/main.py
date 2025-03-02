@@ -29,7 +29,7 @@ async def log_requests(request: Request, call_next):
     response = await call_next(request)
     logging.info(f"Response: {response.status_code}")
     return response
-
+ 
 @app.get("/listings/")
 def get_listings(db: Session = Depends(get_db)):
     """

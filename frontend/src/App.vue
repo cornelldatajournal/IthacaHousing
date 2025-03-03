@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { useHead } from '@vueuse/head';
+
+useHead({
+  title: 'IthacaInsights',
+  meta: [
+    { property: 'og:title', content: 'IthacaInsights' },
+    { property: 'og:description', content: 'All the key info and history you need tok now about Ithaca and Cornell.' },
+    { property: 'og:image', content: 'https://ithacainsights.com/CDJLogo.png' },
+    { property: 'og:url', content: 'https://ithacainsights.com/' },
+    { property: 'og:type', content: 'website' }
+  ]
+});
 </script>
 
 <template>
@@ -7,6 +19,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <router-view />
 </template>
+
 
 <style scoped>
 header {

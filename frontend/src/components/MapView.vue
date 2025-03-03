@@ -43,17 +43,17 @@ const selectedListing = ref(null);
  * Gets the color of the dot based on price
  * @param diff -  Y - Y(hat), difference between actual and predicted
  */
-function getColor(diff) {
-    diff = diff * -1;
-    if (diff >= 300) return "#8B0000"; // Dark Red (Very Overpriced)
-    if (diff >= 150) return "#FF0000"; // Red (Overpriced)
-    if (diff >= 50) return "#FF6347";  // Tomato (Slightly Overpriced)
-    if (diff > 0) return "#FFA07A";    // Light Salmon (Barely Overpriced)
+function getColor(rent, predicted) {
+    const percent_change = (predicted-rent)/rent
+    if (percent_change >= 0.15) return "#006400"; // Dark Green (Very Underpriced)
+    if (percent_change >= 0.10) return "#008000"; // Green (Underpriced)
+    if (percent_change >= 0.05) return "#32CD32";  // Lime Green (Slightly Underpriced)
+    if (percent_change > 0) return "#90EE90";     // Light Green (Barely Underpriced)
 
-    if (diff <= -300) return "#006400"; // Dark Green (Very Underpriced)
-    if (diff <= -150) return "#008000"; // Green (Underpriced)
-    if (diff <= -50) return "#32CD32";  // Lime Green (Slightly Underpriced)
-    if (diff < 0) return "#90EE90";     // Light Green (Barely Underpriced)
+    if (percent_change <= -0.15) return "#8B0000"; // Dark Red (Very Overpriced)
+    if (percent_change <= -0.10) return "#FF0000"; // Red (Overpriced)
+    if (percent_change <= -0.05) return "#FF6347";  // Tomato (Slightly Overpriced)
+    if (percent_change < 0) return "#FFA07A";    // Light Salmon (Barely Overpriced)
 
     return "gray"; // Neutral (Fairly Priced)
 }
@@ -75,7 +75,7 @@ onMounted(async () => {
   const listings = await fetchListings();
 
   listings.forEach((listing) => {
-    const color = getColor(listing.differenceinfairvalue);
+    const color = getColor(listing.rentamount, listing.predictedrent);
 
     const marker = L.circleMarker([listing.latitude, listing.longitude], {
       color,

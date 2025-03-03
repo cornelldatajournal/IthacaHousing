@@ -33,7 +33,7 @@
         </span>
     </div>
     <div class="rent-diff" :class="{'text-red': listing.differenceinfairvalue < 0, 'text-green': listing.differenceinfairvalue > 0}">
-        Difference: ${{ Math.abs(listing.differenceinfairvalue).toFixed(2) }}
+        Percent Change: {{ ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2) }}%
     </div>
     </div>
     <!-- Main Content (2-Column Layout) -->

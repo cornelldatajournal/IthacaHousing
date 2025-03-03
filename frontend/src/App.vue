@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useHead } from '@vueuse/head';
 
 useHead({
-  title: 'IthacaInsights | Cornell Data Journal',
+  title: 'Ithaca Insights | Cornell Data Journal',
   meta: [
     { property: 'og:title', content: 'Ithaca Insights | Cornell Data Journal' },
     { property: 'og:description', content: 'All the key info and history you need tok now about Ithaca and Cornell.' },

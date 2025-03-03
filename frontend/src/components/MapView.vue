@@ -124,10 +124,10 @@ const zoomToListing = (coords) => {
 
 .rental-sidebar {
   position: absolute;
-  top: 7.6%; 
+  top: 0%; 
   right: 0;
   width: 350px;
-  height: calc(100vh - 70px);
+  height: calc(100vh);
   overflow-y: auto;
   background: white;
   box-shadow: -3px 0 15px rgba(0, 0, 0, 0.2);

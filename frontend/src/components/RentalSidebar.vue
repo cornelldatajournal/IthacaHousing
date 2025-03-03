@@ -2,10 +2,23 @@
 <div class="popup-container">
     <!-- Header -->
     <div class="popup-header">
-    <h3 class="popup-title">
-        {{ listing.listingaddress }}, {{ listing.listingcity }}, {{ listing.listingzip }}
-    </h3>
-    <button class="close-btn" @click="closePopup">✖</button>
+        <div class="popup-title-container">
+            <h3 class="popup-title">
+                {{ listing.listingaddress }}, 
+                <span v-if="listing.listingcity">{{ listing.listingcity }},</span> 
+                {{ listing.listingzip }}
+            </h3>
+        </div>
+        <button class="close-btn" @click="closePopup">✖</button>
+    </div>
+
+    <div class="popup-image-container">
+        <img 
+        v-if="listing.listingphotos && listing.listingphotos.length > 0" 
+        :src="extractPhoto(listing.listingphotos)" 
+        alt="Listing Photo" 
+        class="listing-image"
+        >
     </div>
 
     <!-- Main Content (2-Column Layout) -->
@@ -80,7 +93,7 @@
 
     <!-- Amenities Section -->
     <div class="popup-amenities">
-    <strong>Amenities:</strong>
+    <strong>Amenities: </strong>
     <span class="amenities-list">
         {{ listing.amenities ? listing.amenities.replace(/[\[\]']/g, "") : "None Listed" }}
     </span>
@@ -104,9 +117,6 @@
     </div>
 
     <!-- Zoom Button -->
-    <button class="zoom-btn" @click="zoomToLocation">
-    🔍 Zoom to Location
-    </button>
 </div>
 </template>
 
@@ -126,6 +136,18 @@ const closePopup = () => {
 const zoomToLocation = () => {
     emit('zoom', { lat: props.listing.latitude, lng: props.listing.longitude });
 };
+
+const extractPhoto = (listingPhotosStr) => {
+    listingPhotosStr = listingPhotosStr.replace(/'/g, '"').replace(/True/g, 'true').replace(/False/g, 'false').replace(/None/g, 'null');
+    let listingPhotos = JSON.parse(listingPhotosStr);
+
+    if (listingPhotos.length > 0) {
+        return listingPhotos[0].PhotoUrl;
+    } else {
+        console.log("No photos available");
+        return "";
+    }
+}
 </script>
   
 
@@ -135,10 +157,11 @@ const zoomToLocation = () => {
     background: #ffffff;
     padding: 20px;
     width: 640px;
-    height: 92vh;
+    height: 100vh;
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
     border: 1px solid #ddd;
     z-index: 500;
+    overflow: scroll;
 }
 
 /* 🔝 HEADER */
@@ -147,29 +170,51 @@ const zoomToLocation = () => {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 12px;
-    margin-bottom: 16px;
+    padding: 12px 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Centered Title */
+.popup-title-container {
+    flex-grow: 1;
+    text-align: center;
 }
 
 .popup-title {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: bold;
     color: #222;
+    margin: 0;
 }
 
+/* Close Button */
 .close-btn {
     background: none;
     border: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
     cursor: pointer;
     color: #888;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.2s;
 }
 
 .close-btn:hover {
-    color: black;
+    color: #555;
 }
 
+/* Image Section */
+.popup-image-container {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.listing-image {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border: 2px solid #e5e7eb;
+}
 /* SIDEBAR POPUP */
 .popup-sidebar {
   position: fixed;
@@ -237,9 +282,8 @@ const zoomToLocation = () => {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     background: none;
-    margin-top: 20px;
     padding: 20px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid none;
     text-align: center;
     font-family: "Inter", sans-serif;
     align-items: center;
@@ -250,14 +294,13 @@ const zoomToLocation = () => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #f9fafb;
+    background: none;
     padding: 10px;
-    border-radius: 8px;
     width: 100%;
+    border: 2px solid #e5e7eb;
 }
 
 .rent-box strong {
-    font-size: 17uujnm7ujn8ujm n n rem;
     color: #374151;
 }
 
@@ -282,9 +325,9 @@ const zoomToLocation = () => {
     font-weight: bold;
     color: #374151;
     margin-top: 10px;
-    background: #f1f5f9;
+    background: none;
     padding: 10px;
-    border-radius: 8px;
+    border: 2px solid #e5e7eb;
 }
 
 .rent-diff.text-red {
@@ -324,7 +367,9 @@ const zoomToLocation = () => {
 /* 📌 AMENITIES SECTION */
 .popup-amenities {
     border-top: 2px solid #e5e7eb;
+    border-bottom: 2px solid #e5e7eb;
     padding-top: 14px;
+    padding-bottom: 14px;
     margin-top: 16px;
     font-size: 1rem;
     color: #444;
@@ -332,26 +377,30 @@ const zoomToLocation = () => {
 
 /* 🔍 ZOOM BUTTON */
 .zoom-btn {
-    width: 100%;
-    margin-top: 18px;
-    padding: 14px;
-    text-align: center;
-    font-size: 1rem;
-    background: #151366;
-    color: white;
+    width: 40px; /* Set fixed width */
+    height: 40px; /* Set fixed height */
+    background-color: #f5f5f5; /* Light background */
     border: none;
-    border-radius: 10px;
-    cursor: pointer;
+    border-radius: 50%; /* Make it circular */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    cursor: pointer;
     transition: background 0.2s ease-in-out;
 }
 
-.zoom-btn:hover {
-    background: #0056b3;
+/* Ensure the icon is centered */
+.zoom-btn svg {
+    width: 20px;
+    height: 20px;
+    color: #333;
 }
+
+/* Hover effect */
+.zoom-btn:hover {
+    background-color: #ddd;
+}
+
 
 .leaflet-popup-content-wrapper {
     background: none;

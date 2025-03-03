@@ -38,12 +38,12 @@ def get_listings(db: Session = Depends(get_db)):
     listings = db.query(HousingListing).all()
     return listings  
 
-@app.get("/listing/")
+@app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):
     """
     Gets listing from database by ID
     """
-    listing = db.query(HousingListing).filter(HousingListing.ListingId==listing_id)
+    listing = db.query(HousingListing).filter(HousingListing.listingid==listing_id).first()
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
     return listing

@@ -11,6 +11,7 @@ export const fetchListings = async (): Promise<Listing[]> => {
     try {
         const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listings/`);
         console.log(response)
+        console.log(response)
         if (response.status === 200) {
             return response.data; 
         } else {
@@ -21,4 +22,3 @@ export const fetchListings = async (): Promise<Listing[]> => {
         return []; 
     }
 };
-

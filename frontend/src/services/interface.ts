@@ -9,5 +9,6 @@ export interface Listing {
     bathrooms: number;
     latitude: number;
     longitude: number;
+    listingphotos: JSON;
     differenceInFairValue: number;
 }

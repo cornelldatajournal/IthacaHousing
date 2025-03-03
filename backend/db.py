@@ -1,7 +1,9 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, Boolean, Numeric, Text
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, Numeric, Text, JSON, TypeDecorator
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.dialects.postgresql import JSONB
+import json
 
 DB_USER=os.getenv("DB_USER")
 DB_PWD=os.getenv("DB_PWD", "3789mwPK")
@@ -56,6 +58,7 @@ class HousingListing(Base):
     listingexpirationdate = Column(String)
     active = Column(Boolean)
     listingwithincity = Column(Boolean)
+    listingphotos = Column(JSON)
     createdate = Column(String)
     lastupdated = Column(String)
     safetyratings = Column(Text)
@@ -81,3 +84,5 @@ class HousingListing(Base):
     differenceinfairvalue = Column(Numeric)
 
 Base.metadata.create_all(bind=engine)
+
+

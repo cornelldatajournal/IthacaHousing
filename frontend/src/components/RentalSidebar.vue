@@ -20,7 +20,22 @@
         class="listing-image"
         >
     </div>
-
+     <!-- Rental Information -->
+     <div class="rent-section">
+    <div class="rent-box">
+        <strong>Rent:</strong>
+        <span>${{ listing.rentamount.toFixed(2) }}</span>
+    </div>
+    <div class="rent-box">
+        <strong>Predicted Rent:</strong>
+        <span :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
+        ${{ listing.predictedrent.toFixed(2) }}
+        </span>
+    </div>
+    <div class="rent-diff" :class="{'text-red': listing.differenceinfairvalue < 0, 'text-green': listing.differenceinfairvalue > 0}">
+        Difference: ${{ Math.abs(listing.differenceinfairvalue).toFixed(2) }}
+    </div>
+    </div>
     <!-- Main Content (2-Column Layout) -->
     <div class="popup-content grid grid-cols-2 gap-4">
     <!-- Left Column (Transit & Walking Info) -->
@@ -99,22 +114,7 @@
     </span>
     </div>
 
-    <!-- Rental Information -->
-    <div class="rent-section">
-    <div class="rent-box">
-        <strong>Rent:</strong>
-        <span>${{ listing.rentamount.toFixed(2) }}</span>
-    </div>
-    <div class="rent-box">
-        <strong>Predicted Rent:</strong>
-        <span :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
-        ${{ listing.predictedrent.toFixed(2) }}
-        </span>
-    </div>
-    <div class="rent-diff" :class="{'text-red': listing.differenceinfairvalue < 0, 'text-green': listing.differenceinfairvalue > 0}">
-        Difference: ${{ Math.abs(listing.differenceinfairvalue).toFixed(2) }}
-    </div>
-    </div>
+   
 
     <!-- Zoom Button -->
 </div>
@@ -138,8 +138,22 @@ const zoomToLocation = () => {
 };
 
 const extractPhoto = (listingPhotosStr) => {
-    listingPhotosStr = listingPhotosStr.replace(/'/g, '"').replace(/True/g, 'true').replace(/False/g, 'false').replace(/None/g, 'null');
-    let listingPhotos = JSON.parse(listingPhotosStr);
+    listingPhotosStr = listingPhotosStr
+        .replace(/'/g, '"')          
+        .replace(/\bTrue\b/g, 'true')
+        .replace(/\bFalse\b/g, 'false')
+        .replace(/\bNone\b/g, 'null')
+        .replace(/\\n/g, '')         
+        .replace(/\\t/g, '')      
+        .trim();                   
+
+    let listingPhotos = "";
+    try {
+        listingPhotos = JSON.parse(listingPhotosStr);
+    } catch (error) {
+        console.error("JSON Parsing Error:", error.message);
+    }
+
 
     if (listingPhotos.length > 0) {
         return listingPhotos[0].PhotoUrl;
@@ -285,6 +299,9 @@ const extractPhoto = (listingPhotosStr) => {
     text-align: center;
     font-family: "Inter", sans-serif;
     align-items: center;
+    border-top: 2px solid #e5e7eb;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 20px;
 }
 
 .rent-box {
@@ -365,7 +382,6 @@ const extractPhoto = (listingPhotosStr) => {
 /* 📌 AMENITIES SECTION */
 .popup-amenities {
     border-top: 2px solid #e5e7eb;
-    border-bottom: 2px solid #e5e7eb;
     padding-top: 14px;
     padding-bottom: 14px;
     margin-top: 16px;

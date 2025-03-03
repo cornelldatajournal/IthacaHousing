@@ -45,11 +45,10 @@ max-width: 100%;
 margin: 0 auto;
 }
 
-/* Logo and Brand (Aligned to the left) */
 .navbar-brand {
     display: flex;
-    align-items: center; /* Aligns items vertically */
-    gap: 10px; /* Space between logo and text */
+    align-items: center; 
+    gap: 0px; 
 }
 
 /* Logo */
@@ -62,7 +61,7 @@ margin: 0 auto;
 .navbar-title {
     display: flex;
     flex-direction: column; 
-    gap: 1px;
+    gap: 0px;
     line-height: 1.2; 
 }
 

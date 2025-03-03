@@ -236,11 +236,9 @@ const zoomToLocation = () => {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    background: #ffffff;
+    background: none;
     margin-top: 20px;
     padding: 20px;
-    border-radius: 14px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     border: 1px solid #e5e7eb;
     text-align: center;
     font-family: "Inter", sans-serif;

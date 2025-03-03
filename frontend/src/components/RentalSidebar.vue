@@ -170,8 +170,7 @@ const extractPhoto = (listingPhotosStr) => {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid #e5e7eb;
-    padding: 12px 16px;
-    background-color: #f8f9fa;
+    padding: 16px;
     border-radius: 8px 8px 0 0;
 }
 
@@ -182,8 +181,7 @@ const extractPhoto = (listingPhotosStr) => {
 }
 
 .popup-title {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.3rem;
     color: #222;
     margin: 0;
 }

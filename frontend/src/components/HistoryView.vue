@@ -4,7 +4,7 @@
     <section class="coming-soon-container">
         <div class="coming-soon-content">
         <h1 class="coming-soon-title">Ithaca's Urban History</h1>
-        <p class="coming-soon-subtitle">Uncover the rich history of how Ithaca developed..</p>
+        <p class="coming-soon-subtitle">Go back to the 1920s and uncover the rich history of how Ithaca developed..</p>
         <p class="coming-soon-text">We're working hard to bring you fascinating stories, historical insights, and interactive timelines. Stay tuned!</p>
         <div class="coming-soon-badge">Coming Soon!</div>
         </div>

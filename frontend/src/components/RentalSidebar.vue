@@ -135,7 +135,7 @@ const zoomToLocation = () => {
     background: #ffffff;
     padding: 20px;
     width: 640px;
-    max-height: 99vh;
+    height: 92vh;
     box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
     border: 1px solid #ddd;
     z-index: 500;

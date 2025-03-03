@@ -47,42 +47,41 @@ margin: 0 auto;
 
 /* Logo and Brand (Aligned to the left) */
 .navbar-brand {
-display: flex;
-align-items: center;
-gap: 10px;
+    display: flex;
+    align-items: center; /* Aligns items vertically */
+    gap: 10px; /* Space between logo and text */
 }
 
 /* Logo */
 .navbar-logo {
-width: 40px;
-height: auto;
+    width: 40px;
+    height: auto;
 }
 
-/* Title and Subtitle */
+/* Title and Subtitle Container */
 .navbar-title {
-display: flex;
-flex-direction: column;
-gap: 6px;
-line-height: 1;
+    display: flex;
+    flex-direction: column; 
+    gap: 1px;
+    line-height: 1.2; 
 }
 
+/* Main Title */
 .navbar-name {
-font-size: 1.4rem;   /* Slightly smaller */
-font-weight: bold;
-color: #151366;
-text-decoration: none;
-transition: color 0.2s ease-in-out;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #151366;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
 }
 
-.navbar-name:hover {
-color: #1e3a8a;
-}
-
+/* Subtitle */
 .navbar-subtitle {
-font-size: 0.7rem;
-color: #6b7280;
-margin-top: -4px;
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: normal;
 }
+
 
 /* Menu Links */
 .navbar-menu {

@@ -124,7 +124,7 @@ const zoomToListing = (coords) => {
 
 .rental-sidebar {
   position: absolute;
-  top: 6.1%; 
+  top: 7.6%; 
   right: 0;
   width: 350px;
   height: calc(100vh - 70px);

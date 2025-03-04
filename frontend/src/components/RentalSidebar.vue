@@ -32,7 +32,7 @@
         ${{ listing.predictedrent.toFixed(2) }}
         </span>
     </div>
-    <div class="rent-diff" :class="{'text-red': listing.differenceinfairvalue < 0, 'text-green': listing.differenceinfairvalue > 0}">
+    <div class="rent-diff" :class="{'text-red': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  < 0, 'text-green': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  > 0}">
         Percent Change: {{ ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2) }}%
     </div>
     </div>

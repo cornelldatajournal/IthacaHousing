@@ -27,9 +27,10 @@ jobs:
 
       - name: Start Airflow with Docker
         run: |
-          ls -la
+          cd backend
+          cd airflow
           docker-compose -f docker-compose.yml up -d
-          sleep 60  # Give Airflow time to initialize
+          sleep 60 
 
       - name: Trigger Airflow DAG
         run: |

@@ -35,5 +35,5 @@ jobs:
 
       - name: Run Airflow DAG Manually
         run: |
-          export AIRFLOW_HOME=$(pwd)/airflow_home
+          export AIRFLOW_HOME=$(pwd)/backend/airflow
           airflow dags test retrain_rental_model $(date +"%Y-%m-%d")

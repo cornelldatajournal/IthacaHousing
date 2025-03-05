@@ -22,13 +22,13 @@ jobs:
           sudo apt-get install -y docker-compose
 
       - name: Create .env file
+        working-directory: backend/airflow
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" > .env
 
       - name: Start Airflow with Docker
+        working-directory: backend/airflow 
         run: |
-          cd backend
-          cd airflow
           docker-compose -f docker-compose.yml up -d
           sleep 60 
 

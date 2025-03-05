@@ -20,7 +20,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install apache-airflow pandas numpy psycopg2 requests overpy geopy openrouteservice statsmodels
+          pip install apache-airflow pandas numpy psycopg2 requests overpy geopy openrouteservice  statsmodels spreg tensorflow contextily
       
       - name: Run Airflow DAG
         env:

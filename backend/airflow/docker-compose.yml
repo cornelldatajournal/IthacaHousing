@@ -25,12 +25,4 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
     ports:
       - "8080:8080"
-    command: >
-      bash -c "
-      echo 'Waiting for PostgreSQL to be ready...';
-      while ! nc -z airflow_postgres 5432; do sleep 2; done;
-      echo 'PostgreSQL is ready. Running Airflow DB setup...';
-      airflow db init &&
-      airflow db upgrade &&
-      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
-      airflow scheduler & airflow webserver"
+    entrypoint: /bin/bash -c "if [ ! -f /airflow_initialized ]; then airflow db init && airflow db upgrade && touch /airflow_initialized; fi && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow scheduler & airflow webserver"

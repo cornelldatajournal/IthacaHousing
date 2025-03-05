@@ -31,16 +31,7 @@ jobs:
         run: |
           docker-compose -f docker-compose.yml up -d
           sleep 60 
-
-      - name: Check Running Containers
-        run: |
-          docker ps -a  # Show running & stopped containers
-
-      - name: Show Airflow Logs
-        run: |
-          docker logs airflow-webserver || echo "No logs found"
-
-
+          
       - name: Trigger Airflow DAG
         run: |
           docker exec airflow-webserver airflow dags trigger retrain_rental_model

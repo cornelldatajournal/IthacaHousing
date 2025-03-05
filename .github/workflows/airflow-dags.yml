@@ -30,11 +30,16 @@ jobs:
         working-directory: backend/airflow 
         run: |
           docker-compose -f docker-compose.yml up -d
-          sleep 60 
-          
+          sleep 30
+
       - name: Trigger Airflow DAG
         run: |
           docker exec airflow-webserver airflow dags trigger retrain_rental_model
+
+      - name: Show Airflow Logs (If DAG Fails)
+        if: failure()
+        run: |
+          docker logs airflow-webserver || echo "No logs found"
 
       - name: Clean up
         run: |

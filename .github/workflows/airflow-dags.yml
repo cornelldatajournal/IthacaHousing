@@ -2,8 +2,8 @@ name: Run Airflow DAG
 
 on:
   schedule:
-    - cron: "0 0 * * *" 
-  workflow_dispatch:  
+    - cron: "0 0 * * *"  
+  workflow_dispatch:
 
 jobs:
   run-dag:
@@ -20,14 +20,15 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install --no-cache-dir -r backend/airflow/requirements.txt
+          pip install --no-cache-dir -r backend/requirements.txt
           pip install apache-airflow-providers-postgres 
 
       - name: Initialize Airflow
         run: |
-          export AIRFLOW_HOME=$(pwd)/airflow_home
-          airflow db init  # Initializes Airflow's metadata DB
-          airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email admin@example.com
+          export AIRFLOW_HOME=$(pwd)/backend/airflow  
+          mkdir -p $AIRFLOW_HOME/logs/scheduler 
+          airflow db init 
+          airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email asmaitra2006@gmail.com
           
       - name: Test Database Connection
         run: |
@@ -35,5 +36,6 @@ jobs:
 
       - name: Run Airflow DAG Manually
         run: |
-          export AIRFLOW_HOME=$(pwd)/backend/airflow
+          export AIRFLOW_HOME=$(pwd)/backend/airflow 
+          mkdir -p $AIRFLOW_HOME/logs/scheduler  
           airflow dags test retrain_rental_model $(date +"%Y-%m-%d")

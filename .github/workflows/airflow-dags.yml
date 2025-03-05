@@ -2,13 +2,13 @@ name: Run Airflow DAG
 
 on:
   schedule:
-    - cron: "0 0 * * *"  
-  workflow_dispatch:
+    - cron: "0 0 * * *"  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   run-dag:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -20,22 +20,28 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install --no-cache-dir -r backend/airflow/requirements.txt
-          pip install apache-airflow-providers-postgres 
+          pip install --no-cache-dir -r backend/requirements.txt
+          pip install apache-airflow apache-airflow-providers-postgres  # Ensure PostgreSQL support
+
+      - name: Set Airflow Home Environment Variable
+        run: |
+          echo "AIRFLOW_HOME=$GITHUB_WORKSPACE/backend/airflow" >> $GITHUB_ENV
 
       - name: Initialize Airflow
+        env:
+          AIRFLOW_HOME: ${{ env.AIRFLOW_HOME }}  
         run: |
-          export AIRFLOW_HOME=$GITHUB_WORKSPACE/backend/airflow  
           mkdir -p $AIRFLOW_HOME/logs/scheduler 
-          airflow db init 
+          airflow db init  # Initializes Airflow metadata database
           airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email asmaitra2006@gmail.com
-          
+
       - name: Test Database Connection
         run: |
           python -c "import psycopg2; conn = psycopg2.connect('${{ secrets.DATABASE_URL }}'); print('✅ DB Connection Successful!')"
 
       - name: Run Airflow DAG Manually
+        env:
+          AIRFLOW_HOME: ${{ env.AIRFLOW_HOME }}  
         run: |
-          export AIRFLOW_HOME="$GITHUB_WORKSPACE/backend/airflow"  
-          mkdir -p $AIRFLOW_HOME/logs/scheduler  
+          mkdir -p $AIRFLOW_HOME/logs/scheduler
           airflow dags test retrain_rental_model $(date +"%Y-%m-%d")

@@ -6,6 +6,7 @@ import pandas as pd
 import sys
 import os
 import numpy as np
+
 BACKEND_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
 sys.path.insert(0, BACKEND_PATH)
 from model.fetch_housing_data import fetch_active_listings

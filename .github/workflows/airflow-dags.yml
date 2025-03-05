@@ -27,6 +27,7 @@ jobs:
 
       - name: Start Airflow with Docker
         run: |
+          ls -la
           docker-compose -f docker-compose.yml up -d
           sleep 60  # Give Airflow time to initialize
 

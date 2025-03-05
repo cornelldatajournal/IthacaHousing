@@ -1,0 +1,12 @@
+apache-airflow
+pandas
+numpy
+psycopg2
+requests
+overpy
+geopy
+openrouteservice
+statsmodels
+spreg
+tensorflow
+contextily

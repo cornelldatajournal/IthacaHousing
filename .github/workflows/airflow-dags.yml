@@ -37,11 +37,12 @@ jobs:
           docker exec airflow-webserver airflow db init
           docker exec airflow-webserver airflow db upgrade
           docker exec airflow-webserver airflow dags trigger retrain_rental_model
-
+          
       - name: Show Airflow Logs (If DAG Fails)
         if: failure()
         run: |
           docker logs airflow-webserver || echo "No logs found"
+          docker logs airflow_postgres || echo "No logs found"
 
       - name: Clean up
         run: |

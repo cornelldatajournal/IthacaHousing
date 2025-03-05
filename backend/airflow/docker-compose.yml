@@ -17,7 +17,7 @@ services:
     container_name: airflow-webserver
     depends_on:
       - postgres
-    restart: always
+    restart: on-failure
     env_file:
       - .env  
     environment:
@@ -25,4 +25,14 @@ services:
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
     ports:
       - "8080:8080"
-    entrypoint: /bin/bash -c "if [ ! -f /airflow_initialized ]; then airflow db init && airflow db upgrade && touch /airflow_initialized; fi && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow scheduler & airflow webserver"
+    entrypoint: /bin/bash -c "
+      if [ ! -f /airflow_initialized ]; then
+        echo 'Initializing Airflow DB...';
+        airflow db init &&
+        airflow db upgrade &&
+        touch /airflow_initialized;
+      else
+        echo 'Airflow DB already initialized. Skipping db init.';
+      fi
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
+      airflow scheduler & airflow webserver"

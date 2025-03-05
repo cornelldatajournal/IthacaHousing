@@ -25,7 +25,7 @@ jobs:
 
       - name: Initialize Airflow
         run: |
-          export AIRFLOW_HOME=$(pwd)/backend/airflow  
+          export AIRFLOW_HOME=$GITHUB_WORKSPACE/backend/airflow  
           mkdir -p $AIRFLOW_HOME/logs/scheduler 
           airflow db init 
           airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email asmaitra2006@gmail.com

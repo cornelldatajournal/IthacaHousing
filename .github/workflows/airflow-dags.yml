@@ -1,47 +1,30 @@
-name: Run Airflow DAG
+name: Trigger Airflow DAG
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Runs daily at midnight UTC
-  workflow_dispatch:  # Allows manual triggering
+    - cron: "0 0 * * *" 
+  workflow_dispatch: 
 
 jobs:
-  run-dag:
+  trigger-airflow:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
 
-      - name: Install Dependencies
+      - name: Start Airflow with Docker
         run: |
-          pip install --no-cache-dir -r backend/requirements.txt
-          pip install apache-airflow apache-airflow-providers-postgres  # Ensure PostgreSQL support
+          docker-compose -f docker-compose.yml up -d
+          sleep 30  # Wait for services to initialize
 
-      - name: Set Airflow Home Environment Variable
+      - name: Trigger Airflow DAG
         run: |
-          echo "AIRFLOW_HOME=$GITHUB_WORKSPACE/backend/airflow" >> $GITHUB_ENV
+          docker exec airflow-webserver airflow dags trigger retrain_rental_model
 
-      - name: Initialize Airflow
-        env:
-          AIRFLOW_HOME: ${{ env.AIRFLOW_HOME }}  
+      - name: Clean up
         run: |
-          mkdir -p $AIRFLOW_HOME/logs/scheduler 
-          airflow db init  # Initializes Airflow metadata database
-          airflow users create --username admin --password admin --firstname Air --lastname Flow --role Admin --email asmaitra2006@gmail.com
-
-      - name: Test Database Connection
-        run: |
-          python -c "import psycopg2; conn = psycopg2.connect('${{ secrets.DATABASE_URL }}'); print('✅ DB Connection Successful!')"
-
-      - name: Run Airflow DAG Manually
-        env:
-          AIRFLOW_HOME: ${{ env.AIRFLOW_HOME }}  
-        run: |
-          mkdir -p $AIRFLOW_HOME/logs/scheduler
-          airflow dags test retrain_rental_model $(date +"%Y-%m-%d")
+          docker-compose -f docker-compose.yml down

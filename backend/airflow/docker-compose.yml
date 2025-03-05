@@ -11,6 +11,9 @@ services:
       POSTGRES_DB: airflow
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data 
+
 
   webserver:
     image: apache/airflow:2.5.1
@@ -36,3 +39,6 @@ services:
       fi
       airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
       airflow scheduler & airflow webserver"
+
+volumes:
+  postgres_data:  

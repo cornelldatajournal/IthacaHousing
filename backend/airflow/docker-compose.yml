@@ -12,8 +12,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data 
-
+      - postgres_data:/var/lib/postgresql/data  # Persist database files
 
   webserver:
     image: apache/airflow:2.5.1
@@ -37,8 +36,8 @@ services:
       else
         echo 'Airflow DB already initialized. Skipping db init.';
       fi
-      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com &&
       airflow scheduler & airflow webserver"
-
+    
 volumes:
-  postgres_data:  
+  postgres_data:

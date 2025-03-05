@@ -12,8 +12,10 @@ services:
     container_name: airflow-webserver
     depends_on:
       - postgres
+    env_file:
+      - .env  
     environment:
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=${{ secrets.DATABASE_URL }}
+      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=${DATABASE_URL}
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
     ports:
       - "8080:8080"

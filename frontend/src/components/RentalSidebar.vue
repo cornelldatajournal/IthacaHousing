@@ -13,25 +13,32 @@
     </div>
 
     <div class="popup-image-container">
+        <!-- Left Arrow (Previous Image) -->
+        <button v-if="listing.listingphotos && listing.listingphotos.length > 0" @click="prevImage" class="nav-arrow left-arrow">❮</button>
+
+        <!-- Image Display -->
         <img 
-        v-if="listing.listingphotos && listing.listingphotos.length > 0" 
-        :src="extractPhoto(listing.listingphotos)" 
+        v-if="extractPhoto(listing.listingphotos).length > 0" 
+        :src="extractPhoto(listing.listingphotos)[currentImageIndex].PhotoUrl" 
         alt="Listing Photo" 
         class="listing-image"
         >
+        <!-- Right Arrow (Next Image) -->
+        <button v-if="extractPhoto(listing.listingphotos).length > 1" @click="nextImage" class="nav-arrow right-arrow">❯</button>
     </div>
+
      <!-- Rental Information -->
-     <div class="rent-section">
-    <div class="rent-box">
-        <strong>Rent:</strong>
-        <span>${{ listing.rentamount.toFixed(2) }}</span>
-    </div>
-    <div class="rent-box">
-        <strong>Predicted Rent:</strong>
-        <span :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
-        ${{ listing.predictedrent.toFixed(2) }}
-        </span>
-    </div>
+    <div class="rent-section">
+        <div class="rent-box">
+            <strong>Rent:</strong>
+            <span>${{ listing.rentamount.toFixed(2) }}</span>
+        </div>
+        <div class="rent-box">
+            <strong>Predicted Rent:</strong>
+            <span :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
+            ${{ listing.predictedrent.toFixed(2) }}
+            </span>
+        </div>
     <div class="rent-diff" :class="{'text-red': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  < 0, 'text-green': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  > 0}">
         Percent Change: {{ ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2) }}%
     </div>
@@ -121,7 +128,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref, computed } from 'vue';
 
 const props = defineProps({
     listing: Object,
@@ -133,35 +140,63 @@ const closePopup = () => {
     emit('close');
 };
 
-const zoomToLocation = () => {
-    emit('zoom', { lat: props.listing.latitude, lng: props.listing.longitude });
-};
+const currentImageIndex = ref(0); // Holds the current index of the images in the gallery
+const totalImages = computed(() => extractPhoto(props.listing.listingphotos).length); // Holds the number of images in the gallery
 
-const extractPhoto = (listingPhotosStr) => {
-    listingPhotosStr = listingPhotosStr
-        .replace(/'/g, '"')          
-        .replace(/\bTrue\b/g, 'true')
-        .replace(/\bFalse\b/g, 'false')
-        .replace(/\bNone\b/g, 'null')
-        .replace(/\\n/g, '')         
-        .replace(/\\t/g, '')      
-        .trim();                   
+/**
+ * Extracts and Processes JSON String to get photos.
+ * @param {string} listingPhotosStr - JSON string of listing photos.
+ * @returns {Array} - Parsed array of photo objects, or an empty array if invalid.
+ */
+ const extractPhoto = (listingPhotosStr) => {
+    if (!listingPhotosStr) return []; // Ensure a valid input
 
-    let listingPhotos = "";
     try {
-        listingPhotos = JSON.parse(listingPhotosStr);
+        // Normalize and clean up the JSON string
+        const cleanedStr = listingPhotosStr
+            .replace(/'/g, '"')          
+            .replace(/\bTrue\b/g, 'true')
+            .replace(/\bFalse\b/g, 'false')
+            .replace(/\bNone\b/g, 'null')
+            .replace(/\\n/g, '')         
+            .replace(/\\t/g, '')      
+            .trim();                   
+
+        // Parse JSON safely
+        const listingPhotos = JSON.parse(cleanedStr);
+
+        // Ensure it's an array and return, otherwise return an empty array
+        return Array.isArray(listingPhotos) ? listingPhotos : [];
+
     } catch (error) {
         console.error("JSON Parsing Error:", error.message);
+        return []; // Return an empty array on failure
     }
+};
 
 
-    if (listingPhotos.length > 0) {
-        return listingPhotos[0].PhotoUrl;
-    } else {
-        console.log("No photos available");
-        return "";
-    }
-}
+/**
+ * Goes to Next Image in Carosel
+ */
+const nextImage = () => {
+  if (currentImageIndex.value < totalImages.value - 1) {
+    currentImageIndex.value++;
+  } else {
+    currentImageIndex.value = 0; 
+  }
+};
+
+/**
+ * Goes to Previous Image in Carosel
+ */
+const prevImage = () => {
+  if (currentImageIndex.value > 0) {
+    currentImageIndex.value--;
+  } else {
+    currentImageIndex.value = totalImages.value - 1;
+  }
+};
+
 </script>
   
 
@@ -439,6 +474,65 @@ const extractPhoto = (listingPhotosStr) => {
 
 .info-table i {
     font-size: 1.2rem;
+}
+
+.popup-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px; /* Adjust based on design */
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.listing-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* 🔹 Modern Navigation Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+
+/* 🔹 Sleek Arrow Icons */
+.arrow-icon {
+  font-size: 22px;
+  font-weight: bold;
+  user-select: none;
 }
 
 </style>

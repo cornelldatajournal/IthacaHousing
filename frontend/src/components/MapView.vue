@@ -3,7 +3,7 @@
   <div class="overflow-auto box-border m-0 p-0">
     <div class="filter-container">
       <button class="filter-button" @click="showTopTenListings">Best Bang For Your Buck</button>
-      <button class="filter-button" @click="showBottomTenListings()">Avoid These Listings...</button>
+      <button class="filter-button" @click="showBottomTenListings()">Avoid These Listings</button>
     </div>
     <!-- Map Container -->
     <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">

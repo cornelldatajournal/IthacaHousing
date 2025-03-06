@@ -8,6 +8,8 @@ from db import HousingListing, get_db
 from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+from scipy.cluster.hierarchy import linkage, fcluster
+import pandas as pd
 
 app = FastAPI()
 
@@ -59,6 +61,24 @@ def get_bottom_ten_listings(db: Session = Depends(get_db)):
     ).limit(10).all()
 
     return bottom_listings 
+
+@app.get("/clustering/")
+def cluster_neighborhoods(db: Session = Depends(get_db)):
+    """
+    Clusters Neighborhoods by Price to find "natural pricing neighborhoods"
+    """
+    listings = db.query(HousingListing.latitude, HousingListing.longitude).all()
+
+    df = pd.DataFrame(listings, columns=["latitude", "longitude"])
+
+    if df.empty:
+        return {"error": "No listings found"}
+
+    Z = linkage(df[["latitude", "longitude"]], method="ward")  
+    df["hierarchal_cluster"] = fcluster(Z, t=5, criterion="maxclust")
+
+    return df.to_dict(orient="records")
+
 
 @app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):

@@ -62,7 +62,7 @@ def get_bottom_ten_listings(db: Session = Depends(get_db)):
 
     return bottom_listings 
 
-@app.get("/clustering/")
+@app.get("/clusters/")
 def cluster_neighborhoods(db: Session = Depends(get_db)):
     """
     Clusters Neighborhoods by Price to find "natural pricing neighborhoods"

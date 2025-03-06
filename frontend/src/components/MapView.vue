@@ -4,6 +4,7 @@
     <div class="filter-container">
       <button class="filter-button" @click="showTopTenListings">Best Bang For Your Buck</button>
       <button class="filter-button" @click="showBottomTenListings()">Avoid These Listings</button>
+      <button class="filter-button" @click="showClusters()">Natural Neighborhoods</button>
     </div>
     <!-- Map Container -->
     <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
@@ -33,7 +34,7 @@
 import { ref, onMounted } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchListings, fetchTopTenListings, fetchBottomTenListings } from "@/services/fetch";
+import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
 
@@ -44,8 +45,10 @@ const markers = ref([]); // Store all markers
 const allListings = ref([]); // Store all listings
 const topTenListings = ref([]); // Store top 10 listings
 const bottomTenListings = ref([]); // Store bottom 10 listings
+const clusteredListings = ref([]); // Store Clustered Listings
 let showingTopTen = ref(false); // Toggle state for filtering Top 10
 let showingBottomTen = ref(false); // Toggle state for filtering Bottom 10
+let showingClusters = ref(false); // Toggle state for clusters
 
 /**
  * Gets the color of the dot based on price
@@ -110,12 +113,13 @@ onMounted(async () => {
     allListings.value = await fetchListings();
     topTenListings.value = await fetchTopTenListings();
     bottomTenListings.value = await fetchBottomTenListings();
+    clusteredListings.value = await fetchClusters();
 
     addMarkers(allListings.value);
 });
 
 /**
- * Toggle between all listings and top 5 listings
+ * Toggle between all listings and top 10 listings
  */
 const showTopTenListings = () => {
     if (showingTopTen.value) {
@@ -127,7 +131,7 @@ const showTopTenListings = () => {
 };
 
 /**
- * Toggle between all listings and top 5 listings
+ * Toggle between all listings and bottom 10 listings
  */
 const showBottomTenListings = () => {
     if (showingBottomTen.value) {
@@ -136,6 +140,41 @@ const showBottomTenListings = () => {
         addMarkers(bottomTenListings.value);
     }
     showingBottomTen.value = !showingBottomTen.value;
+};
+
+/**
+ * Toggle between all listings and clusters
+ */
+ const showClusters = () => {
+    if (showClusters.value) {
+        addMarkers(allListings.value); 
+    } else {
+      plotClustersOnMap();
+    }
+    showClusters.value = !showClusters.value;
+};
+
+
+/**
+ * Plot Clusters on Leaflet Map
+ */
+ const plotClustersOnMap = () => {
+  if (!map.value) return;
+  markers.value.forEach(marker => map.value.removeLayer(marker)); 
+
+  // Define a color scheme for clusters
+  const clusterColors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#F39C12"];
+
+  clusteredListings.value.forEach((listing) => {
+    const clusterIndex = listing.hierarchal_cluster % clusterColors.length;
+    const marker = L.circleMarker([listing.latitude, listing.longitude], {
+      color: clusterColors[clusterIndex],
+      fillColor: clusterColors[clusterIndex],
+      fillOpacity: 0.75,
+      radius: 8,
+    }).addTo(map.value);
+    markers.value.push(marker); 
+  });
 };
 
 /**

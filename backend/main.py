@@ -38,6 +38,28 @@ def get_listings(db: Session = Depends(get_db)):
     listings = db.query(HousingListing).all()
     return listings  
 
+@app.get("/top-ten-listings/")
+def get_top_ten_listings(db: Session = Depends(get_db)):
+    """
+    Gets top ten listings in Database
+    """
+    top_listings = db.query(HousingListing).order_by(
+        ((HousingListing.predictedrent - HousingListing.rentamount) / HousingListing.rentamount).desc()
+    ).limit(10).all()
+
+    return top_listings 
+
+@app.get("/bottom-ten-listings/")
+def get_bottom_ten_listings(db: Session = Depends(get_db)):
+    """
+    Gets bottom ten listings in Database
+    """
+    bottom_listings = db.query(HousingListing).order_by(
+        ((HousingListing.predictedrent - HousingListing.rentamount) / HousingListing.rentamount)
+    ).limit(10).all()
+
+    return bottom_listings 
+
 @app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):
     """

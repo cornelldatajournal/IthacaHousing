@@ -2,9 +2,24 @@
   <NavBar />
   <div class="overflow-auto box-border m-0 p-0">
     <div class="filter-container">
-      <button class="filter-button" @click="showTopTenListings">Best Bang For Your Buck</button>
-      <button class="filter-button" @click="showBottomTenListings()">Avoid These Listings</button>
-      <button class="filter-button" @click="showClusters()">Natural Neighborhoods</button>
+      <button 
+        class="filter-button" 
+        :class="{ active: activeFilter === 'topTen' }"  
+        @click="showTopTenListings">
+        Best Bang For Your Buck
+      </button>
+      <button 
+        class="filter-button" 
+        :class="{ active: activeFilter === 'bottomTen' }"
+        @click="showBottomTenListings()">
+        Avoid These Listings
+      </button>
+      <button 
+        class="filter-button" 
+        :class="{ active: activeFilter === 'cluster' }"
+        @click="showClusters()">
+        Natural Neighborhoods
+      </button>
     </div>
     <!-- Map Container -->
     <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
@@ -49,6 +64,7 @@ const clusteredListings = ref([]); // Store Clustered Listings
 let showingTopTen = ref(false); // Toggle state for filtering Top 10
 let showingBottomTen = ref(false); // Toggle state for filtering Bottom 10
 let showingClusters = ref(false); // Toggle state for clusters
+let activeFilter = ref(null); // Tracks which filter is selected
 
 /**
  * Gets the color of the dot based on price
@@ -121,38 +137,54 @@ onMounted(async () => {
 /**
  * Toggle between all listings and top 10 listings
  */
-const showTopTenListings = () => {
-    if (showingTopTen.value) {
-        addMarkers(allListings.value); 
+ const showTopTenListings = () => {
+    if (activeFilter.value === "topTen") {
+        activeFilter.value = "";
+        addMarkers(allListings.value);
     } else {
-        addMarkers(topTenListings.value);
+        switchFilter("topTen", topTenListings.value);
     }
-    showingTopTen.value = !showingTopTen.value;
 };
 
 /**
  * Toggle between all listings and bottom 10 listings
  */
-const showBottomTenListings = () => {
-    if (showingBottomTen.value) {
-        addMarkers(allListings.value); 
+ const showBottomTenListings = () => {
+    if (activeFilter.value === "bottomTen") {
+        activeFilter.value = "";
+        addMarkers(allListings.value);
     } else {
-        addMarkers(bottomTenListings.value);
+        switchFilter("bottomTen", bottomTenListings.value);
     }
-    showingBottomTen.value = !showingBottomTen.value;
 };
 
 /**
  * Toggle between all listings and clusters
  */
  const showClusters = () => {
-    if (showClusters.value) {
-        addMarkers(allListings.value); 
+    if (activeFilter.value === "cluster") {
+        activeFilter.value = "";
+        addMarkers(allListings.value);
     } else {
-      plotClustersOnMap();
+        switchFilter("cluster");
+        plotClustersOnMap();
     }
-    showClusters.value = !showClusters.value;
 };
+/**
+ * Handles switching between different filters without resetting to all markers
+ */
+ const switchFilter = (newFilter, newListings = null) => {
+    markers.value.forEach(marker => map.value.removeLayer(marker)); 
+
+    activeFilter.value = newFilter;
+
+    if (newListings) {
+        addMarkers(newListings);
+    } else if (newFilter === "cluster") {
+        plotClustersOnMap();
+    }
+};
+
 
 
 /**
@@ -258,6 +290,12 @@ const zoomToListing = (coords) => {
 
 .filter-button:active {
   transform: scale(0.95);
+}
+
+.filter-button.active {
+  background-color: #72bedc;
+  color: black;
+  font-weight: bold;
 }
 
 /* 🔵 LEGEND STYLING */

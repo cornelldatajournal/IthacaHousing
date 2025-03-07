@@ -75,7 +75,7 @@ def cluster_neighborhoods(db: Session = Depends(get_db)):
         return {"error": "No listings found"}
 
     Z = linkage(df[["latitude", "longitude"]], method="ward")  
-    df["hierarchal_cluster"] = fcluster(Z, t=5, criterion="maxclust")
+    df["hierarchal_cluster"] = fcluster(Z, t=8, criterion="maxclust")
 
     return df.to_dict(orient="records")
 

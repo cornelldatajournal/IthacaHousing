@@ -162,8 +162,16 @@ const showBottomTenListings = () => {
   if (!map.value) return;
   markers.value.forEach(marker => map.value.removeLayer(marker)); 
 
-  // Define a color scheme for clusters
-  const clusterColors = ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#F39C12"];
+  const clusterColors = [
+    "#FF5733", // Vibrant Red-Orange
+    "#33FF57", // Bright Green
+    "#3357FF", // Strong Blue
+    "#FF33A1", // Hot Pink
+    "#F39C12", // Warm Orange-Yellow
+    "#8E44AD", // Rich Purple
+    "#1ABC9C", // Teal/Cyan
+    "#E74C3C"  // Deep Red
+  ];
 
   clusteredListings.value.forEach((listing) => {
     const clusterIndex = listing.hierarchal_cluster % clusterColors.length;

@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { createHead } from '@vueuse/head';
 
+document.title = import.meta.env.VITE_APP_TITLE || "Ithaca Insights";
+
 library.add(fas)
 dom.watch();
 

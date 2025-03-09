@@ -44,10 +44,9 @@ jobs:
       - name: Wait for Airflow Webserver to be ready
         run: |
           echo "Waiting for Airflow webserver..."
-          until docker logs airflow-webserver 2>&1 | grep -q "Running the Gunicorn Server"; do
-            sleep 2
-          done
+          timeout 300 sh -c 'until docker logs airflow-webserver 2>&1 | grep -q "Listening at: http"; do sleep 5; done'
           echo "Airflow webserver is ready!"
+
 
       - name: Initialize and Upgrade Airflow DB
         run: |

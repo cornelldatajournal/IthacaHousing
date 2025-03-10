@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   webserver:
-    image: apache/airflow:latest
+    build: . 
     container_name: airflow-webserver
     restart: on-failure
     env_file:
@@ -13,19 +13,8 @@ services:
       AIRFLOW__CORE__EXECUTOR: SequentialExecutor
     ports:
       - "8080:8080"
-    entrypoint: >
-      /bin/bash -c "
-      apt-get update && apt-get install -y libpq-dev && 
-      pip install --upgrade psycopg2-binary &&
-
-      if [ ! -f /airflow_initialized ]; then
-          echo 'Initializing Airflow DB...';
-          airflow db init && airflow db upgrade;
-          touch /airflow_initialized;
-      else
-          echo 'Airflow DB already initialized. Skipping db init.';
-      fi;
-
-      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
-
-      airflow scheduler & exec airflow webserver"
+    volumes:
+      - ./dags:/opt/airflow/dags  
+      - ./model:/opt/airflow/model
+      - ./entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/entrypoint.sh"]

@@ -4,7 +4,7 @@ import numpy as np
 import time
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
-from .geocoder import *
+import geocoder
 import ast
 import json
 
@@ -27,7 +27,7 @@ def fetch_active_listings():
 def housing_data_preprocessing():
     """Preprocesses House Data (extracts Lat, Lng)"""
     housing_data_df = pd.read_csv("latest_listings.csv")
-    housing_data_df[['latitude', 'longitude']] = housing_data_df.apply(lambda row: pd.Series(get_coordinates(row)), axis=1)
+    housing_data_df[['latitude', 'longitude']] = housing_data_df.apply(lambda row: pd.Series(geocoder.get_coordinates(row)), axis=1)
     housing_data_df.replace({"latitude": "", "longitude": "", "None": np.nan}, inplace=True)
     apartments_for_rent = housing_data_df.dropna(subset=["latitude", "longitude"])
 

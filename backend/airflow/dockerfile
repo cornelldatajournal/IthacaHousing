@@ -1,0 +1,21 @@
+FROM apache/airflow:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc python3-dev build-essential \
+    gdal-bin libgdal-dev libproj-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+USER airflow
+
+ENV AIRFLOW_HOME=/opt/airflow
+
+COPY --chown=50000:50000 requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+COPY --chown=50000:50000 entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

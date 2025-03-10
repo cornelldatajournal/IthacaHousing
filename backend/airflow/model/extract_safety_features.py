@@ -1,4 +1,3 @@
-#@title Extract Safety Features
 import json
 import pandas as pd
 

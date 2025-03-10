@@ -7,22 +7,24 @@ import sys
 import os
 import numpy as np
 
-BACKEND_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-sys.path.insert(0, BACKEND_PATH)
-from model.fetch_housing_data import fetch_active_listings
-from model.pipeline import housing_data_pipeline
-from model.insert_into_postgredb import psql_insert_copy
+MODEL_PATH = "/opt/airflow/model"
+if MODEL_PATH not in sys.path:
+    sys.path.append(MODEL_PATH)
 
+import fetch_housing_data
+import pipeline
+import insert_into_postgredb
 
-
-from model.fetch_housing_data import fetch_active_listings
+fetch_active_listings = fetch_housing_data.fetch_active_listings
+housing_data_pipeline = pipeline.housing_data_pipeline
+psql_insert_copy = insert_into_postgredb.psql_insert_copy
 
 os.environ['NO_PROXY'] = '*'
 
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2025, 2, 16),
+    "start_date": datetime(2025, 3, 10),
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
@@ -31,7 +33,7 @@ dag = DAG(
     "retrain_rental_model",
     default_args=default_args,
     description="Fetch rental listings and retrain model",
-    schedule_interval="0 0 * * *",  
+    schedule_interval="0 0 */3 * *",  
 )
 
 fetch_task = PythonOperator(

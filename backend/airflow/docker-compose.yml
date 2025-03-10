@@ -1,45 +1,28 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:13
-    container_name: airflow_postgres
-    restart: always
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   webserver:
     image: apache/airflow:2.5.1
     container_name: airflow-webserver
-    depends_on:
-      - postgres
     restart: on-failure
     env_file:
       - .env  
     environment:
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=${DATABASE_URL}
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
+      DATABASE_URL: ${DATABASE_URL}
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${DATABASE_URL}
+      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
     ports:
       - "8080:8080"
-    entrypoint: /bin/bash -c "
-     if [ ! -f /airflow_initialized ]; then
-          echo 'Initializing Airflow DB...'
-          airflow db init && airflow db upgrade
-          touch /airflow_initialized
+    entrypoint: >
+      /bin/bash -c "
+      if [ ! -f /airflow_initialized ]; then
+          echo 'Initializing Airflow DB...';
+          airflow db init && airflow db upgrade;
+          touch /airflow_initialized;
       else
-          echo 'Airflow DB already initialized. Skipping db init.'
-      fi
+          echo 'Airflow DB already initialized. Skipping db init.';
+      fi;
 
-      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
 
-      airflow scheduler & 
-      exec airflow webserver"
-    
-volumes:
-  postgres_data:
+      airflow scheduler & exec airflow webserver"

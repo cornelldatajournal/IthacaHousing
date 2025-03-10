@@ -4,3 +4,4 @@ backend/airflow/logs
 new-key.pem
 table_backup.dump
 task-definition.json
+.env

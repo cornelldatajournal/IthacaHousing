@@ -2,25 +2,34 @@
   <NavBar />
   <div class="overflow-auto box-border m-0 p-0">
     <div class="filter-container">
-      <button 
-        class="filter-button" 
-        :class="{ active: activeFilter === 'topTen' }"  
-        @click="showTopTenListings">
-        Best Bang For Your Buck
-      </button>
-      <button 
-        class="filter-button" 
-        :class="{ active: activeFilter === 'bottomTen' }"
-        @click="showBottomTenListings()">
-        Avoid These Listings
-      </button>
-      <button 
-        class="filter-button" 
-        :class="{ active: activeFilter === 'cluster' }"
-        @click="showClusters()">
-        Natural Neighborhoods
-      </button>
+      <RadioGroup v-model="activeFilter">
+        <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
+        <div class="radio-options">
+          <RadioGroupOption 
+            as="template" 
+            v-for="option in filterOptions" 
+            :key="option.value" 
+            :value="option.value" 
+            v-slot="{ checked }"
+          >
+            <button 
+              class="filter-button"
+              :class="{ active: checked }"
+              @click="option.action"
+            >
+              <span class="filter-label">{{ option.label }}</span>
+              <span v-if="checked" class="checkmark">
+                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
+                  <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </button>
+          </RadioGroupOption>
+        </div>
+      </RadioGroup>
     </div>
+
     <!-- Map Container -->
     <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
       <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
@@ -52,6 +61,7 @@ import "leaflet/dist/leaflet.css";
 import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 
 const map = ref(null); // Holds the ref for the map
 const isSidebarVisible = ref(false); // Toggle state for whether the Rental Sidebar is visible or not
@@ -61,9 +71,6 @@ const allListings = ref([]); // Store all listings
 const topTenListings = ref([]); // Store top 10 listings
 const bottomTenListings = ref([]); // Store bottom 10 listings
 const clusteredListings = ref([]); // Store Clustered Listings
-let showingTopTen = ref(false); // Toggle state for filtering Top 10
-let showingBottomTen = ref(false); // Toggle state for filtering Bottom 10
-let showingClusters = ref(false); // Toggle state for clusters
 let activeFilter = ref(null); // Tracks which filter is selected
 
 /**
@@ -170,6 +177,17 @@ onMounted(async () => {
         plotClustersOnMap();
     }
 };
+
+/**
+ * Define Options For Filter
+ */
+const filterOptions = [
+    { value: "topTen", label: "Best Bang For Your Buck", action: showTopTenListings },
+    { value: "bottomTen", label: "Avoid These Listings", action: showBottomTenListings },
+    { value: "cluster", label: "Natural Neighborhoods", action: showClusters },
+];
+
+
 /**
  * Handles switching between different filters without resetting to all markers
  */
@@ -262,41 +280,85 @@ const zoomToListing = (coords) => {
 /* FILTER BUTTON */
 .filter-container {
   position: absolute;
-  display: flex;
-  gap: 2px;
-  flex-direction: column;
   top: 100px;
   left: 20px;
   z-index: 1000;
-  width: 250px;
+  width: 300px;
+  background: rgba(21, 19, 102, 0.2); 
+  backdrop-filter: blur(8px); 
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
 }
 
-.filter-button {
-  background-color: #151366;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease-in-out;
-}
-
-.filter-button:hover {
-  background-color: #005f8a;
-}
-
-.filter-button:active {
-  transform: scale(0.95);
-}
-
-.filter-button.active {
-  background-color: #72bedc;
+/* Title */
+.filter-title {
+  font-size: 1.5rem;
   color: black;
-  font-weight: bold;
 }
+
+/* Radio Options */
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* Button Styling */
+.filter-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  color: black;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover Effect */
+.filter-button:hover {
+  background: #e0e0e0;
+  transform: scale(1.02);
+}
+
+/* Active Selection */
+.filter-button.active {
+  background: #507cb6;
+  color: white;
+  border: 2px solid #0f5dc7;
+  position: relative;
+}
+
+/* Active Hover */
+.filter-button.active:hover {
+  transform: scale(1.05);
+}
+
+/* Label inside button */
+.filter-label {
+  font-size: 1rem;
+}
+
+/* Checkmark Icon */
+.checkmark {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
 
 /* 🔵 LEGEND STYLING */
 .legend {
@@ -308,7 +370,6 @@ const zoomToListing = (coords) => {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  font-family: "Inter", sans-serif;
   color: #444;
   z-index: 1000;
   line-height: 1.5;

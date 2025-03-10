@@ -36,6 +36,12 @@
 
       <div id="map"></div>
 
+       <!-- Loading Spinner -->
+       <div v-if="isLoading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading data...</p>
+      </div>
+
       <!-- Legend -->
       <div class="legend">
         <h4>Price Difference Legend</h4>
@@ -72,6 +78,7 @@ const topTenListings = ref([]); // Store top 10 listings
 const bottomTenListings = ref([]); // Store bottom 10 listings
 const clusteredListings = ref([]); // Store Clustered Listings
 let activeFilter = ref(null); // Tracks which filter is selected
+const isLoading = ref(true); // Add loading state
 
 /**
  * Gets the color of the dot based on price
@@ -120,25 +127,31 @@ function addMarkers(listings) {
 }
 
 onMounted(async () => {
+  try {
     map.value = L.map("map", {
-        center: [42.455, -76.48],
-        zoom: 14,
-        maxZoom: 20,
-    });
+          center: [42.455, -76.48],
+          zoom: 14,
+          maxZoom: 20,
+      });
 
-    L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
-        attribution: '<a href="https://jawg.io" target="_blank">&copy; Jawg Maps</a> &copy; OpenStreetMap contributors',
-        minZoom: 0,
-        maxZoom: 22,
-        accessToken: 'pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR'
-    }).addTo(map.value);
+      L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
+          attribution: '<a href="https://jawg.io" target="_blank">&copy; Jawg Maps</a> &copy; OpenStreetMap contributors',
+          minZoom: 0,
+          maxZoom: 22,
+          accessToken: 'pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR'
+      }).addTo(map.value);
 
-    allListings.value = await fetchListings();
-    topTenListings.value = await fetchTopTenListings();
-    bottomTenListings.value = await fetchBottomTenListings();
-    clusteredListings.value = await fetchClusters();
+      allListings.value = await fetchListings();
+      topTenListings.value = await fetchTopTenListings();
+      bottomTenListings.value = await fetchBottomTenListings();
+      clusteredListings.value = await fetchClusters();
 
-    addMarkers(allListings.value);
+      addMarkers(allListings.value); 
+  }  catch (error) {
+      console.error("Error loading data:", error);
+    } finally {
+      isLoading.value = false;
+    }
 });
 
 /**

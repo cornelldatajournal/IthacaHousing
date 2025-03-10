@@ -28,15 +28,18 @@ services:
     ports:
       - "8080:8080"
     entrypoint: /bin/bash -c "
-      if [ ! -f /airflow_initialized ]; then
-        echo 'Initializing Airflow DB...';
-        airflow db init &&
-        airflow db upgrade &&
-        touch /airflow_initialized;
+     if [ ! -f /airflow_initialized ]; then
+          echo 'Initializing Airflow DB...'
+          airflow db init && airflow db upgrade
+          touch /airflow_initialized
       else
-        echo 'Airflow DB already initialized. Skipping db init.';
+          echo 'Airflow DB already initialized. Skipping db init.'
       fi
-      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com;
-      airflow scheduler & airflow webserver"    
+
+      airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+
+      airflow scheduler & 
+      exec airflow webserver"
+    
 volumes:
   postgres_data:

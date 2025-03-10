@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   webserver:
-    image: apache/airflow:2.5.1
+    image: apache/airflow:latest
     container_name: airflow-webserver
     restart: on-failure
     env_file:
@@ -15,6 +15,9 @@ services:
       - "8080:8080"
     entrypoint: >
       /bin/bash -c "
+      apt-get update && apt-get install -y libpq-dev && 
+      pip install --upgrade psycopg2-binary &&
+
       if [ ! -f /airflow_initialized ]; then
           echo 'Initializing Airflow DB...';
           airflow db init && airflow db upgrade;

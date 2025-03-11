@@ -64,10 +64,11 @@
 import { ref, onMounted } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters } from "@/services/fetch";
+import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
+import "leaflet.heat";
 
 const map = ref(null); // Holds the ref for the map
 const isSidebarVisible = ref(false); // Toggle state for whether the Rental Sidebar is visible or not
@@ -77,6 +78,8 @@ const allListings = ref([]); // Store all listings
 const topTenListings = ref([]); // Store top 10 listings
 const bottomTenListings = ref([]); // Store bottom 10 listings
 const clusteredListings = ref([]); // Store Clustered Listings
+const heatmapData = ref(null); // Stores the Heatmap Data
+const heatmapLayer = ref(null); // Stores the Heatmap Layer
 let activeFilter = ref(null); // Tracks which filter is selected
 const isLoading = ref(true); // Add loading state
 
@@ -145,6 +148,7 @@ onMounted(async () => {
       topTenListings.value = await fetchTopTenListings();
       bottomTenListings.value = await fetchBottomTenListings();
       clusteredListings.value = await fetchClusters();
+      heatmapData.value = await fetchHeatMap();
 
       addMarkers(allListings.value); 
   }  catch (error) {
@@ -191,13 +195,33 @@ onMounted(async () => {
     }
 };
 
+
+/**
+ * Heatmap
+ */
+const plotHeatmap = () => {
+  if (!map.value) return;
+
+  if (heatmapLayer.value) {
+    map.value.removeLayer(heatmapLayer.value); 
+  }
+
+  heatmapLayer.value = L.heatLayer(heatmapData, {
+    radius: 15,
+    blur: 10,
+    maxZoom: 17,
+    minOpacity: 0.5,
+  }).addTo(map.value);
+};
+
+
 /**
  * Define Options For Filter
  */
 const filterOptions = [
     { value: "topTen", label: "Best Bang For Your Buck", action: showTopTenListings },
     { value: "bottomTen", label: "Avoid These Listings", action: showBottomTenListings },
-    { value: "cluster", label: "Natural Neighborhoods", action: showClusters },
+    { value: "cluster", label: "Market Hotspots", action: showClusters },
 ];
 
 

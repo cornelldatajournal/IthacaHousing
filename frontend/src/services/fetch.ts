@@ -76,3 +76,23 @@ export const fetchClusters = async (): Promise<Listing[]> => {
         return []; 
     }
 };
+
+
+/**
+ * Fetches heatmap from PostgreSQL Database
+ * @returns Heatmap data
+ */
+export const fetchHeatMap = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/heatmap/`);
+        if (response.status === 200) {
+            console.log(response.data)
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};

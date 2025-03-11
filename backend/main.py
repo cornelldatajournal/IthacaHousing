@@ -79,6 +79,26 @@ def cluster_neighborhoods(db: Session = Depends(get_db)):
 
     return df.to_dict(orient="records")
 
+@app.get("/heatmap/")
+def heatmap_neighborhoods(db: Session = Depends(get_db)):
+    """
+    Heatmaps Neighborhoods by Price to find "natural pricing neighborhoods"
+    """
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
+
+    df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
+
+    if df.empty:
+        return {"error": "No listings found"}
+
+    df["rentamount"] = pd.to_numeric(df["rentamount"], errors="coerce")
+    df = df.dropna()  
+
+    heat_data = df[["latitude", "longitude", "rentamount"]].values.tolist()
+
+    return {"heat_data": heat_data}
+
+
 
 @app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):

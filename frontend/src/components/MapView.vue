@@ -236,6 +236,10 @@ const filterOptions = [
  */
  const switchFilter = (newFilter, newListings = null) => {
     markers.value.forEach(marker => map.value.removeLayer(marker)); 
+    
+    if (heatmapLayer.value) {
+      map.value.removeLayer(heatmapLayer.value); 
+    }
 
     activeFilter.value = newFilter;
 

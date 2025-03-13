@@ -1,7 +1,4 @@
 from fastapi import FastAPI, Request
-import pickle
-import numpy as np
-from pydantic import BaseModel
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from db import HousingListing, get_db
@@ -9,7 +6,11 @@ from sqlalchemy.orm import sessionmaker, Session
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.spatial import Voronoi
 import pandas as pd
+from fastapi.responses import JSONResponse
+from shapely.geometry import Polygon
+import geopandas as gpd
 
 app = FastAPI()
 
@@ -99,6 +100,38 @@ def heatmap_neighborhoods(db: Session = Depends(get_db)):
     heat_data = df[["latitude", "longitude", "rentamount_scaled"]].values.tolist()
 
     return {"heat_data": heat_data}
+
+@app.get("/voronoi/")
+def voronoi_neighborhoods(db: Session = Depends(get_db)):
+    """
+    Generates Voronoi polygons based on rental pricing data.
+    """
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
+
+    df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
+
+    df["rentamount"] = pd.to_numeric(df["rentamount"], errors="coerce")
+    df.dropna(inplace=True)
+
+    points = df[["longitude", "latitude"]].values  
+    rent_values = df["rentamount"].values 
+
+    vor = Voronoi(points)
+    
+    polygons = []
+    for region in vor.regions:
+        if not region or -1 in region:  
+            continue
+        polygon_coords = [vor.vertices[i] for i in region]
+        polygons.append(Polygon(polygon_coords))
+
+    gdf = gpd.GeoDataFrame({"geometry": polygons, "rent": rent_values[:len(polygons)]})
+    gdf["rent_scaled"] = gdf["rent"] / gdf["rent"].max()  
+    
+    geojson = gdf.to_json()
+
+    return JSONResponse(content=geojson)
+
 
 
 

@@ -96,3 +96,22 @@ export const fetchHeatMap = async (): Promise<Number[][]> => {
         return []; 
     }
 };
+
+/**
+ * Fetches Voronoi Polygons from PostgreSQL Database
+ * @returns Voronoi data
+ */
+export const fetchVoronoiPolygons = async (): Promise<Number[][]> => {
+    try {
+        const response: AxiosResponse<HeatmapData> = await axios.get(`${baseURL}/voronoi/`);
+        if (response.status === 200) {
+            return response.data.heat_data; 
+        } else {
+            console.log("hi")
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};

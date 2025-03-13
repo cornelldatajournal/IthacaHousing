@@ -210,7 +210,7 @@ const plotHeatmap = () => {
   } else {
       switchFilter("heatmap");
       heatmapLayer.value = L.heatLayer(heatmapData.value, {
-        radius: 25,
+        radius: 20,
         blur: 20,
         maxZoom: 17,
         minOpacity: 0.2,
@@ -236,7 +236,7 @@ const filterOptions = [
  */
  const switchFilter = (newFilter, newListings = null) => {
     markers.value.forEach(marker => map.value.removeLayer(marker)); 
-    
+
     if (heatmapLayer.value) {
       map.value.removeLayer(heatmapLayer.value); 
     }

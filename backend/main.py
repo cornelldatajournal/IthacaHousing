@@ -92,9 +92,11 @@ def heatmap_neighborhoods(db: Session = Depends(get_db)):
         return {"error": "No listings found"}
 
     df["rentamount"] = pd.to_numeric(df["rentamount"], errors="coerce")
+    df["rentamount_scaled"] = df["rentamount"] / df["rentamount"].max()
+
     df = df.dropna()  
 
-    heat_data = df[["latitude", "longitude", "rentamount"]].values.tolist()
+    heat_data = df[["latitude", "longitude", "rentamount_scaled"]].values.tolist()
 
     return {"heat_data": heat_data}
 

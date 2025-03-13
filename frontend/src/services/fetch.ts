@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
-import { type Listing } from "@/services/interface"
+import { type Listing, type HeatmapData } from "@/services/interface"
 
 const baseURL = import.meta.env.VITE_API_URL;
 
@@ -82,13 +82,13 @@ export const fetchClusters = async (): Promise<Listing[]> => {
  * Fetches heatmap from PostgreSQL Database
  * @returns Heatmap data
  */
-export const fetchHeatMap = async (): Promise<Listing[]> => {
+export const fetchHeatMap = async (): Promise<Number[][]> => {
     try {
-        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/heatmap/`);
+        const response: AxiosResponse<HeatmapData> = await axios.get(`${baseURL}/heatmap/`);
         if (response.status === 200) {
-            console.log(response.data)
-            return response.data; 
+            return response.data.heat_data; 
         } else {
+            console.log("hi")
             throw new Error(`Unexpected status code: ${response.status}`);
         }
     } catch (error) {

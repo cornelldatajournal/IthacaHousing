@@ -110,6 +110,10 @@ function addMarkers(listings) {
     markers.value.forEach(marker => map.value.removeLayer(marker)); 
     markers.value = []; 
 
+    if (heatmapLayer.value) {
+      map.value.removeLayer(heatmapLayer.value); 
+    }
+
     listings.forEach(listing => {
         const color = getColor(listing.rentamount, listing.predictedrent);
 
@@ -200,18 +204,19 @@ onMounted(async () => {
  * Heatmap
  */
 const plotHeatmap = () => {
-  if (!map.value) return;
-
-  if (heatmapLayer.value) {
-    map.value.removeLayer(heatmapLayer.value); 
+  if (activeFilter.value === "heatmap") {
+      activeFilter.value = "";
+      addMarkers(allListings.value);
+  } else {
+      switchFilter("heatmap");
+      heatmapLayer.value = L.heatLayer(heatmapData.value, {
+        radius: 25,
+        blur: 20,
+        maxZoom: 17,
+        minOpacity: 0.2,
+        maxOpacity: 0.8
+      }).addTo(map.value);
   }
-
-  heatmapLayer.value = L.heatLayer(heatmapData, {
-    radius: 15,
-    blur: 10,
-    maxZoom: 17,
-    minOpacity: 0.5,
-  }).addTo(map.value);
 };
 
 
@@ -221,7 +226,8 @@ const plotHeatmap = () => {
 const filterOptions = [
     { value: "topTen", label: "Best Bang For Your Buck", action: showTopTenListings },
     { value: "bottomTen", label: "Avoid These Listings", action: showBottomTenListings },
-    { value: "cluster", label: "Market Hotspots", action: showClusters },
+    { value: "heatmap", label: "Market Hotspots", action: plotHeatmap },
+    { value: "cluster", label: "Rental Neighborhoods", action: showClusters },
 ];
 
 

@@ -12,3 +12,7 @@ export interface Listing {
     listingphotos: JSON;
     differenceInFairValue: number;
 }
+
+export interface HeatmapData {
+    heat_data: number[][];
+}

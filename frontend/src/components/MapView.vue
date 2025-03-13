@@ -210,11 +210,11 @@ const plotHeatmap = () => {
   } else {
       switchFilter("heatmap");
       heatmapLayer.value = L.heatLayer(heatmapData.value, {
-        radius: 20,
-        blur: 20,
-        maxZoom: 17,
-        minOpacity: 0.2,
-        maxOpacity: 0.8
+          radius: 40, 
+          blur: 10,   
+          maxZoom: 17,
+          minOpacity: 0.3, 
+          maxOpacity: 0.9  
       }).addTo(map.value);
   }
 };

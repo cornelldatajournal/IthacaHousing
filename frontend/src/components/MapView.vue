@@ -1,6 +1,11 @@
 <template>
   <NavBar />
   <div class="overflow-auto box-border m-0 p-0">
+    <!-- Loading Spinner -->
+    <div v-if="isLoading" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Loading data...</p>
+      </div>
     <div class="filter-container">
       <RadioGroup v-model="activeFilter">
         <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
@@ -35,12 +40,6 @@
       <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
 
       <div id="map"></div>
-
-       <!-- Loading Spinner -->
-       <div v-if="isLoading" class="loading-overlay">
-        <div class="spinner"></div>
-        <p>Loading data...</p>
-      </div>
 
       <!-- Legend -->
       <div class="legend">

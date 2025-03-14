@@ -252,32 +252,43 @@ const filterOptions = [
 
 
 /**
- * Plot Clusters on Leaflet Map
+ * Plot Clusters on Leaflet Map with Price-Based Opacity
  */
  const plotClustersOnMap = () => {
   if (!map.value) return;
-  markers.value.forEach(marker => map.value.removeLayer(marker)); 
+  markers.value.forEach(marker => map.value.removeLayer(marker));
 
   const clusterColors = [
-    "#FF5733", // Vibrant Red-Orange
-    "#33FF57", // Bright Green
-    "#3357FF", // Strong Blue
-    "#FF33A1", // Hot Pink
-    "#F39C12", // Warm Orange-Yellow
-    "#8E44AD", // Rich Purple
-    "#1ABC9C", // Teal/Cyan
-    "#E74C3C"  // Deep Red
-  ];
+    "#D73027", // Deep Red (Expensive Urban Core)
+    "#FC8D59", // Warm Coral (Mixed Residential-Commercial)
+    "#FEE08B", // Yellow (Moderate Suburban)
+    "#91CF60", // Soft Green (Affordable Residential)
+    "#1A9850", // Deep Green (Outskirts, Lower Prices)
+    "#74ADD1", // Soft Blue (Student Areas, Mid Prices)
+    "#4575B4", // Strong Blue (Distant Residential)
+    "#313695"  // Deep Purple (Luxury or Isolated Areas)
+];
+
+  const prices = clusteredListings.value.map(l => l.rentamount_scaled).filter(p => p !== undefined && p !== null);
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+
+  const getOpacityFromPrice = (price) => {
+    const opacity = 0.5 + 0.5 * ((price - minPrice) / (maxPrice - minPrice)); 
+    return opacity
+  };
 
   clusteredListings.value.forEach((listing) => {
     const clusterIndex = listing.hierarchal_cluster % clusterColors.length;
+    const fillOpacity = getOpacityFromPrice(listing.rentamount_scaled);
+
     const marker = L.circleMarker([listing.latitude, listing.longitude], {
       color: clusterColors[clusterIndex],
       fillColor: clusterColors[clusterIndex],
-      fillOpacity: 0.75,
+      fillOpacity: fillOpacity,
       radius: 8,
     }).addTo(map.value);
-    markers.value.push(marker); 
+    markers.value.push(marker);
   });
 };
 

@@ -68,15 +68,16 @@ def cluster_neighborhoods(db: Session = Depends(get_db)):
     """
     Clusters Neighborhoods by Price to find "natural pricing neighborhoods"
     """
-    listings = db.query(HousingListing.latitude, HousingListing.longitude).all()
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
 
-    df = pd.DataFrame(listings, columns=["latitude", "longitude"])
+    df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
 
     if df.empty:
         return {"error": "No listings found"}
 
     Z = linkage(df[["latitude", "longitude"]], method="ward")  
     df["hierarchal_cluster"] = fcluster(Z, t=8, criterion="maxclust")
+    df["rentamount_scaled"] = (df["rentamount"] - df["rentamount"].min()) / (df["rentamount"].max() - df["rentamount"].min())
 
     return df.to_dict(orient="records")
 

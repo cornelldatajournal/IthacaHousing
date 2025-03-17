@@ -31,6 +31,19 @@
               </span>
             </button>
           </RadioGroupOption>
+
+          <!--Personal Filters-->
+          <label for="bed-filter">Select Number of Beds:</label>
+          <select id="bed-filter" v-model="selectedBeds" @change="updateBedFilter">
+            <option :value=0>N/A</option>
+            <option v-for="n in bedOptions" :key="n" :value="n">{{ n }} Beds</option>
+          </select>
+
+          <label for="bath-filter">Select Number of Baths:</label>
+          <select id="bath-filter" v-model="selectedBaths" @change="updateBathFilter">
+            <option :value=0>N/A</option>
+            <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
+          </select>
         </div>
       </RadioGroup>
       
@@ -61,10 +74,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap } from "@/services/fetch";
+import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
@@ -81,6 +94,14 @@ const clusteredListings = ref([]); // Store Clustered Listings
 const heatmapData = ref(null); // Stores the Heatmap Data
 const heatmapLayer = ref(null); // Stores the Heatmap Layer
 let activeFilter = ref(null); // Tracks which filter is selected
+
+const activeFilters = ref({ beds: null, baths: null }); // Holds Bath and Bed Data for Dynamic Filtering
+const filteredListings = ref([]); // Keeps track of the filtered listings
+const selectedBeds = ref(0); // Number of Selected Beds
+const bedOptions = [1, 2, 3, 4, 5]; // Adjust based on available data
+const selectedBaths = ref(0); // Number of Selected Beds
+const bathOptions = [1, 1.5, 2, 2.5, 3]; // Adjust based on available data
+
 const isLoading = ref(true); // Add loading state
 
 /**
@@ -105,8 +126,9 @@ function getColor(rent, predicted) {
 
 /**
  * Add markers to the map
+ * Only filters markers CURRENTLY on map using .some 
  */
-function addMarkers(listings) {
+function addMarkers(listings, filtered) {
     markers.value.forEach(marker => map.value.removeLayer(marker)); 
     markers.value = []; 
 
@@ -133,6 +155,7 @@ function addMarkers(listings) {
     });
 }
 
+
 onMounted(async () => {
   try {
     map.value = L.map("map", {
@@ -154,7 +177,7 @@ onMounted(async () => {
       clusteredListings.value = await fetchClusters();
       heatmapData.value = await fetchHeatMap();
 
-      addMarkers(allListings.value); 
+      addMarkers(allListings.value, false); 
   }  catch (error) {
       console.error("Error loading data:", error);
     } finally {
@@ -168,7 +191,7 @@ onMounted(async () => {
  const showTopTenListings = () => {
     if (activeFilter.value === "topTen") {
         activeFilter.value = "";
-        addMarkers(allListings.value);
+        addMarkers(allListings.value, false);
     } else {
         switchFilter("topTen", topTenListings.value);
     }
@@ -180,7 +203,7 @@ onMounted(async () => {
  const showBottomTenListings = () => {
     if (activeFilter.value === "bottomTen") {
         activeFilter.value = "";
-        addMarkers(allListings.value);
+        addMarkers(allListings.value, false);
     } else {
         switchFilter("bottomTen", bottomTenListings.value);
     }
@@ -192,13 +215,12 @@ onMounted(async () => {
  const showClusters = () => {
     if (activeFilter.value === "cluster") {
         activeFilter.value = "";
-        addMarkers(allListings.value);
+        addMarkers(allListings.value, false);
     } else {
         switchFilter("cluster");
         plotClustersOnMap();
     }
 };
-
 
 /**
  * Heatmap
@@ -206,7 +228,7 @@ onMounted(async () => {
 const plotHeatmap = () => {
   if (activeFilter.value === "heatmap") {
       activeFilter.value = "";
-      addMarkers(allListings.value);
+      addMarkers(allListings.value, false);
   } else {
       switchFilter("heatmap");
       heatmapLayer.value = L.heatLayer(heatmapData.value, {
@@ -219,6 +241,51 @@ const plotHeatmap = () => {
   }
 };
 
+/**
+ * Updates the Bed Filter based on the number of beds
+ */
+const updateBedFilter = async () => {
+  const bedData = await fetchBedFilter(selectedBeds.value);
+  activeFilters.value.beds = bedData; 
+  mergeFilters();
+};
+
+
+/**
+ * Updates the Bed Filter based on the number of beds
+ */
+const updateBathFilter = async () => {
+  const bathFilterInput = selectedBaths.value*2
+  const bathData = await fetchBathFilter(bathFilterInput);
+  activeFilters.value.baths = bathData; 
+  mergeFilters(bathData, true);
+};
+
+/**
+ * Merges Bed and Bath Filters
+ */
+function mergeFilters() {
+  let mergedListings = allListings.value; 
+
+  if (activeFilters.value.beds) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.beds.some(bedListing =>
+        bedListing.latitude === listing.latitude && bedListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  if (activeFilters.value.baths) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.baths.some(bathListing =>
+        bathListing.latitude === listing.latitude && bathListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  filteredListings.value = mergedListings;
+  addMarkers(filteredListings.value);
+}
 
 /**
  * Define Options For Filter
@@ -244,13 +311,11 @@ const filterOptions = [
     activeFilter.value = newFilter;
 
     if (newListings) {
-        addMarkers(newListings);
+        addMarkers(newListings, false);
     } else if (newFilter === "cluster") {
         plotClustersOnMap();
     }
 };
-
-
 
 /**
  * Plot Clusters on Leaflet Map with Price-Based Opacity

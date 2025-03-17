@@ -133,9 +133,6 @@ def voronoi_neighborhoods(db: Session = Depends(get_db)):
 
     return JSONResponse(content=geojson)
 
-
-
-
 @app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):
     """
@@ -145,6 +142,39 @@ def get_listing(listing_id: int, db: Session = Depends(get_db)):
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
     return listing
+
+@app.get("/listing/beds/{n_beds}")
+def get_listing(n_beds: int, db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    if n_beds == 0:
+        listings = db.query(HousingListing).all()
+    elif n_beds != 5:
+        listings = db.query(HousingListing).filter(HousingListing.bedrooms==n_beds).all()
+    else:
+        listings = db.query(HousingListing).filter(HousingListing.bedrooms>=n_beds).all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    return listings
+
+@app.get("/listing/baths/{n_baths}")
+def get_listing(n_baths: int, db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    n_baths = float(n_baths / 2)
+    print(n_baths)
+    if n_baths == 0:
+        listings = db.query(HousingListing).all()
+    elif n_baths != 3:
+        listings = db.query(HousingListing).filter(HousingListing.bathrooms==n_baths).all()
+    else:
+        listings = db.query(HousingListing).filter(HousingListing.bathrooms>=n_baths).all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    print(listings)
+    return listings
 
 @app.get("/health")
 def health_check():

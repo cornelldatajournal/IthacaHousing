@@ -88,7 +88,6 @@ export const fetchHeatMap = async (): Promise<Number[][]> => {
         if (response.status === 200) {
             return response.data.heat_data; 
         } else {
-            console.log("hi")
             throw new Error(`Unexpected status code: ${response.status}`);
         }
     } catch (error) {
@@ -107,7 +106,6 @@ export const fetchVoronoiPolygons = async (): Promise<Number[][]> => {
         if (response.status === 200) {
             return response.data.heat_data; 
         } else {
-            console.log("hi")
             throw new Error(`Unexpected status code: ${response.status}`);
         }
     } catch (error) {
@@ -115,3 +113,42 @@ export const fetchVoronoiPolygons = async (): Promise<Number[][]> => {
         return []; 
     }
 };
+
+/**
+ * Fetches Bed Filter
+ * @param n_beds - The number of beds to filter
+ * @returns Voronoi data
+ */
+export const fetchBedFilter = async (n_beds: Number): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listing/beds/${n_beds}`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};
+
+/**
+ * Fetches bath Filter
+ * @param n_baths - The number of baths to filter
+ * @returns Voronoi data
+ */
+export const fetchBathFilter = async (n_baths: Number): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listing/baths/${n_baths}`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};
+

@@ -6,70 +6,98 @@
         <div class="spinner"></div>
         <p>Loading data...</p>
       </div>
-    <div class="filter-container">
-      <RadioGroup v-model="activeFilter">
-        <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
-        <div class="radio-options">
-          <RadioGroupOption 
-            as="template" 
-            v-for="option in filterOptions" 
-            :key="option.value" 
-            :value="option.value" 
-            v-slot="{ checked }"
+      <div class="filter-container">
+        <!-- Tab Navigation -->
+        <div class="tab-header">
+          <button
+            class="tab-button"
+            :class="{ active: activeTab === 'Explore Ithaca' }"
+            @click="activeTab = 'Explore Ithaca'"
           >
-            <button 
-              class="filter-button"
-              :class="{ active: checked }"
-              @click="option.action"
-            >
-              <span class="filter-label">{{ option.label }}</span>
-              <span v-if="checked" class="checkmark">
-                <svg class="icon" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
-                  <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </button>
-          </RadioGroupOption>
-
-          <!--Personal Filters-->
-          <label for="bed-filter">Select Number of Beds:</label>
-          <select id="bed-filter" v-model="selectedBeds" @change="updateBedFilter">
-            <option :value=0>N/A</option>
-            <option v-for="n in bedOptions" :key="n" :value="n">{{ n }} Beds</option>
-          </select>
-
-          <label for="bath-filter">Select Number of Baths:</label>
-          <select id="bath-filter" v-model="selectedBaths" @change="updateBathFilter">
-            <option :value=0>N/A</option>
-            <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
-          </select>
+            Explore Ithaca
+          </button>
+          <button
+            class="tab-button"
+            :class="{ active: activeTab === 'Personal Taste' }"
+            @click="activeTab = 'Personal Taste'"
+          >
+            Personal Taste
+          </button>
         </div>
-      </RadioGroup>
-      
-    </div>
 
-    <!-- Map Container -->
-    <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
-      <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Explore Ithaca Tab -->
+          <div v-if="activeTab === 'Explore Ithaca'">
+            <RadioGroup v-model="activeFilter">
+              <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
+              <div class="radio-options">
+                <RadioGroupOption 
+                  as="template" 
+                  v-for="option in filterOptions" 
+                  :key="option.value" 
+                  :value="option.value" 
+                  v-slot="{ checked }"
+                >
+                  <button 
+                    class="filter-button"
+                    :class="{ active: checked }"
+                    @click="option.action"
+                  >
+                    <span class="filter-label">{{ option.label }}</span>
+                    <span v-if="checked" class="checkmark">
+                      <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
+                        <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </button>
+                </RadioGroupOption>
+              </div>
+            </RadioGroup>
+          </div>
 
-      <div id="map"></div>
+          <!-- Personal Taste Tab -->
+          <div v-if="activeTab === 'Personal Taste'">
+            <h3 class="filter-title">Personal Taste</h3>
+            <div class="personal-filters">
+              <label for="bed-filter" class="filter-label">Beds</label>
+              <select id="bed-filter" v-model="selectedBeds" @change="updateBedFilter" class="filter-select">
+                <option :value="0">N/A Beds</option>
+                <option v-for="n in bedOptions" :key="n" :value="n">{{ n }} Beds</option>
+              </select>
 
-      <!-- Legend -->
-      <div class="legend">
-        <h4>Price Difference Legend</h4>
-        <ul>
-          <li><span style="background: #006400;"></span> Very Underpriced</li>
-          <li><span style="background: #008000;"></span> Underpriced</li>
-          <li><span style="background: #32CD32;"></span> Slightly Underpriced</li>
-          <li><span style="background: #90EE90;"></span> Barely Underpriced</li>
-          <li><span style="background: #FFA07A;"></span> Barely Overpriced</li>
-          <li><span style="background: #FF6347;"></span> Slightly Overpriced</li>
-          <li><span style="background: #FF0000;"></span> Overpriced</li>
-          <li><span style="background: #8B0000;"></span> Very Overpriced</li>
-        </ul>
+              <label for="bath-filter" class="filter-label">Baths</label>
+              <select id="bath-filter" v-model="selectedBaths" @change="updateBathFilter" class="filter-select">
+                <option :value="0">N/A Baths</option>
+                <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <!-- Map Container -->
+      <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
+        <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
+
+        <div id="map"></div>
+
+        <!-- Legend -->
+        <div class="legend">
+          <h4>Price Difference Legend</h4>
+          <ul>
+            <li><span style="background: #006400;"></span> Very Underpriced</li>
+            <li><span style="background: #008000;"></span> Underpriced</li>
+            <li><span style="background: #32CD32;"></span> Slightly Underpriced</li>
+            <li><span style="background: #90EE90;"></span> Barely Underpriced</li>
+            <li><span style="background: #FFA07A;"></span> Barely Overpriced</li>
+            <li><span style="background: #FF6347;"></span> Slightly Overpriced</li>
+            <li><span style="background: #FF0000;"></span> Overpriced</li>
+            <li><span style="background: #8B0000;"></span> Very Overpriced</li>
+          </ul>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -93,6 +121,7 @@ const bottomTenListings = ref([]); // Store bottom 10 listings
 const clusteredListings = ref([]); // Store Clustered Listings
 const heatmapData = ref(null); // Stores the Heatmap Data
 const heatmapLayer = ref(null); // Stores the Heatmap Layer
+const activeTab = ref("Explore Ithaca"); // Default tab
 let activeFilter = ref(null); // Tracks which filter is selected
 
 const activeFilters = ref({ beds: null, baths: null }); // Holds Bath and Bed Data for Dynamic Filtering
@@ -410,27 +439,63 @@ const zoomToListing = (coords) => {
   background: rgba(21, 19, 102, 0.2); 
   backdrop-filter: blur(8px); 
   border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
   padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
-/* Title */
 .filter-title {
-  font-size: 1.5rem;
-  color: black;
+  font-size: 1.6rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 12px;
 }
 
-/* Radio Options */
+
+/* Tab Navigation */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: black;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-button.active {
+  background: #507cb6;
+  color: white;
+}
+
+/* Tab Content */
+.tab-content {
+  background: white;
+  color: black;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Radio Buttons */
 .radio-options {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding-top: 5px;
-  padding-bottom: 5px;
 }
 
-/* Button Styling */
 .filter-button {
   display: flex;
   align-items: center;
@@ -447,39 +512,46 @@ const zoomToListing = (coords) => {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover Effect */
 .filter-button:hover {
   background: #e0e0e0;
-  transform: scale(1.02);
 }
 
-/* Active Selection */
 .filter-button.active {
   background: #507cb6;
-  color: white;
+  color: rgb(0, 0, 0);
   border: 2px solid #0f5dc7;
-  position: relative;
 }
 
-/* Active Hover */
-.filter-button.active:hover {
-  transform: scale(1.05);
+.checkmark .icon {
+  width: 16px;
+  height: 16px;
 }
 
-/* Label inside button */
+/* Personal Filters */
+.personal-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .filter-label {
   font-size: 1rem;
+  color: #444;
+  font-weight: 500;
+  text-align: left;
 }
 
-/* Checkmark Icon */
-.checkmark {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
+.filter-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  color: #333;
+  font-size: 1rem;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
 }
 
 

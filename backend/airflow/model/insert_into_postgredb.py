@@ -3,10 +3,9 @@ import psycopg2
 
 def psql_insert_copy():
     """
-    Efficiently inserts data into PostgreSQL using COPY for performance optimization.
-    """    
+    Completely replaces the existing housing_listings table with new data.
+    """
 
-    """PostgreSQL Variables"""
     DB_USER=os.getenv("DB_USER")
     DB_PWD=os.getenv("DB_PWD")
     DB_HOST=os.getenv("DB_HOST")
@@ -22,9 +21,10 @@ def psql_insert_copy():
     )
     cursor = conn.cursor()
 
+    # Ensure table exists
     create_table_query = """
     CREATE TABLE IF NOT EXISTS housing_listings (
-        ListingId INTEGER,
+        ListingId INTEGER PRIMARY KEY,
         accountId INTEGER,
         DateAvailable TEXT,
         LengthAvailable TEXT,
@@ -65,44 +65,28 @@ def psql_insert_copy():
         amenities_score NUMERIC,
         OverallSafetyRating NUMERIC,
         OverallSafetyRatingPct NUMERIC,
-        HasValidCertificateOfOccupancy NUMERIC,
-        MeetsMinimumRequirements NUMERIC,
-        ExceedsRequirements NUMERIC,
-        HasFireResistantConstructionType NUMERIC,
-        SatisfiesApplicableCode NUMERIC,
-        CertificateExpirationDate TEXT,
-        DateLastUpdated TEXT,
-        FireProtection TEXT,
-        NotificationSystems TEXT,
-        EmergencyEgress TEXT,
-        ApplicableCode TEXT,
-        FireExtinguishers TEXT,
-        ConstructionType TEXT,
-        ValidCertificateOfCompliance NUMERIC,
-        FireProtectionPct NUMERIC,
-        NotificationSystemsPct NUMERIC,
-        EmergencyEgressPct NUMERIC,
-        ApplicableCodePct NUMERIC,
-        FireExtinguishersPct NUMERIC,
-        ConstructionTypePct NUMERIC,
-        ValidCertificateOfCompliancePct NUMERIC,
         SAR_Residuals NUMERIC,
         Spatial_Lag NUMERIC,
         PredictedRent NUMERIC,
         DifferenceinFairValue NUMERIC
-    )
+    );
     """
     cursor.execute(create_table_query)
     conn.commit()
-    
+
     try:
+        cursor.execute("TRUNCATE TABLE housing_listings RESTART IDENTITY CASCADE;")
+        conn.commit()
+
         with open("./insert_into_postgres.csv", "r") as f:
             cursor.copy_expert("COPY housing_listings FROM STDIN WITH CSV HEADER", f)
+
         conn.commit()
-        print("✅ Data inserted successfully!")
+        print("✅ Data replaced successfully!")
+
     except Exception as e:
         conn.rollback()
-        print(f"❌ Error inserting data: {e}")
+        print(f"❌ Error replacing data: {e}")
 
     cursor.close()
     conn.close()

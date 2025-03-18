@@ -10,7 +10,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${DATABASE_URL}
-      AIRFLOW__CORE__EXECUTOR: SequentialExecutor
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
     ports:
       - "8080:8080"
     volumes:
@@ -18,3 +18,20 @@ services:
       - ./model:/opt/airflow/model
       - ./entrypoint.sh:/entrypoint.sh
     entrypoint: ["/entrypoint.sh"]
+  scheduler:
+    build: .
+    container_name: airflow-scheduler
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${DATABASE_URL}
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    depends_on:
+      - webserver
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./model:/opt/airflow/model
+      - ./entrypoint.sh:/entrypoint.sh
+    entrypoint: ["airflow", "scheduler"]

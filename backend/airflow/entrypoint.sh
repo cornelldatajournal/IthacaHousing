@@ -13,4 +13,5 @@ fi
 
 airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email asmaitra2006@gmail.com || true
 
-airflow scheduler & exec airflow webserver
+airflow scheduler &  
+exec airflow webserver

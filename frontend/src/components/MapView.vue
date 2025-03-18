@@ -540,6 +540,9 @@ const zoomToListing = (coords) => {
   font-weight: 500;
   text-align: left;
 }
+.filter-label.active {
+  color: white
+}
 
 .filter-select {
   width: 100%;

@@ -21,7 +21,6 @@ def psql_insert_copy():
     )
     cursor = conn.cursor()
 
-    # Ensure table exists
     create_table_query = """
     CREATE TABLE IF NOT EXISTS housing_listings (
         ListingId INTEGER PRIMARY KEY,
@@ -65,6 +64,27 @@ def psql_insert_copy():
         amenities_score NUMERIC,
         OverallSafetyRating NUMERIC,
         OverallSafetyRatingPct NUMERIC,
+        HasValidCertificateOfOccupancy NUMERIC,
+        MeetsMinimumRequirements NUMERIC,
+        ExceedsRequirements NUMERIC,
+        HasFireResistantConstructionType NUMERIC,
+        SatisfiesApplicableCode NUMERIC,
+        CertificateExpirationDate TEXT,
+        DateLastUpdated TEXT,
+        FireProtection TEXT,
+        NotificationSystems TEXT,
+        EmergencyEgress TEXT,
+        ApplicableCode TEXT,
+        FireExtinguishers TEXT,
+        ConstructionType TEXT,
+        ValidCertificateOfCompliance NUMERIC,
+        FireProtectionPct NUMERIC,
+        NotificationSystemsPct NUMERIC,
+        EmergencyEgressPct NUMERIC,
+        ApplicableCodePct NUMERIC,
+        FireExtinguishersPct NUMERIC,
+        ConstructionTypePct NUMERIC,
+        ValidCertificateOfCompliancePct NUMERIC,
         SAR_Residuals NUMERIC,
         Spatial_Lag NUMERIC,
         PredictedRent NUMERIC,

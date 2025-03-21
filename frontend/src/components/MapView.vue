@@ -518,7 +518,7 @@ const zoomToListing = (coords) => {
 
 .filter-button.active {
   background: #507cb6;
-  color: rgb(0, 0, 0);
+  color: white;
   border: 2px solid #0f5dc7;
 }
 
@@ -539,9 +539,6 @@ const zoomToListing = (coords) => {
   color: #444;
   font-weight: 500;
   text-align: left;
-}
-.filter-label.active {
-  color: white
 }
 
 .filter-select {

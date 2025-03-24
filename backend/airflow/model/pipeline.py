@@ -7,6 +7,7 @@ import data_preprocessing
 import extract_safety_features
 import model_training
 import spatial_regression
+import insert_into_postgredb
 
 
 DATA_PATH = "./insert_into_postgres.csv"
@@ -28,10 +29,11 @@ def housing_data_pipeline():
     X = data_preprocessing.outlier_imputation(X)
 
     y = data_preprocessing.log_transform_prices(y)
-    X = spatial_regression.spatial_regression(X, y, apartments_for_rent)
+    # X = spatial_regression.spatial_regression(X, y, apartments_for_rent)
 
-    apartments_for_rent = model_training.train_model(X, y, apartments_for_rent)
-
-    apartments_for_rent.replace({r"\s+": " "}, inplace=True, regex=True)
-    apartments_for_rent.to_csv(DATA_PATH, index=False)
+    apartments_for_rent = model_training.ml_durbin_model(X, y, apartments_for_rent)
+    insert_into_postgredb.psql_insert_copy(apartments_for_rent)
+    
+    # apartments_for_rent.replace({r"\s+": " "}, inplace=True, regex=True)
+    # apartments_for_rent.to_csv(DATA_PATH, index=False)
     return apartments_for_rent

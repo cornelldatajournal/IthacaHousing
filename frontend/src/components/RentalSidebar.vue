@@ -102,7 +102,7 @@
         <tr>
             <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
             <td>Luxury Score:</td>
-            <td>{{ (listing.amenities_score/100).toFixed(2) ?? "N/A" }}/100</td>
+            <td>{{ (listing.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
         </tr>
         </table>
     </div>

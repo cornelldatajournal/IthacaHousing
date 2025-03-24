@@ -6,10 +6,19 @@ import pandas as pd
 import sys
 import os
 import numpy as np
+from pathlib import Path
 
 MODEL_PATH = "/opt/airflow/model"
+
+if not os.path.exists(MODEL_PATH):
+    MODEL_PATH = str(Path(__file__).resolve().parent.parent / "model")
+
 if MODEL_PATH not in sys.path:
     sys.path.append(MODEL_PATH)
+
+# Now import your module
+import fetch_housing_data
+
 
 import fetch_housing_data
 import pipeline
@@ -17,14 +26,14 @@ import insert_into_postgredb
 
 fetch_active_listings = fetch_housing_data.fetch_active_listings
 housing_data_pipeline = pipeline.housing_data_pipeline
-psql_insert_copy = insert_into_postgredb.psql_insert_copy
+confirmation = insert_into_postgredb.confirmation
 
 os.environ['NO_PROXY'] = '*'
 
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2025, 3, 10),
+    "start_date": datetime(2025, 3, 23),
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
@@ -53,7 +62,7 @@ retrain_task = PythonOperator(
 
 upload_to_database = PythonOperator(
     task_id="upload_to_database",
-    python_callable=psql_insert_copy,
+    python_callable=confirmation,
     dag=dag,
 )
 

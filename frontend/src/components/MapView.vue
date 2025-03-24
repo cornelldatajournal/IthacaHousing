@@ -140,14 +140,14 @@ const isLoading = ref(true); // Add loading state
  */
 function getColor(rent, predicted) {
     const percent_change = (predicted - rent) / rent;
-    if (percent_change >= 0.15) return "#006400"; // Dark Green (Very Underpriced)
-    if (percent_change >= 0.10) return "#008000"; // Green (Underpriced)
-    if (percent_change >= 0.05) return "#32CD32";  // Lime Green (Slightly Underpriced)
+    if (percent_change >= 0.30) return "#006400"; // Dark Green (Very Underpriced)
+    if (percent_change >= 0.20) return "#008000"; // Green (Underpriced)
+    if (percent_change >= 0.10) return "#32CD32";  // Lime Green (Slightly Underpriced)
     if (percent_change > 0) return "#90EE90";     // Light Green (Barely Underpriced)
 
-    if (percent_change <= -0.15) return "#8B0000"; // Dark Red (Very Overpriced)
-    if (percent_change <= -0.10) return "#FF0000"; // Red (Overpriced)
-    if (percent_change <= -0.05) return "#FF6347";  // Tomato (Slightly Overpriced)
+    if (percent_change <= -0.30) return "#8B0000"; // Dark Red (Very Overpriced)
+    if (percent_change <= -0.20) return "#FF0000"; // Red (Overpriced)
+    if (percent_change <= -0.10) return "#FF6347";  // Tomato (Slightly Overpriced)
     if (percent_change < 0) return "#FFA07A";    // Light Salmon (Barely Overpriced)
 
     return "gray"; // Neutral (Fairly Priced)

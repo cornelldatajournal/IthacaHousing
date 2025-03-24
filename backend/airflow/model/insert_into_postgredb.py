@@ -18,6 +18,7 @@ def psql_insert_copy(df):
         .str.replace("_pct", "pct")
     )
     with engine.begin() as conn: 
+        df.head(0).to_sql("housing_listings", con=conn, if_exists="append", index=False)
         conn.execute(text("TRUNCATE TABLE housing_listings RESTART IDENTITY CASCADE;"))
         df.to_sql("housing_listings", con=conn, if_exists="append", index=False)  
 

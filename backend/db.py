@@ -78,8 +78,7 @@ class HousingListing(Base):
     hasfireresistantconstructiontype = Column(Boolean)
     satisfiesapplicablecode = Column(Boolean)
     certificateexpirationdate = Column(String)
-    sar_residuals = Column(Numeric)
-    spatial_lag = Column(Numeric)
+    combined_bedrooms_bathrooms = Column(Numeric)
     predictedrent = Column(Numeric)
     differenceinfairvalue = Column(Numeric)
 

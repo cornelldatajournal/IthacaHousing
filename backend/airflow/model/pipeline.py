@@ -25,7 +25,7 @@ def housing_data_pipeline():
 
     X, y = model_training.define_X_Y_variables(apartments_for_rent)
 
-    # X = data_preprocessing.median_mode_imputation(X)
+    X = data_preprocessing.median_mode_imputation(X)
     # X = data_preprocessing.outlier_imputation(X)
 
     y = data_preprocessing.log_transform_prices(y)

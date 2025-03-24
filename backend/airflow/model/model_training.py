@@ -5,7 +5,7 @@ from spreg import ML_Lag
 from libpysal.weights import KNN
 
 def define_X_Y_variables(apartments_for_rent):
-    X = apartments_for_rent[["LengthAvailable", "Pets", "Bedrooms", "Bathrooms", "avg_walking_time", "transit_score", "amenities_score", "OverallSafetyRating"]]
+    X = apartments_for_rent[["LengthAvailable", "Pets", "combined_bedrooms_bathrooms", "avg_walking_time", "transit_score", "amenities_score", "OverallSafetyRating"]]
     y = apartments_for_rent["RentAmount"]
 
     return X, y

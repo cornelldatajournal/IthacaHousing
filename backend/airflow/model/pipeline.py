@@ -25,15 +25,15 @@ def housing_data_pipeline():
 
     X, y = model_training.define_X_Y_variables(apartments_for_rent)
 
-    X = data_preprocessing.median_mode_imputation(X)
-    X = data_preprocessing.outlier_imputation(X)
+    # X = data_preprocessing.median_mode_imputation(X)
+    # X = data_preprocessing.outlier_imputation(X)
 
     y = data_preprocessing.log_transform_prices(y)
     # X = spatial_regression.spatial_regression(X, y, apartments_for_rent)
 
     apartments_for_rent = model_training.ml_durbin_model(X, y, apartments_for_rent)
     insert_into_postgredb.psql_insert_copy(apartments_for_rent)
-    
+
     # apartments_for_rent.replace({r"\s+": " "}, inplace=True, regex=True)
     # apartments_for_rent.to_csv(DATA_PATH, index=False)
     return apartments_for_rent

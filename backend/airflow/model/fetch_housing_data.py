@@ -36,5 +36,7 @@ def housing_data_preprocessing():
         .replace("studio", 1)
         .apply(pd.to_numeric, errors="coerce")
     )
+    apartments_for_rent["Bathrooms"] = pd.to_numeric(apartments_for_rent["Bathrooms"], errors='coerce')
+    apartments_for_rent["combined_bedrooms_bathrooms"] = 1.5*apartments_for_rent["Bedrooms"]+apartments_for_rent["Bathrooms"]
 
     return apartments_for_rent

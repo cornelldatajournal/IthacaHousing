@@ -3,127 +3,127 @@
   <div class="overflow-auto box-border m-0 p-0">
     <!-- Loading Spinner -->
     <div v-if="isLoading" class="loading-overlay">
-        <div class="spinner"></div>
-        <p>Loading data...</p>
+      <div class="spinner"></div>
+      <p class="loading-text">{{ loadingMessage }}</p>
+    </div>
+    <div class="filter-container">
+      <!-- Tab Navigation -->
+      <div class="tab-header">
+        <button
+          class="tab-button"
+          :class="{ active: activeTab === 'Explore Ithaca' }"
+          @click="activeTab = 'Explore Ithaca'"
+        >
+          Explore Ithaca
+        </button>
+        <button
+          class="tab-button"
+          :class="{ active: activeTab === 'Personal Taste' }"
+          @click="activeTab = 'Personal Taste'"
+        >
+          Personal Taste
+        </button>
       </div>
-      <div class="filter-container">
-        <!-- Tab Navigation -->
-        <div class="tab-header">
-          <button
-            class="tab-button"
-            :class="{ active: activeTab === 'Explore Ithaca' }"
-            @click="activeTab = 'Explore Ithaca'"
-          >
-            Explore Ithaca
-          </button>
-          <button
-            class="tab-button"
-            :class="{ active: activeTab === 'Personal Taste' }"
-            @click="activeTab = 'Personal Taste'"
-          >
-            Personal Taste
-          </button>
+
+      <!-- Tab Content -->
+      <div class="tab-content">
+        <!-- Explore Ithaca Tab -->
+        <div v-if="activeTab === 'Explore Ithaca'">
+          <RadioGroup v-model="activeFilter">
+            <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
+            <div class="radio-options">
+              <RadioGroupOption 
+                as="template" 
+                v-for="option in filterOptions" 
+                :key="option.value" 
+                :value="option.value" 
+                v-slot="{ checked }"
+              >
+                <button 
+                  class="filter-button"
+                  :class="{ active: checked }"
+                  @click="option.action"
+                >
+                  <span class="filter-label">{{ option.label }}</span>
+                  <span v-if="checked" class="checkmark">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
+                      <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </button>
+              </RadioGroupOption>
+            </div>
+          </RadioGroup>
         </div>
 
-        <!-- Tab Content -->
-        <div class="tab-content">
-          <!-- Explore Ithaca Tab -->
-          <div v-if="activeTab === 'Explore Ithaca'">
-            <RadioGroup v-model="activeFilter">
-              <RadioGroupLabel class="filter-title">Explore Ithaca</RadioGroupLabel>
-              <div class="radio-options">
-                <RadioGroupOption 
-                  as="template" 
-                  v-for="option in filterOptions" 
-                  :key="option.value" 
-                  :value="option.value" 
-                  v-slot="{ checked }"
-                >
-                  <button 
-                    class="filter-button"
-                    :class="{ active: checked }"
-                    @click="option.action"
-                  >
-                    <span class="filter-label">{{ option.label }}</span>
-                    <span v-if="checked" class="checkmark">
-                      <svg class="icon" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
-                        <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </span>
-                  </button>
-                </RadioGroupOption>
-              </div>
-            </RadioGroup>
-          </div>
+        <!-- Personal Taste Tab -->
+        <div v-if="activeTab === 'Personal Taste'">
+          <h3 class="filter-title">Personal Taste</h3>
+          <div class="personal-filters">
+            <label for="bed-filter" class="filter-label">Beds</label>
+            <select id="bed-filter" v-model="selectedBeds" @change="updateBedFilter" class="filter-select">
+              <option :value="0">N/A Beds</option>
+              <option v-for="n in bedOptions" :key="n" :value="n">{{ n }} Beds</option>
+            </select>
 
-          <!-- Personal Taste Tab -->
-          <div v-if="activeTab === 'Personal Taste'">
-            <h3 class="filter-title">Personal Taste</h3>
-            <div class="personal-filters">
-              <label for="bed-filter" class="filter-label">Beds</label>
-              <select id="bed-filter" v-model="selectedBeds" @change="updateBedFilter" class="filter-select">
-                <option :value="0">N/A Beds</option>
-                <option v-for="n in bedOptions" :key="n" :value="n">{{ n }} Beds</option>
-              </select>
+            <label for="bath-filter" class="filter-label">Baths</label>
+            <select id="bath-filter" v-model="selectedBaths" @change="updateBathFilter" class="filter-select">
+              <option :value="0">N/A Baths</option>
+              <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
+            </select>
 
-              <label for="bath-filter" class="filter-label">Baths</label>
-              <select id="bath-filter" v-model="selectedBaths" @change="updateBathFilter" class="filter-select">
-                <option :value="0">N/A Baths</option>
-                <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
-              </select>
-
-              <div class="icon-buttons">
-                <button 
-                  @click="toggleWalk" 
-                  :class="['icon-button', { active: activeFilters.walk !== null }]"
-                >
-                  🚶‍♂️ Walk
-                </button>
-                <button 
-                  @click="toggleTransit" 
-                  :class="['icon-button', { active: activeFilters.transit !== null }]"
-                >
-                  🚌 TCAT
-                </button>
-                <button 
-                  @click="togglePets" 
-                  :class="['icon-button', { active: activeFilters.pets !== null }]"
-                >
-                  🐶 Pets
-                </button>
-              </div>
+            <div class="icon-buttons">
+              <button 
+                @click="toggleWalk" 
+                :class="['icon-button', { active: activeFilters.walk !== null }]"
+              >
+                🚶‍♂️ Walk
+              </button>
+              <button 
+                @click="toggleTransit" 
+                :class="['icon-button', { active: activeFilters.transit !== null }]"
+              >
+                🚌 TCAT
+              </button>
+              <button 
+                @click="togglePets" 
+                :class="['icon-button', { active: activeFilters.pets !== null }]"
+              >
+                🐶 Pets
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Map Container -->
-      <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
-        <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
+    <!-- Map Container -->
+    <div class="relative flex z-[0] border-b-2 border-black overflow-hidden">
+      <RentalSidebar class="rental-sidebar" @close="closePopup" @zoom="zoomToListing" :listing="selectedListing" v-if="isSidebarVisible" />
 
-        <div id="map"></div>
+      <div id="map"></div>
 
-        <!-- Legend -->
-        <div class="legend">
-          <h4>Price Difference Legend</h4>
-          <ul>
-            <li><span style="background: #006400;"></span> Very Underpriced</li>
-            <li><span style="background: #008000;"></span> Underpriced</li>
-            <li><span style="background: #32CD32;"></span> Slightly Underpriced</li>
-            <li><span style="background: #90EE90;"></span> Barely Underpriced</li>
-            <li><span style="background: #FFA07A;"></span> Barely Overpriced</li>
-            <li><span style="background: #FF6347;"></span> Slightly Overpriced</li>
-            <li><span style="background: #FF0000;"></span> Overpriced</li>
-            <li><span style="background: #8B0000;"></span> Very Overpriced</li>
-          </ul>
-        </div>
+      <!-- Legend -->
+      <div class="legend">
+        <h4>Price Difference Legend</h4>
+        <ul>
+          <li><span style="background: #006400;"></span> Very Underpriced</li>
+          <li><span style="background: #008000;"></span> Underpriced</li>
+          <li><span style="background: #32CD32;"></span> Slightly Underpriced</li>
+          <li><span style="background: #90EE90;"></span> Barely Underpriced</li>
+          <li><span style="background: #FFA07A;"></span> Barely Overpriced</li>
+          <li><span style="background: #FF6347;"></span> Slightly Overpriced</li>
+          <li><span style="background: #FF0000;"></span> Overpriced</li>
+          <li><span style="background: #8B0000;"></span> Very Overpriced</li>
+        </ul>
       </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter, fetchWalkFilter, fetchTransitFilter, fetchPetsFilter } from "@/services/fetch";
@@ -153,6 +153,22 @@ const selectedBaths = ref(0); // Number of Selected Beds
 const bathOptions = [1, 1.5, 2, 2.5, 3]; // Adjust based on available data
 
 const isLoading = ref(true); // Add loading state
+
+// Funny Loading Messages Logic
+let messageIndex = 0;
+let messageInterval;
+
+const loadingMessage = ref("Loading data...");
+
+const messages = [
+  "Scraping rental secrets...",
+  "Drawing overpriced dots...",
+  "Checking if Collegetown is still a mess...",
+  "Calculating who’s paying too much...",
+  "Locating affordable housing (404 not found)...",
+  "Scanning for deals in the wild...",
+];
+
 
 /**
  * Gets the color of the dot based on price
@@ -207,6 +223,11 @@ function addMarkers(listings, filtered) {
 
 
 onMounted(async () => {
+  messageInterval = setInterval(() => {
+    messageIndex = (messageIndex + 1) % messages.length;
+    loadingMessage.value = messages[messageIndex];
+  }, 2500);
+
   try {
     map.value = L.map("map", {
           center: [42.455, -76.48],
@@ -233,6 +254,13 @@ onMounted(async () => {
     } finally {
       isLoading.value = false;
     }
+});
+
+/**
+ * Stop Sending Corny Message
+ */
+onBeforeUnmount(() => {
+  clearInterval(messageInterval);
 });
 
 /**
@@ -737,6 +765,15 @@ const zoomToListing = (coords) => {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+}
+
+.loading-text {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #333;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
 }
 
 

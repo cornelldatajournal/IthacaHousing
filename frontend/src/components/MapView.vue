@@ -725,4 +725,34 @@ const zoomToListing = (coords) => {
 .leaflet-popup-close-button {
   display: none;
 }
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999; /* make sure it's above your map */
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.6); /* translucent white */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #0f5dc7;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 </style>

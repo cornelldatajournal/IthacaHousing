@@ -614,6 +614,11 @@ const zoomToListing = (coords) => {
   border: 2px solid #0f5dc7;
 }
 
+.filter-button.active .filter-label {
+  color: white;
+}
+
+
 .checkmark .icon {
   width: 16px;
   height: 16px;

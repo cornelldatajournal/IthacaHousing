@@ -72,6 +72,27 @@
                 <option :value="0">N/A Baths</option>
                 <option v-for="n in bathOptions" :key="n" :value="n">{{ n }} Baths</option>
               </select>
+
+              <div class="icon-buttons">
+                <button 
+                  @click="toggleWalk" 
+                  :class="['icon-button', { active: activeFilters.walk !== null }]"
+                >
+                  🚶‍♂️ Walk
+                </button>
+                <button 
+                  @click="toggleTransit" 
+                  :class="['icon-button', { active: activeFilters.transit !== null }]"
+                >
+                  🚌 TCAT
+                </button>
+                <button 
+                  @click="togglePets" 
+                  :class="['icon-button', { active: activeFilters.pets !== null }]"
+                >
+                  🐶 Pets
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -105,7 +126,7 @@
 import { ref, onMounted, watch } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter } from "@/services/fetch";
+import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter, fetchWalkFilter, fetchTransitFilter, fetchPetsFilter } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
@@ -124,7 +145,7 @@ const heatmapLayer = ref(null); // Stores the Heatmap Layer
 const activeTab = ref("Explore Ithaca"); // Default tab
 let activeFilter = ref(null); // Tracks which filter is selected
 
-const activeFilters = ref({ beds: null, baths: null }); // Holds Bath and Bed Data for Dynamic Filtering
+const activeFilters = ref({ beds: null, baths: null, walk: null, transit: null, pets: null }); // Holds Bath and Bed Data for Dynamic Filtering
 const filteredListings = ref([]); // Keeps track of the filtered listings
 const selectedBeds = ref(0); // Number of Selected Beds
 const bedOptions = [1, 2, 3, 4, 5]; // Adjust based on available data
@@ -291,6 +312,53 @@ const updateBathFilter = async () => {
 };
 
 /**
+ * Toggles Walkability Filter based on walking time
+ * */
+const toggleWalk = async () => {
+  if(!activeFilters.value.walk) {
+    const walkData = await fetchWalkFilter();
+    activeFilters.value.walk = walkData; 
+    mergeFilters(walkData, true);
+  }
+  else {
+    activeFilters.value.walk = null; 
+    mergeFilters();
+  }
+};
+
+/**
+ * Toggles Walkability Filter based on walking time
+ * */
+ const toggleTransit = async () => {
+  if(!activeFilters.value.transit) {
+    const transit = await fetchTransitFilter();
+    activeFilters.value.transit = transit; 
+    mergeFilters(transit, true);
+  }
+  else {
+    activeFilters.value.transit = null; 
+    mergeFilters();
+  }
+};
+
+/**
+ * Toggles Walkability Filter based on walking time
+ * */
+ const togglePets = async () => {
+  if(!activeFilters.value.pets) {
+    const petsData = await fetchPetsFilter();
+    activeFilters.value.pets = petsData; 
+    mergeFilters(petsData, true);
+  }
+  else {
+    activeFilters.value.pets = null; 
+    mergeFilters();
+  }
+};
+
+
+
+/**
  * Merges Bed and Bath Filters
  */
 function mergeFilters() {
@@ -308,6 +376,30 @@ function mergeFilters() {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.baths.some(bathListing =>
         bathListing.latitude === listing.latitude && bathListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  if (activeFilters.value.walk) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.walk.some(walkListing =>
+        walkListing.latitude === listing.latitude && walkListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  if (activeFilters.value.transit) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.transit.some(transitListing =>
+        transitListing.latitude === listing.latitude && transitListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  if (activeFilters.value.pets) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.pets.some(petsListing =>
+        petsListing.latitude === listing.latitude && petsListing.longitude === listing.longitude
       )
     );
   }
@@ -553,6 +645,31 @@ const zoomToListing = (coords) => {
   cursor: pointer;
   outline: none;
 }
+
+.icon-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.icon-button {
+  flex: 1;
+  margin: 0 4px;
+  padding: 8px;
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icon-button.active {
+  background-color: #507cb6; /* Blue highlight */
+  color: white;
+}
+
+
 
 
 /* 🔵 LEGEND STYLING */

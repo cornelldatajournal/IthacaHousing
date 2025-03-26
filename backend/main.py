@@ -11,6 +11,7 @@ import pandas as pd
 from fastapi.responses import JSONResponse
 from shapely.geometry import Polygon
 import geopandas as gpd
+from sqlalchemy import func
 
 app = FastAPI()
 
@@ -133,18 +134,8 @@ def voronoi_neighborhoods(db: Session = Depends(get_db)):
 
     return JSONResponse(content=geojson)
 
-@app.get("/listing/{listing_id}")
-def get_listing(listing_id: int, db: Session = Depends(get_db)):
-    """
-    Gets listing from database by ID
-    """
-    listing = db.query(HousingListing).filter(HousingListing.listingid==listing_id).first()
-    if not listing:
-        raise HTTPException(status_code=404, detail="Listing not found")
-    return listing
-
 @app.get("/listing/beds/{n_beds}")
-def get_listing(n_beds: int, db: Session = Depends(get_db)):
+def get_listing_beds(n_beds: int, db: Session = Depends(get_db)):
     """
     Gets listing from database by ID
     """
@@ -159,12 +150,11 @@ def get_listing(n_beds: int, db: Session = Depends(get_db)):
     return listings
 
 @app.get("/listing/baths/{n_baths}")
-def get_listing(n_baths: int, db: Session = Depends(get_db)):
+def get_listing_baths(n_baths: int, db: Session = Depends(get_db)):
     """
     Gets listing from database by ID
     """
     n_baths = float(n_baths / 2)
-    print(n_baths)
     if n_baths == 0:
         listings = db.query(HousingListing).all()
     elif n_baths != 3:
@@ -173,8 +163,49 @@ def get_listing(n_baths: int, db: Session = Depends(get_db)):
         listings = db.query(HousingListing).filter(HousingListing.bathrooms>=n_baths).all()
     if not listings:
         raise HTTPException(status_code=404, detail="Listing not found")
-    print(listings)
     return listings
+
+@app.get("/listing/walks")
+def get_listing_walk(db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    mean_walking_time = db.query(func.avg(HousingListing.avg_walking_time)).scalar()
+    listings = db.query(HousingListing).filter(HousingListing.avg_walking_time<mean_walking_time).all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    return listings
+
+@app.get("/listing/transit")
+def get_listing_transit(db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    mean_transit_score = db.query(func.avg(HousingListing.transit_score)).scalar()
+    listings = db.query(HousingListing).filter(HousingListing.transit_score>mean_transit_score).all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    return listings
+
+@app.get("/listing/pets")
+def get_listing_pet(db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    listings = db.query(HousingListing).filter(HousingListing.pets=="Yes").all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    return listings
+
+@app.get("/listing/{listing_id}")
+def get_listing(listing_id: int, db: Session = Depends(get_db)):
+    """
+    Gets listing from database by ID
+    """
+    listing = db.query(HousingListing).filter(HousingListing.listingid==listing_id).first()
+    if not listing:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    return listing
 
 @app.get("/health")
 def health_check():

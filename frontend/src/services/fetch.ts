@@ -117,7 +117,7 @@ export const fetchVoronoiPolygons = async (): Promise<Number[][]> => {
 /**
  * Fetches Bed Filter
  * @param n_beds - The number of beds to filter
- * @returns Voronoi data
+ * @returns Bed data
  */
 export const fetchBedFilter = async (n_beds: Number): Promise<Listing[]> => {
     try {
@@ -136,7 +136,7 @@ export const fetchBedFilter = async (n_beds: Number): Promise<Listing[]> => {
 /**
  * Fetches bath Filter
  * @param n_baths - The number of baths to filter
- * @returns Voronoi data
+ * @returns bath data
  */
 export const fetchBathFilter = async (n_baths: Number): Promise<Listing[]> => {
     try {
@@ -151,4 +151,63 @@ export const fetchBathFilter = async (n_baths: Number): Promise<Listing[]> => {
         return []; 
     }
 };
+
+
+/**
+ * Fetches walk Filter
+ * @returns walking data
+ */
+export const fetchWalkFilter = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listing/walks`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};
+
+
+/**
+ * Fetches transit Filter
+ * @returns transit data
+ */
+export const fetchTransitFilter = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listing/transit`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};
+
+/**
+ * Fetches pets Filter
+ * @returns pets data
+ */
+export const fetchPetsFilter = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/listing/pets`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return []; 
+    }
+};
+
+
+
 

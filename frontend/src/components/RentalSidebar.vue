@@ -31,7 +31,7 @@
     <div class="rent-section">
         <div class="rent-box">
             <strong>Rent:</strong>
-            <span>${{ listing.rentamount.toFixed(2) }}</span>
+            <span>${{ listing.rentamountadjusted.toFixed(2) }}</span>
         </div>
         <div class="rent-box">
             <strong>Predicted Rent:</strong>
@@ -39,8 +39,8 @@
             ${{ listing.predictedrent.toFixed(2) }}
             </span>
         </div>
-    <div class="rent-diff" :class="{'text-red': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  < 0, 'text-green': ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2)  > 0}">
-        Percent Change: {{ ((listing.predictedrent-listing.rentamount)/listing.rentamount*100).toFixed(2) }}%
+    <div class="rent-diff" :class="{'text-red': ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2)  < 0, 'text-green': ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2)  > 0}">
+        Percent Change: {{ ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2) }}%
     </div>
     </div>
     <!-- Main Content (2-Column Layout) -->

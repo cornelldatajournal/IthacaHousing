@@ -7,6 +7,7 @@ import sys
 import os
 import numpy as np
 from pathlib import Path
+from prometheus_client import Counter, Summary, push_to_gateway
 
 MODEL_PATH = "/opt/airflow/model"
 
@@ -16,7 +17,6 @@ if not os.path.exists(MODEL_PATH):
 if MODEL_PATH not in sys.path:
     sys.path.append(MODEL_PATH)
 
-# Now import your module
 import fetch_housing_data
 
 
@@ -30,10 +30,28 @@ confirmation = insert_into_postgredb.confirmation
 
 os.environ['NO_PROXY'] = '*'
 
+DAG_SUCCESS = Counter("dag_success_total", "Total successful DAG runs", ["dag_id"])
+DAG_FAILURE = Counter("dag_failure_total", "Total failed DAG runs", ["dag_id"])
+DAG_DURATION = Summary("dag_duration_seconds", "DAG execution duration in seconds", ["dag_id"])
+PUSHGATEWAY_URL = "http://localhost:9091"  
+
+def on_success_callback(context):
+    dag_id = context["dag"].dag_id
+    DAG_SUCCESS.labels(dag_id=dag_id).inc()
+    duration = context["dag_run"].end_date - context["dag_run"].start_date
+    DAG_DURATION.labels(dag_id=dag_id).observe(duration.total_seconds())
+    push_to_gateway(PUSHGATEWAY_URL, job=dag_id, registry=None)  
+
+def on_failure_callback(context):
+    dag_id = context["dag"].dag_id
+    DAG_FAILURE.labels(dag_id=dag_id).inc()
+    push_to_gateway(PUSHGATEWAY_URL, job=dag_id, registry=None)
+
+
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2025, 3, 23),
+    "start_date": datetime(2025, 3, 30),
     "retries": 1,
     "retry_delay": timedelta(minutes=5),
 }
@@ -42,7 +60,10 @@ dag = DAG(
     "retrain_rental_model",
     default_args=default_args,
     description="Fetch rental listings and retrain model",
-    schedule_interval="0 0 */3 * *",  
+    schedule_interval="0 */3 * * *",
+    on_success_callback = on_success_callback,
+    on_failure_callback = on_failure_callback,
+    catchup=False
 )
 
 fetch_task = PythonOperator(

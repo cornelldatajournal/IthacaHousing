@@ -6,7 +6,7 @@ from libpysal.weights import KNN
 
 def define_X_Y_variables(apartments_for_rent):
     X = apartments_for_rent[["LengthAvailable", "Pets", "combined_bedrooms_bathrooms", "avg_walking_time", "transit_score", "amenities_score", "OverallSafetyRating"]]
-    y = apartments_for_rent["RentAmount"]
+    y = apartments_for_rent["RentAmountAdjusted"]
 
     return X, y
 
@@ -37,7 +37,7 @@ def ml_durbin_model(X, y, apartments_for_rent):
     """
     coords = apartments_for_rent[["latitude", "longitude"]].values
     knn_weights = KNN.from_array(coords, k=5)
-
+    print(X.head())
     sdm_model = ML_Lag(
         y,
         X,
@@ -63,6 +63,6 @@ def find_residual_rental_amounts(y_pred, apartments_for_rent):
         apartments_for_rent: dataframe with housing data
     """
     apartments_for_rent["PredictedRent"] = np.exp(y_pred)
-    apartments_for_rent["DifferenceinFairValue"] = apartments_for_rent["RentAmount"] - apartments_for_rent["PredictedRent"]
+    apartments_for_rent["DifferenceinFairValue"] = apartments_for_rent["RentAmountAdjusted"] - apartments_for_rent["PredictedRent"]
 
     return apartments_for_rent

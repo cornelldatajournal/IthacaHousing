@@ -11,6 +11,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: ${DATABASE_URL}
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_POOL_RECYCLE: 1800
+      AIRFLOW__CORE__SQL_ALCHEMY_POOL_PRE_PING: true
     ports:
       - "8080:8080"
     volumes:
@@ -33,5 +35,6 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./model:/opt/airflow/model
+      - ./logs:/opt/airflow/logs
       - ./entrypoint.sh:/entrypoint.sh
     entrypoint: ["airflow", "scheduler"]

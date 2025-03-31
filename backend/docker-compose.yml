@@ -1,54 +1,31 @@
 version: '3.8'
 
 services:
-  fastapi:
-    build:
-      context: ./fastapi
-      dockerfile: Dockerfile
-    container_name: fastapi-app
-    ports:
-      - "8000:8000"
-    depends_on:
-      - postgres
-    networks:
-      - app-network
-
-  airflow-webserver:
-    image: apache/airflow:2.5.0
-    container_name: airflow-webserver
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-      - redis
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=CeleryExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres/airflow
-      - AIRFLOW__CELERY__BROKER_URL=redis://redis:6379/0
-      - AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@postgres/airflow
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
     volumes:
-      - ./airflow/dags:/opt/airflow/dags
-    networks:
-      - app-network
-    command: ["airflow", "webserver"]
-
-  redis:
-    image: redis:6.2
-    container_name: redis
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
     ports:
-      - "6379:6379"
+      - "9090:9090"
     networks:
       - app-network
 
-  postgres:
-    image: postgres:13
-    container_name: postgres
-    environment:
-      - POSTGRES_USER=airflow
-      - POSTGRES_PASSWORD=airflow
-      - POSTGRES_DB=airflow
+  pushgateway:
+    image: prom/pushgateway
+    container_name: pushgateway
     ports:
-      - "5432:5432"
+      - "9091:9091"
+    networks:
+      - app-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
     networks:
       - app-network
 

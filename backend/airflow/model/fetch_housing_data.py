@@ -7,8 +7,14 @@ from airflow.utils.dates import days_ago
 import geocoder
 import ast
 import json
+import os
 
-DATA_PATH = "./latest_listings.csv"
+if os.path.exists("/opt/airflow/model"):
+    BASE_DIR = "/opt/airflow/model"  
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DATA_PATH = os.path.join(BASE_DIR, "latest_listings.csv")
 
 def fetch_active_listings():
     """Fetches Active Listings from Cornell Off-Campus Housing API"""
@@ -26,7 +32,7 @@ def fetch_active_listings():
 
 def housing_data_preprocessing():
     """Preprocesses House Data (extracts Lat, Lng)"""
-    housing_data_df = pd.read_csv("latest_listings.csv")
+    housing_data_df = pd.read_csv(DATA_PATH)
     housing_data_df[['latitude', 'longitude']] = housing_data_df.apply(lambda row: pd.Series(geocoder.get_coordinates(row)), axis=1)
     housing_data_df.replace({"latitude": "", "longitude": "", "None": np.nan}, inplace=True)
     apartments_for_rent = housing_data_df.dropna(subset=["latitude", "longitude"])
@@ -36,7 +42,16 @@ def housing_data_preprocessing():
         .replace("studio", 1)
         .apply(pd.to_numeric, errors="coerce")
     )
+    apartments_for_rent["RentAmount"] = pd.to_numeric(apartments_for_rent["RentAmount"], errors="coerce")
+    apartments_for_rent["Bedrooms"] = pd.to_numeric(apartments_for_rent["Bedrooms"], errors="coerce")
+    apartments_for_rent.loc[apartments_for_rent["ListingId"] == 4703, "RentType"] = "Price per Person"
+    apartments_for_rent["RentAmountAdjusted"] = np.where( 
+                        apartments_for_rent["RentType"].str.lower() == "price per person", 
+                        apartments_for_rent["RentAmount"] * apartments_for_rent["Bedrooms"], 
+                        apartments_for_rent["RentAmount"] 
+                        )
     apartments_for_rent["Bathrooms"] = pd.to_numeric(apartments_for_rent["Bathrooms"], errors='coerce')
     apartments_for_rent["combined_bedrooms_bathrooms"] = 1.5*apartments_for_rent["Bedrooms"]+apartments_for_rent["Bathrooms"]
+    
 
     return apartments_for_rent

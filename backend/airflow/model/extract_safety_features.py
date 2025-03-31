@@ -62,7 +62,6 @@ def calculate_safety_score(apartments_for_rent):
     safety_df.index = apartments_for_rent.index
 
     apartments_for_rent = pd.concat([apartments_for_rent, safety_df], axis=1)
-    print(apartments_for_rent.columns)
 
     apartments_for_rent.fillna({
         "OverallSafetyRating": apartments_for_rent["OverallSafetyRating"].mean(),

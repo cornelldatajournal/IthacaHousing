@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 30s
+
+scrape_configs:
+  - job_name: 'ithaca-insights'
+    metrics_path: /metrics
+    scheme: https
+    static_configs:
+      - targets: ['api.ithacainsights.com']
+
+  - job_name: 'airflow-dag-pushes'
+    static_configs:
+      - targets: ['pushgateway:9091']

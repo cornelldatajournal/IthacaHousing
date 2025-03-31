@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 import uvicorn
 from fastapi import FastAPI, HTTPException, Depends
 from db import HousingListing, get_db
@@ -12,6 +12,10 @@ from fastapi.responses import JSONResponse
 from shapely.geometry import Polygon
 import geopandas as gpd
 from sqlalchemy import func
+from prometheus_fastapi_instrumentator import Instrumentator
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import Summary, Gauge
+import numpy as np
 
 app = FastAPI()
 
@@ -22,6 +26,9 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"], 
 )
+
+instrumentator = Instrumentator()
+instrumentator.instrument(app).expose(app)
 
 @app.options("/{full_path:path}")
 async def preflight_handler():
@@ -48,7 +55,7 @@ def get_top_ten_listings(db: Session = Depends(get_db)):
     Gets top ten listings in Database
     """
     top_listings = db.query(HousingListing).order_by(
-        ((HousingListing.predictedrent - HousingListing.rentamount) / HousingListing.rentamount).desc()
+        ((HousingListing.predictedrent - HousingListing.rentamountadjusted) / HousingListing.rentamountadjusted).desc()
     ).limit(10).all()
 
     return top_listings 
@@ -59,7 +66,7 @@ def get_bottom_ten_listings(db: Session = Depends(get_db)):
     Gets bottom ten listings in Database
     """
     bottom_listings = db.query(HousingListing).order_by(
-        ((HousingListing.predictedrent - HousingListing.rentamount) / HousingListing.rentamount)
+        ((HousingListing.predictedrent - HousingListing.rentamountadjusted) / HousingListing.rentamountadjusted)
     ).limit(10).all()
 
     return bottom_listings 
@@ -69,7 +76,7 @@ def cluster_neighborhoods(db: Session = Depends(get_db)):
     """
     Clusters Neighborhoods by Price to find "natural pricing neighborhoods"
     """
-    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamountadjusted).all()
 
     df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
 
@@ -87,7 +94,7 @@ def heatmap_neighborhoods(db: Session = Depends(get_db)):
     """
     Heatmaps Neighborhoods by Price to find "natural pricing neighborhoods"
     """
-    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamountadjusted).all()
 
     df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
 
@@ -108,7 +115,7 @@ def voronoi_neighborhoods(db: Session = Depends(get_db)):
     """
     Generates Voronoi polygons based on rental pricing data.
     """
-    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamount).all()
+    listings = db.query(HousingListing.latitude, HousingListing.longitude, HousingListing.rentamountadjusted).all()
 
     df = pd.DataFrame(listings, columns=["latitude", "longitude", "rentamount"])
 
@@ -210,6 +217,33 @@ def get_listing(listing_id: int, db: Session = Depends(get_db)):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+"""
+METRICS
+Prometheus + Grafana
+"""
+PREDICTION_ERROR = Summary("prediction_error", "Absolute error between prediction and actual")
+
+def get_prediction_error(db: Session):
+    """
+    Gets mean squared error from database
+    """
+    listings = db.query(HousingListing).all()
+    errors = [(listing.rentamount - listing.predictedrent)**2 for listing in listings]
+    mse = np.mean(errors)
+    return mse
+
+@app.get("/metrics")
+def metrics(db: Session = Depends(get_db)):
+    """
+    Gets metrics for Prometheus
+    """
+    mse = get_prediction_error(db)
+    PREDICTION_ERROR.observe(mse)
+
+    data = generate_latest()
+
+    return Response(content=data, media_type=CONTENT_TYPE_LATEST)
 
 @app.get("/")
 async def root():

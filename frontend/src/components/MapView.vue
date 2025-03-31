@@ -167,6 +167,9 @@ const messages = [
   "Calculating who’s paying too much...",
   "Locating affordable housing (404 not found)...",
   "Scanning for deals in the wild...",
+  "Counting beds, baths and beyond...",
+  "Texting your ex-girlfriend you miss her",
+  "Visit cornelldatajournal.org!",
 ];
 
 
@@ -203,7 +206,7 @@ function addMarkers(listings, filtered) {
     }
 
     listings.forEach(listing => {
-        const color = getColor(listing.rentamount, listing.predictedrent);
+        const color = getColor(listing.rentamountadjusted, listing.predictedrent);
 
         const marker = L.circleMarker([listing.latitude, listing.longitude], {
             color,
@@ -495,7 +498,7 @@ const filterOptions = [
 
   clusteredListings.value.forEach((listing) => {
     const clusterIndex = listing.hierarchal_cluster % clusterColors.length;
-    const fillOpacity = getOpacityFromPrice(listing.rentamount_scaled);
+    const fillOpacity = getOpacityFromPrice(listing.rentamountadjusted_scaled);
 
     const marker = L.circleMarker([listing.latitude, listing.longitude], {
       color: clusterColors[clusterIndex],

@@ -43,6 +43,7 @@ class HousingListing(Base):
     shortdescription = Column(Text)
     longdescription = Column(Text)
     rentamount = Column(Numeric)
+    rentamountadjusted = Column(Numeric)
     renttype = Column(String)
     pets = Column(String)
     amenities = Column(String)

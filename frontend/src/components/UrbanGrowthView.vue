@@ -3,8 +3,8 @@
 <section class="body-container">
     <section class="coming-soon-container">
         <div class="coming-soon-content">
-        <h1 class="coming-soon-title">Ithaca's Urban Growth</h1>
-        <p class="coming-soon-subtitle">How will Ithaca grow in the future?</p>
+        <h1 class="coming-soon-title">Prime Site Selection in Ithaca</h1>
+        <p class="coming-soon-subtitle">A data-driven tool for identifying high-potential vacant lots and zoning opportunities across the city.</p>
         <p class="coming-soon-text">We're working hard to bring you advanced data, predictive insights, and interactive maps. Stay tuned!</p>
         <div class="coming-soon-badge">Coming Soon!</div>
         </div>

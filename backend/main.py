@@ -204,6 +204,39 @@ def get_listing_pet(db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Listing not found")
     return listings
 
+@app.get("/room-to-rent-listings/")
+def get_top_ten_listings(db: Session = Depends(get_db)):
+    """
+    Gets top ten listings in Database
+    """
+    listings = db.query(HousingListing).filter(HousingListing.housingtype=="Room to Rent").all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+
+    return listings 
+
+@app.get("/rent-listings/")
+def get_top_ten_listings(db: Session = Depends(get_db)):
+    """
+    Gets top ten listings in Database
+    """
+    listings = db.query(HousingListing).filter(HousingListing.housingtype=="Rent").all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+
+    return listings 
+
+@app.get("/shared-listings/")
+def get_top_ten_listings(db: Session = Depends(get_db)):
+    """
+    Gets top ten listings in Database
+    """
+    listings = db.query(HousingListing).filter(HousingListing.housingtype=="Shared").all()
+    if not listings:
+        raise HTTPException(status_code=404, detail="Listing not found")
+
+    return listings 
+
 @app.get("/listing/{listing_id}")
 def get_listing(listing_id: int, db: Session = Depends(get_db)):
     """

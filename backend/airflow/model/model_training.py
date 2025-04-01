@@ -2,7 +2,10 @@ import numpy as np
 import statsmodels.api as sm
 import pandas as pd
 from spreg import ML_Lag
-from libpysal.weights import KNN
+from libpysal.weights import KNN, lag_spatial
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import r2_score, mean_squared_error
+
 
 def define_X_Y_variables(apartments_for_rent):
     X = apartments_for_rent[["LengthAvailable", "Pets", "combined_bedrooms_bathrooms", "avg_walking_time", "transit_score", "amenities_score", "OverallSafetyRating"]]
@@ -49,6 +52,45 @@ def ml_durbin_model(X, y, apartments_for_rent):
 
     y_pred = sdm_model.predy
     
+    apartments_for_rent = find_residual_rental_amounts(y_pred, apartments_for_rent)
+
+    return apartments_for_rent
+
+def spatial_random_forest_regressor(X, y, apartments_for_rent):
+    """
+    Fits Spatial Durbin Model, extracts spatial lag features, 
+    trains Random Forest on full data, and attaches residuals back to the dataframe.
+    """
+    coords = apartments_for_rent[["latitude", "longitude"]].values
+    knn_weights = KNN.from_array(coords, k=5)
+    knn_weights.transform = 'R'
+    
+    sdm_model = ML_Lag(
+        y,
+        X,
+        w=knn_weights,
+        name_y="Log RentAmount",
+        name_x=X.columns.tolist(),
+        slx_lags=1
+    )
+
+    coeffs = sdm_model.betas.flatten()
+    var_names = sdm_model.name_x
+    all_coeffs_df = pd.DataFrame({
+        "Variable": var_names,
+        "Coefficient": coeffs
+    })
+    spatial_coeffs_df = all_coeffs_df[all_coeffs_df["Variable"].str.startswith("W_")].reset_index(drop=True)
+
+    X_with_spatial = X.copy()
+    for col in X.columns:
+        X_with_spatial[f"W_{col}"] = lag_spatial(knn_weights, X[col])
+
+    rf = RandomForestRegressor(n_estimators=100, max_depth=10, random_state=42)
+    rf.fit(X_with_spatial, y)
+
+    y_pred = rf.predict(X_with_spatial)
+
     apartments_for_rent = find_residual_rental_amounts(y_pred, apartments_for_rent)
 
     return apartments_for_rent

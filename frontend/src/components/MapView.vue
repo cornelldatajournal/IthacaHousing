@@ -93,6 +93,26 @@
                 🐶 Pets
               </button>
             </div>
+            <!-- <div class="icon-buttons">
+              <button 
+                @click="toggleRoomToRent" 
+                :class="['icon-button', { active: activeFilters.roomtorent !== null }]"
+              >
+                🚶‍♂️ Room
+              </button>
+              <button 
+                @click="toggleRent" 
+                :class="['icon-button', { active: activeFilters.rent !== null }]"
+              >
+                🚌 Full
+              </button>
+              <button 
+                @click="toggleShared" 
+                :class="['icon-button', { active: activeFilters.shared !== null }]"
+              >
+                🐶 Shared
+              </button>
+            </div> -->
           </div>
         </div>
       </div>
@@ -126,7 +146,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter, fetchWalkFilter, fetchTransitFilter, fetchPetsFilter } from "@/services/fetch";
+import { fetchListings, fetchTopTenListings, fetchBottomTenListings, fetchClusters, fetchHeatMap, fetchBedFilter, fetchBathFilter, fetchWalkFilter, fetchTransitFilter, fetchPetsFilter, fetchRentListings, fetchRoomToRentListings, fetchSharedListings } from "@/services/fetch";
 import NavBar from "@/components/NavBar.vue";
 import RentalSidebar from "@/components/RentalSidebar.vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
@@ -145,7 +165,7 @@ const heatmapLayer = ref(null); // Stores the Heatmap Layer
 const activeTab = ref("Explore Ithaca"); // Default tab
 let activeFilter = ref(null); // Tracks which filter is selected
 
-const activeFilters = ref({ beds: null, baths: null, walk: null, transit: null, pets: null }); // Holds Bath and Bed Data for Dynamic Filtering
+const activeFilters = ref({ beds: null, baths: null, walk: null, transit: null, pets: null, roomtorent: null, rent: null, shared: null }); // Holds Bath and Bed Data for Dynamic Filtering
 const filteredListings = ref([]); // Keeps track of the filtered listings
 const selectedBeds = ref(0); // Number of Selected Beds
 const bedOptions = [1, 2, 3, 4, 5]; // Adjust based on available data
@@ -388,6 +408,49 @@ const toggleWalk = async () => {
 };
 
 
+/**
+ * Toggles Room to Rent Filter
+ */
+ const toggleRoomToRent = async () => {
+  if (!activeFilters.value.roomtorent) {
+    const roomData = await fetchRoomToRentListings();
+    activeFilters.value.roomtorent = roomData;
+    mergeFilters(roomData, true);
+  } else {
+    activeFilters.value.roomtorent = null;
+    mergeFilters();
+  }
+};
+
+
+/**
+ * Toggles Rent Filter
+ */
+ const toggleRent = async () => {
+  if (!activeFilters.value.rent) {
+    const rentData = await fetchRentListings();
+    activeFilters.value.rent = rentData;
+    mergeFilters(rentData, true);
+  } else {
+    activeFilters.value.rent = null;
+    mergeFilters();
+  }
+};
+
+/**
+ * Toggles Shared Filter
+ */
+ const toggleShared = async () => {
+  if (!activeFilters.value.shared) {
+    const sharedData = await fetchSharedListings();
+    activeFilters.value.shared = sharedData;
+    mergeFilters(sharedData, true);
+  } else {
+    activeFilters.value.shared = null;
+    mergeFilters();
+  }
+};
+
 
 /**
  * Merges Bed and Bath Filters
@@ -431,6 +494,31 @@ function mergeFilters() {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.pets.some(petsListing =>
         petsListing.latitude === listing.latitude && petsListing.longitude === listing.longitude
+      )
+    );
+  }
+  
+  if (activeFilters.value.roomtorent) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.roomtorent.some(roomListing =>
+        roomListing.latitude === listing.latitude && roomListing.longitude === listing.longitude
+      )
+    );
+  }
+
+  if (activeFilters.value.rent) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.rent.some(rentListing =>
+        rentListing.latitude === listing.latitude && rentListing.longitude === listing.longitude
+      )
+    );
+  }
+
+
+  if (activeFilters.value.shared) {
+    mergedListings = mergedListings.filter(listing =>
+      activeFilters.value.shared.some(sharedListing =>
+        sharedListing.latitude === listing.latitude && sharedListing.longitude === listing.longitude
       )
     );
   }

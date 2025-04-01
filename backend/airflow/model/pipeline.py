@@ -31,7 +31,7 @@ def housing_data_pipeline():
     y = data_preprocessing.log_transform_prices(y)
     # X = spatial_regression.spatial_regression(X, y, apartments_for_rent)
 
-    apartments_for_rent = model_training.ml_durbin_model(X, y, apartments_for_rent)
+    apartments_for_rent = model_training.spatial_random_forest_regressor(X, y, apartments_for_rent)
     insert_into_postgredb.psql_insert_copy(apartments_for_rent)
 
     # apartments_for_rent.replace({r"\s+": " "}, inplace=True, regex=True)

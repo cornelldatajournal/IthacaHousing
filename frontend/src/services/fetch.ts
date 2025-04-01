@@ -209,5 +209,60 @@ export const fetchPetsFilter = async (): Promise<Listing[]> => {
 };
 
 
+/**
+ * Fetches Room to Rent Listings
+ * @returns room-to-rent listing data
+ */
+export const fetchRoomToRentListings = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/room-to-rent-listings/`);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching room-to-rent listings:", error);
+        return [];
+    }
+};
+
+/**
+ * Fetches Rent Listings
+ * @returns rent listing data
+ */
+export const fetchRentListings = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/rent-listings/`);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching rent listings:", error);
+        return [];
+    }
+};
+
+/**
+ * Fetches Shared Listings
+ * @returns shared listing data
+ */
+export const fetchSharedListings = async (): Promise<Listing[]> => {
+    try {
+        const response: AxiosResponse<Listing[]> = await axios.get(`${baseURL}/shared-listings/`);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching shared listings:", error);
+        return [];
+    }
+};
+
+
 
 

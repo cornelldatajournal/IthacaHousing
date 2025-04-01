@@ -100,6 +100,11 @@
             <td>{{ listing.housingtype ?? "N/A" }}</td>
         </tr>
         <tr>
+            <td><i class="fa fa-home text-indigo-600"></i></td>
+            <td>Rent Type:</td>
+            <td>{{ listing.renttype ?? "N/A" }}</td>
+        </tr>
+        <tr>
             <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
             <td>Luxury Score:</td>
             <td>{{ (listing.amenities_score).toFixed(2) ?? "N/A" }}/100</td>

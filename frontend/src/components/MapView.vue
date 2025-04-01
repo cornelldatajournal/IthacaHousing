@@ -12,14 +12,14 @@
         <button
           class="tab-button"
           :class="{ active: activeTab === 'Explore Ithaca' }"
-          @click="activeTab = 'Explore Ithaca'"
+          @click="changeTab('Explore Ithaca')"
         >
           Explore Ithaca
         </button>
         <button
           class="tab-button"
           :class="{ active: activeTab === 'Personal Taste' }"
-          @click="activeTab = 'Personal Taste'"
+          @click="changeTab('Personal Taste')"
         >
           Personal Taste
         </button>
@@ -211,6 +211,13 @@ function getColor(rent, predicted) {
     if (percent_change < 0) return "#FFA07A";    // Light Salmon (Barely Overpriced)
 
     return "gray"; // Neutral (Fairly Priced)
+}
+
+function changeTab(tab) {
+  activeFilters.value = { beds: null, baths: null, walk: null, transit: null, pets: null, roomtorent: null, rent: null, shared: null };
+  activeTab.value = tab
+  activeFilter.value = "";
+  addMarkers(allListings.value, false);
 }
 
 /**

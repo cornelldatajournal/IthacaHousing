@@ -3,7 +3,7 @@ import statsmodels.api as sm
 import pandas as pd
 from spreg import ML_Lag
 from libpysal.weights import KNN, lag_spatial
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, HistGradientBoostingRegressor
 from sklearn.metrics import r2_score, mean_squared_error
 
 
@@ -40,7 +40,6 @@ def ml_durbin_model(X, y, apartments_for_rent):
     """
     coords = apartments_for_rent[["latitude", "longitude"]].values
     knn_weights = KNN.from_array(coords, k=5)
-    print(X.head())
     sdm_model = ML_Lag(
         y,
         X,
@@ -64,23 +63,7 @@ def spatial_random_forest_regressor(X, y, apartments_for_rent):
     coords = apartments_for_rent[["latitude", "longitude"]].values
     knn_weights = KNN.from_array(coords, k=5)
     knn_weights.transform = 'R'
-    
-    sdm_model = ML_Lag(
-        y,
-        X,
-        w=knn_weights,
-        name_y="Log RentAmount",
-        name_x=X.columns.tolist(),
-        slx_lags=1
-    )
 
-    coeffs = sdm_model.betas.flatten()
-    var_names = sdm_model.name_x
-    all_coeffs_df = pd.DataFrame({
-        "Variable": var_names,
-        "Coefficient": coeffs
-    })
-    spatial_coeffs_df = all_coeffs_df[all_coeffs_df["Variable"].str.startswith("W_")].reset_index(drop=True)
 
     X_with_spatial = X.copy()
     for col in X.columns:
@@ -89,7 +72,15 @@ def spatial_random_forest_regressor(X, y, apartments_for_rent):
     rf = RandomForestRegressor(n_estimators=100, max_depth=10, random_state=42)
     rf.fit(X_with_spatial, y)
 
-    y_pred = rf.predict(X_with_spatial)
+    gb = HistGradientBoostingRegressor(
+        max_iter=100, max_depth=10, random_state=42
+    )
+    gb.fit(X_with_spatial, y)
+    
+
+    rf_preds = rf.predict(X_with_spatial)
+    gb_preds = gb.predict(X_with_spatial)
+    y_pred = (rf_preds + gb_preds) / 2
 
     apartments_for_rent = find_residual_rental_amounts(y_pred, apartments_for_rent)
 

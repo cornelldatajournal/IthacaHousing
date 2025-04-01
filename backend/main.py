@@ -16,6 +16,9 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
 from prometheus_client import Summary, Gauge
 import numpy as np
+import os
+from pathlib import Path
+import sys
 
 app = FastAPI()
 
@@ -247,15 +250,45 @@ def get_listing(listing_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Listing not found")
     return listing
 
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+"""
+SITE SELECTOR
+"""
+SITE_SELECTOR_PATH = "site_selector"
+
+if not os.path.exists(SITE_SELECTOR_PATH):
+    SITE_SELECTOR_PATH = str(Path(__file__).resolve().parent.parent / "model")
+
+if SITE_SELECTOR_PATH not in sys.path:
+    sys.path.append(SITE_SELECTOR_PATH)
+
+import site_selector_api
+
+@app.get("/vacant-lots")
+def get_vacant_lots():
+    gdf = site_selector_api.load_and_prepare_data()
+    gdf = site_selector_api.filter_ithaca_lots(gdf)
+    gdf = gdf[gdf["PROPCLASS"] == "Vacant"]
+    gdf = site_selector_api.add_zoning_metadata(gdf)
+    gdf = gdf.fillna(np.nan)  
+    return JSONResponse(content=site_selector_api.sanitize_for_json(gdf))
+
+@app.get("/all-lots")
+def get_all_lots():
+    gdf = site_selector_api.load_and_prepare_data()
+    gdf = site_selector_api.filter_ithaca_lots(gdf)
+    gdf = site_selector_api.add_zoning_metadata(gdf)
+    gdf = gdf.fillna(np.nan)  
+    return JSONResponse(content=site_selector_api.sanitize_for_json(gdf))
 
 """
 METRICS
 Prometheus + Grafana
 """
 PREDICTION_ERROR = Summary("prediction_error", "Absolute error between prediction and actual")
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
 def get_prediction_error(db: Session):
     """

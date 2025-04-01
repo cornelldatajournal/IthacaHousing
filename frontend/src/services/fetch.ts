@@ -264,5 +264,41 @@ export const fetchSharedListings = async (): Promise<Listing[]> => {
 };
 
 
+/**
+ * Fetches vacant lot parcels
+ * @returns vacant lot GeoJSON-like data
+ */
+export const fetchVacantLots = async (): Promise<any[]> => {
+    try {
+        const response: AxiosResponse<any[]> = await axios.get(`${baseURL}/vacant-lots`);
+        if (response.status === 200) {
+        return response.data;
+        } else {
+        throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching vacant lots:", error);
+        return [];
+    }
+};
+
+/**
+ * Fetches vacant lot parcels
+ * @returns vacant lot GeoJSON-like data
+ */
+export const fetchLots = async (): Promise<any[]> => {
+    try {
+        const response: AxiosResponse<any[]> = await axios.get(`${baseURL}/all-lots`);
+        if (response.status === 200) {
+        return response.data;
+        } else {
+        throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching vacant lots:", error);
+        return [];
+    }
+};
+
 
 

@@ -117,6 +117,7 @@ async function plotVacantLots() {
 }
 
 async function plotLots() {
+    isLoading.value = true;
     const data = await fetchLots();
     data.forEach(feature => {
         if (feature.geometry && feature.geometry.coordinates) {
@@ -139,6 +140,7 @@ async function plotLots() {
         );
         }
     });
+    isLoading.value = false;
 }
 
 </script>

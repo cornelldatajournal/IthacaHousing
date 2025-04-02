@@ -50,6 +50,32 @@
                         </RadioGroupOption>
                     </div>
                 </RadioGroup>
+                <RadioGroup v-model="activeFilterExpanded">
+                    <RadioGroupLabel class="filter-title"></RadioGroupLabel>
+                    <div class="radio-options">
+                        <RadioGroupOption 
+                            as="template" 
+                            v-for="option in filterOptionsExpanded" 
+                            :key="option.value" 
+                            :value="option.value" 
+                            v-slot="{ checked }"
+                        >
+                            <button 
+                            class="filter-button"
+                            :class="{ active: checked }"
+                            @click="option.action"
+                            >
+                            <span class="filter-label">{{ option.label }}</span>
+                            <span v-if="checked" class="checkmark">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
+                                <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            </button>
+                        </RadioGroupOption>
+                    </div>
+                </RadioGroup>
         </div>
     </div>
     <div id="map" style="height: 100vh; width: 100%">
@@ -78,6 +104,9 @@ import Papa from 'papaparse';
 
 const map = ref(null); // Holds map
 const activeFilter = ref(""); // Default tab
+const activeFilterExpanded = ref(""); // Default tab
+const markerGroup = L.layerGroup();
+
 const layerGroup = ref(null); // Holds Layers 
 const isLoading = ref(true); // Add loading state
 const loadingMessage = ref("Loading zoning data...");
@@ -118,11 +147,17 @@ onMounted(async () => {
  const filterOptions = [
     { value: "vacant", label: "Plot Vacant Lots", action: plotVacantLots },
     { value: "all", label: "Plot All Parcels", action: plotLots },
+    { value: "flood", label: "Flood Zones", action: plotFloodMap },
+];
+
+/**
+ * Define Options For Filter
+ */
+ const filterOptionsExpanded = [
     { value: "food", label: "Food and Beverage", action: plotFoodDrinks },
     { value: "attractions", label: "Attractions", action: plotAttractions },
     { value: "groceries", label: "Groceries", action: plotGroceries },
     { value: "shopping", label: "Shopping", action: plotShopping },
-    { value: "flood", label: "Flood Zones", action: plotFloodMap },
 ];
 
 
@@ -264,16 +299,14 @@ async function plotFloodMap() {
 /**
  * Attractions
  */
-const attractionsGroup = L.layerGroup();
-
 async function plotAttractions() {
-    if(activeFilter.value == "attractions") {
-        activeFilter.value = ""
-        attractionsGroup.clearLayers();
+    if(activeFilterExpanded.value == "attractions") {
+        activeFilterExpanded.value = ""
+        markerGroup.clearLayers();
         return;
     }
     const data = await loadCSV("/maps/Attractions.csv");
-    attractionsGroup.clearLayers();
+    markerGroup.clearLayers();
 
     data.forEach((row) => {
     const lat = parseFloat(row["location/lat"]);
@@ -285,27 +318,25 @@ async function plotAttractions() {
         fillColor: "#f72585",
         fillOpacity: 0.8
         }).bindPopup(`<strong>Attraction</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        attractionsGroup.addLayer(marker);
+        markerGroup.addLayer(marker);
     }
     });
 
-    attractionsGroup.addTo(map.value);
+    markerGroup.addTo(map.value);
 };
 
 
 /**
  * Food
  */
-const foodGroup = L.layerGroup();
-
 async function plotFoodDrinks() {
-    if(activeFilter.value == "food") {
-        activeFilter.value = ""
-        foodGroup.clearLayers();
+    if(activeFilterExpanded.value == "food") {
+        activeFilterExpanded.value = ""
+        markerGroup.clearLayers();
         return;
     }
     const data = await loadCSV("/maps/Food_Drinks.csv");
-
+    markerGroup.clearLayers();
     data.forEach((row) => {
     const lat = parseFloat(row["location/lat"]);
     const lng = parseFloat(row["location/lng"]);
@@ -316,26 +347,24 @@ async function plotFoodDrinks() {
         fillColor: "#ffb703",
         fillOpacity: 0.8
         }).bindPopup(`<strong>Food/Drink</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        foodGroup.addLayer(marker);
+        markerGroup.addLayer(marker);
     }
     });
 
-    foodGroup.addTo(map.value);
+    markerGroup.addTo(map.value);
 };
 
 /**
  * Groceries
  */
- const groceryGroup = L.layerGroup();
-
  async function plotGroceries() {
-    if(activeFilter.value == "groceries") {
-        activeFilter.value = ""
-        groceryGroup.clearLayers();
+    if(activeFilterExpanded.value == "groceries") {
+        activeFilterExpanded.value = ""
+        markerGroup.clearLayers();
         return;
     }    
     const data = await loadCSV("/maps/Groceries_ConvinienceStores.csv");
-    groceryGroup.clearLayers();
+    markerGroup.clearLayers();
 
     data.forEach((row) => {
     const lat = parseFloat(row["location/lat"]);
@@ -347,26 +376,24 @@ async function plotFoodDrinks() {
         fillColor: "#2a9d8f",
         fillOpacity: 0.8
         }).bindPopup(`<strong>Grocery/Convenience</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        groceryGroup.addLayer(marker);
+        markerGroup.addLayer(marker);
     }
     });
 
-    groceryGroup.addTo(map.value);
+    markerGroup.addTo(map.value);
 };
 
 /**
  * Shopping
  */
- const shoppingGroup = L.layerGroup();
-
  async function plotShopping() {
-    if(activeFilter.value == "shopping") {
-        activeFilter.value = ""
-        shoppingGroup.clearLayers();
+    if(activeFilterExpanded.value == "shopping") {
+        activeFilterExpanded.value = ""
+        markerGroup.clearLayers();
         return;
     }    
     const data = await loadCSV("/maps/Shopping.csv");
-    shoppingGroup.clearLayers();
+    markerGroup.clearLayers();
 
     data.forEach((row) => {
     const lat = parseFloat(row["location/lat"]);
@@ -378,11 +405,11 @@ async function plotFoodDrinks() {
         fillColor: "#219ebc",
         fillOpacity: 0.8
         }).bindPopup(`<strong>Shopping</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        shoppingGroup.addLayer(marker);
+        markerGroup.addLayer(marker);
     }
     });
 
-    shoppingGroup.addTo(map.value);
+    markerGroup.addTo(map.value);
 };
 
 </script>

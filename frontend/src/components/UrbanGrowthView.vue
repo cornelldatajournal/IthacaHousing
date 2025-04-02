@@ -5,7 +5,7 @@
       <p class="loading-text">{{ loadingMessage }}</p>
     </div>
     <div class="filter-container">
-        <div class="tab-header">
+        <!-- <div class="tab-header">
             <button
             class="tab-button"
             :class="{ active: activeTab === 'Vacant Lots' }"
@@ -20,6 +20,36 @@
             >
             All Lots
             </button>
+        </div>
+         -->
+            <div class="tab-content">
+                <!-- Explore Ithaca Tab -->
+                <RadioGroup v-model="activeFilter">
+                    <RadioGroupLabel class="filter-title">Bureaucratic Mode</RadioGroupLabel>
+                    <div class="radio-options">
+                        <RadioGroupOption 
+                            as="template" 
+                            v-for="option in filterOptions" 
+                            :key="option.value" 
+                            :value="option.value" 
+                            v-slot="{ checked }"
+                        >
+                            <button 
+                            class="filter-button"
+                            :class="{ active: checked }"
+                            @click="option.action"
+                            >
+                            <span class="filter-label">{{ option.label }}</span>
+                            <span v-if="checked" class="checkmark">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="12" r="12" fill="white" fill-opacity="0.2"/>
+                                <path d="M7 13l3 3 7-7" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            </button>
+                        </RadioGroupOption>
+                    </div>
+                </RadioGroup>
         </div>
     </div>
     <div id="map" style="height: 100vh; width: 100%">
@@ -43,14 +73,18 @@ import { onMounted, ref } from 'vue';
 import L from 'leaflet';
 import { fetchVacantLots, fetchLots } from '@/services/fetch';
 import NavBar from "@/components/NavBar.vue";
+import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 
 const map = ref(null); // Holds map
-const activeTab = ref("Vacant Lots"); // Default tab
+const activeFilter = ref(""); // Default tab
 const layerGroup = ref(null); // Holds Layers 
 const isLoading = ref(true); // Add loading state
 const loadingMessage = ref("Loading zoning data...");
 
 
+/**
+ * Define Colors for Zoning Map
+ */
 const zoningColorMap = {
     Residential: '#1f77b4',
     Business: '#ff7f0e',
@@ -61,6 +95,9 @@ const zoningColorMap = {
     'Not Zoned': '#7f7f7f'
 };
 
+/**
+ * Lifecycle Hook for calling Zoning Data
+ */
 onMounted(async () => {
     
     map.value = L.map('map').setView([42.443, -76.501], 13);
@@ -70,76 +107,134 @@ onMounted(async () => {
         subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(map.value);
     plotVacantLots()
+    activeFilter.value = "vacant"
 });
 
-function changeTab(tab) {
-    layerGroup.value?.clearLayers();
 
-    if(tab == "Vacant Lots") {
-        activeTab.value = "Vacant Lots"
-        plotVacantLots();
+/**
+ * Define Options For Filter
+ */
+ const filterOptions = [
+    { value: "vacant", label: "Plot Vacant Lots", action: plotVacantLots },
+    { value: "all", label: "Plot All Parcels", action: plotLots },
+    { value: "flood", label: "Flood Zones", action: plotFloodMap },
+];
+
+
+/**
+ * Plots Vacant Lots
+ */
+async function plotVacantLots() {
+    if(activeFilter.value == "vacant") {
+        activeFilter.value = ""
+        layerGroup.value.clearLayers();
         return;
     }
-    activeTab.value = "All Lots"
-    plotLots()
-    layerGroup.value = L.layerGroup().addTo(map.value);
-}
-
-async function plotVacantLots() {
     isLoading.value = true;
+    if (layerGroup.value) {
+        layerGroup.value.clearLayers();
+    } else {
+        layerGroup.value = L.layerGroup().addTo(map.value);
+    }
+    
     const data = await fetchVacantLots();
     data.forEach(feature => {
         if (feature.geometry && feature.geometry.coordinates) {
-        const coords = feature.geometry.coordinates[0].map((pt) => [pt[1], pt[0]]);
-        const zoning = feature.ZoningCategory || 'Not Zoned';
-        const fillColor = zoningColorMap[zoning] || '#7f7f7f';
+            const coords = feature.geometry.coordinates[0].map((pt) => [pt[1], pt[0]]);
+            const zoning = feature.ZoningCategory || 'Not Zoned';
+            const fillColor = zoningColorMap[zoning] || '#7f7f7f';
 
-        const polygon = L.polygon(coords, {
-            color: 'black',
-            weight: 1,
-            fillColor: fillColor,
-            fillOpacity: 0.5
-        }).addTo(map.value);
-        if (layerGroup.value) {
+            const polygon = L.polygon(coords, {
+                color: 'black',
+                weight: 1,
+                fillColor: fillColor,
+                fillOpacity: 0.5
+            })
+
+            polygon.bindPopup(
+                `<strong>ID:</strong> ${feature.OBJECTID}<br>
+                <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
+                <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()}`
+            );
             layerGroup.value.addLayer(polygon);
-        }
-
-
-        polygon.bindPopup(
-            `<strong>ID:</strong> ${feature.OBJECTID}<br>
-            <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
-            <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()}`
-        );
         }
     });
 
     isLoading.value = false;
 }
 
+/**
+ * Plots All Ithaca Lots
+ */
 async function plotLots() {
+    if(activeFilter.value == "all") {
+        activeFilter.value = ""
+        layerGroup.value.clearLayers();
+        return;
+    }
     isLoading.value = true;
+    if (layerGroup.value) {
+        layerGroup.value.clearLayers();
+    } else {
+        layerGroup.value = L.layerGroup().addTo(map.value);
+    }
+
     const data = await fetchLots();
     data.forEach(feature => {
         if (feature.geometry && feature.geometry.coordinates) {
-        const coords = feature.geometry.coordinates[0].map((pt) => [pt[1], pt[0]]);
-        const zoning = feature.ZoningCategory || 'Not Zoned';
-        const fillColor = zoningColorMap[zoning] || '#7f7f7f';
+            const coords = feature.geometry.coordinates[0].map((pt) => [pt[1], pt[0]]);
+            const zoning = feature.ZoningCategory || 'Not Zoned';
+            const fillColor = zoningColorMap[zoning] || '#7f7f7f';
 
-        const polygon = L.polygon(coords, {
-            color: 'black',
-            weight: 1,
-            fillColor: fillColor,
-            fillOpacity: 0.5
-        }).addTo(map.value);
-        layerGroup.value?.addLayer(polygon)
-
-        polygon.bindPopup(
-            `<strong>ID:</strong> ${feature.OBJECTID}<br>
-            <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
-            <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()}`
-        );
+            const polygon = L.polygon(coords, {
+                color: 'black',
+                weight: 1,
+                fillColor: fillColor,
+                fillOpacity: 0.5
+            })
+            
+            polygon.bindPopup(
+                `<strong>ID:</strong> ${feature.OBJECTID}<br>
+                <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
+                <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()}`
+            );
+            layerGroup.value.addLayer(polygon);
         }
     });
+
+    isLoading.value = false;
+}
+
+/**
+ * Loading Flood Map
+ */
+async function plotFloodMap() {
+    if(activeFilter.value == "flood") {
+        activeFilter.value = ""
+        layerGroup.value?.clearLayers();
+        return;
+    }
+    isLoading.value = true;
+    try {
+        const response = await fetch("/maps/Flood_Zones.geojson");
+        const geojson = await response.json();
+
+        const floodLayer = L.geoJSON(geojson, {
+        style: {
+            color: '#0077b6',
+            fillColor: '#00b4d8',
+            fillOpacity: 0.3,
+            weight: 1
+        },
+        onEachFeature: (feature, layer) => {
+            layer.bindPopup(`Flood Zone: ${feature.properties?.ZONE || "Unknown"}`);
+        }
+        });
+        layerGroup.value?.addLayer(floodLayer)
+        floodLayer.addTo(map.value);
+    } catch (error) {
+        console.error("Failed to load flood zones:", error);
+    }
     isLoading.value = false;
 }
 

@@ -1,5 +1,9 @@
 <template>
     <NavBar />
+    <div v-if="isLoading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p class="loading-text">{{ loadingMessage }}</p>
+    </div>
     <div class="filter-container">
         <div class="tab-header">
             <button
@@ -40,9 +44,12 @@ import L from 'leaflet';
 import { fetchVacantLots, fetchLots } from '@/services/fetch';
 import NavBar from "@/components/NavBar.vue";
 
-const map = ref(null);
+const map = ref(null); // Holds map
 const activeTab = ref("Vacant Lots"); // Default tab
-const layerGroup = ref(null);
+const layerGroup = ref(null); // Holds Layers 
+const isLoading = ref(true); // Add loading state
+const loadingMessage = ref("Loading zoning data...");
+
 
 const zoningColorMap = {
     Residential: '#1f77b4',
@@ -55,6 +62,7 @@ const zoningColorMap = {
 };
 
 onMounted(async () => {
+    
     map.value = L.map('map').setView([42.443, -76.501], 13);
 
     L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -62,7 +70,6 @@ onMounted(async () => {
         subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(map.value);
     plotVacantLots()
-    
 });
 
 function changeTab(tab) {
@@ -79,6 +86,7 @@ function changeTab(tab) {
 }
 
 async function plotVacantLots() {
+    isLoading.value = true;
     const data = await fetchVacantLots();
     data.forEach(feature => {
         if (feature.geometry && feature.geometry.coordinates) {
@@ -104,6 +112,8 @@ async function plotVacantLots() {
         );
         }
     });
+
+    isLoading.value = false;
 }
 
 async function plotLots() {

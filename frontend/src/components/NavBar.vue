@@ -14,7 +14,7 @@
         <ul class="navbar-menu">
             <li><router-link to="/" active-class="active-link">Rental Valuation</router-link></li>
             <li><router-link to="/history" active-class="active-link">Time Capsule</router-link></li>
-            <li><router-link to="/urbangrowth" active-class="active-link">Site Selection</router-link></li>
+            <li><router-link to="/urbangrowth" active-class="active-link">Zoning</router-link></li>
             <li><a href="https://cornelldatajournal.org/" target="_blank" active-class="active-link">Cornell Data Journal</a></li>
             <li><router-link to="/about" active-class="active-link">About</router-link></li>
         </ul>

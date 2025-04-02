@@ -74,6 +74,7 @@ import L from 'leaflet';
 import { fetchVacantLots, fetchLots } from '@/services/fetch';
 import NavBar from "@/components/NavBar.vue";
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
+import Papa from 'papaparse';
 
 const map = ref(null); // Holds map
 const activeFilter = ref(""); // Default tab
@@ -117,8 +118,30 @@ onMounted(async () => {
  const filterOptions = [
     { value: "vacant", label: "Plot Vacant Lots", action: plotVacantLots },
     { value: "all", label: "Plot All Parcels", action: plotLots },
+    { value: "food", label: "Food and Beverage", action: plotFoodDrinks },
+    { value: "attractions", label: "Attractions", action: plotAttractions },
+    { value: "groceries", label: "Groceries", action: plotGroceries },
+    { value: "shopping", label: "Shopping", action: plotShopping },
     { value: "flood", label: "Flood Zones", action: plotFloodMap },
 ];
+
+
+/**
+ * Loads CSV
+ * @param filePath 
+ */
+const loadCSV = async (filePath) => {
+  const response = await fetch(filePath);
+  const text = await response.text();
+
+  return new Promise((resolve) => {
+    Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => resolve(results.data)
+    });
+  });
+};
 
 
 /**
@@ -237,6 +260,130 @@ async function plotFloodMap() {
     }
     isLoading.value = false;
 }
+
+/**
+ * Attractions
+ */
+const attractionsGroup = L.layerGroup();
+
+async function plotAttractions() {
+    if(activeFilter.value == "attractions") {
+        activeFilter.value = ""
+        attractionsGroup.clearLayers();
+        return;
+    }
+    const data = await loadCSV("/maps/Attractions.csv");
+    attractionsGroup.clearLayers();
+
+    data.forEach((row) => {
+    const lat = parseFloat(row["location/lat"]);
+    const lng = parseFloat(row["location/lng"]);
+    if (!isNaN(lat) && !isNaN(lng)) {
+        const marker = L.circleMarker([lat, lng], {
+        radius: 6,
+        color: "#f72585",
+        fillColor: "#f72585",
+        fillOpacity: 0.8
+        }).bindPopup(`<strong>Attraction</strong><br>Lat: ${lat}, Lng: ${lng}`);
+        attractionsGroup.addLayer(marker);
+    }
+    });
+
+    attractionsGroup.addTo(map.value);
+};
+
+
+/**
+ * Food
+ */
+const foodGroup = L.layerGroup();
+
+async function plotFoodDrinks() {
+    if(activeFilter.value == "food") {
+        activeFilter.value = ""
+        foodGroup.clearLayers();
+        return;
+    }
+    const data = await loadCSV("/maps/Food_Drinks.csv");
+
+    data.forEach((row) => {
+    const lat = parseFloat(row["location/lat"]);
+    const lng = parseFloat(row["location/lng"]);
+    if (!isNaN(lat) && !isNaN(lng)) {
+        const marker = L.circleMarker([lat, lng], {
+        radius: 6,
+        color: "#ffb703",
+        fillColor: "#ffb703",
+        fillOpacity: 0.8
+        }).bindPopup(`<strong>Food/Drink</strong><br>Lat: ${lat}, Lng: ${lng}`);
+        foodGroup.addLayer(marker);
+    }
+    });
+
+    foodGroup.addTo(map.value);
+};
+
+/**
+ * Groceries
+ */
+ const groceryGroup = L.layerGroup();
+
+ async function plotGroceries() {
+    if(activeFilter.value == "groceries") {
+        activeFilter.value = ""
+        groceryGroup.clearLayers();
+        return;
+    }    
+    const data = await loadCSV("/maps/Groceries_ConvinienceStores.csv");
+    groceryGroup.clearLayers();
+
+    data.forEach((row) => {
+    const lat = parseFloat(row["location/lat"]);
+    const lng = parseFloat(row["location/lng"]);
+    if (!isNaN(lat) && !isNaN(lng)) {
+        const marker = L.circleMarker([lat, lng], {
+        radius: 6,
+        color: "#2a9d8f",
+        fillColor: "#2a9d8f",
+        fillOpacity: 0.8
+        }).bindPopup(`<strong>Grocery/Convenience</strong><br>Lat: ${lat}, Lng: ${lng}`);
+        groceryGroup.addLayer(marker);
+    }
+    });
+
+    groceryGroup.addTo(map.value);
+};
+
+/**
+ * Shopping
+ */
+ const shoppingGroup = L.layerGroup();
+
+ async function plotShopping() {
+    if(activeFilter.value == "shopping") {
+        activeFilter.value = ""
+        shoppingGroup.clearLayers();
+        return;
+    }    
+    const data = await loadCSV("/maps/Shopping.csv");
+    shoppingGroup.clearLayers();
+
+    data.forEach((row) => {
+    const lat = parseFloat(row["location/lat"]);
+    const lng = parseFloat(row["location/lng"]);
+    if (!isNaN(lat) && !isNaN(lng)) {
+        const marker = L.circleMarker([lat, lng], {
+        radius: 6,
+        color: "#219ebc",
+        fillColor: "#219ebc",
+        fillOpacity: 0.8
+        }).bindPopup(`<strong>Shopping</strong><br>Lat: ${lat}, Lng: ${lng}`);
+        shoppingGroup.addLayer(marker);
+    }
+    });
+
+    shoppingGroup.addTo(map.value);
+};
 
 </script>
 

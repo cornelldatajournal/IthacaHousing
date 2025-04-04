@@ -5,27 +5,26 @@
       <p class="loading-text">{{ loadingMessage }}</p>
     </div>
     <div class="filter-container">
-        <!-- <div class="tab-header">
+        <div class="tab-header">
             <button
             class="tab-button"
-            :class="{ active: activeTab === 'Vacant Lots' }"
-            @click="changeTab('Vacant Lots')"
+            :class="{ active: activeTab === 'Land Use' }"
+            @click="activeTab = 'Land Use'"
             >
-            Vacant Lots
+            Land Use
             </button>
             <button
             class="tab-button"
-            :class="{ active: activeTab === 'All Lots' }"
-            @click="changeTab('All Lots')"
+            :class="{ active: activeTab === 'Places of Interest' }"
+            @click="activeTab = 'Places of Interest'"
             >
-            All Lots
+            Places of Interest
             </button>
         </div>
-         -->
+        
             <div class="tab-content">
                 <!-- Explore Ithaca Tab -->
-                <RadioGroup v-model="activeFilter">
-                    <RadioGroupLabel class="filter-title">Bureaucratic Mode</RadioGroupLabel>
+                <RadioGroup v-model="activeFilter" v-if="activeTab === 'Land Use'">
                     <div class="radio-options">
                         <RadioGroupOption 
                             as="template" 
@@ -50,7 +49,7 @@
                         </RadioGroupOption>
                     </div>
                 </RadioGroup>
-                <RadioGroup v-model="activeFilterExpanded">
+                <RadioGroup v-model="activeFilterExpanded" v-if="activeTab === 'Places of Interest'">
                     <RadioGroupLabel class="filter-title"></RadioGroupLabel>
                     <div class="radio-options">
                         <RadioGroupOption 
@@ -103,6 +102,7 @@ import { RadioGroup, RadioGroupLabel, RadioGroupOption } from "@headlessui/vue";
 import Papa from 'papaparse';
 
 const map = ref(null); // Holds map
+const activeTab = ref("Land Use")
 const activeFilter = ref(""); // Default tab
 const activeFilterExpanded = ref(""); // Default tab
 const markerGroup = L.layerGroup();
@@ -299,118 +299,190 @@ async function plotFloodMap() {
 /**
  * Attractions
  */
-async function plotAttractions() {
-    if(activeFilterExpanded.value == "attractions") {
-        activeFilterExpanded.value = ""
+ async function plotAttractions() {
+    if (activeFilterExpanded.value === "attractions") {
+        activeFilterExpanded.value = "";
         markerGroup.clearLayers();
         return;
     }
+
     const data = await loadCSV("/maps/Attractions.csv");
     markerGroup.clearLayers();
 
     data.forEach((row) => {
-    const lat = parseFloat(row["location/lat"]);
-    const lng = parseFloat(row["location/lng"]);
-    if (!isNaN(lat) && !isNaN(lng)) {
-        const marker = L.circleMarker([lat, lng], {
-        radius: 6,
-        color: "#f72585",
-        fillColor: "#f72585",
-        fillOpacity: 0.8
-        }).bindPopup(`<strong>Attraction</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        markerGroup.addLayer(marker);
-    }
+        const lat = parseFloat(row["location/lat"]);
+        const lng = parseFloat(row["location/lng"]);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            // Build address
+            const address = `${row.street}, ${row.city}, ${row.state}`;
+            // Build hours table
+            let hours = "";
+            for (let i = 0; i < 7; i++) {
+                const day = row[`openingHours/${i}/day`];
+                const time = row[`openingHours/${i}/hours`];
+                if (day && time) {
+                    hours += `<tr><td>${day}</td><td>${time}</td></tr>`;
+                }
+            }
+
+            const popupContent = `
+                <div class="popup-content">
+                    <h3 class="popup-title">${row.title}</h3>
+                    <p class="popup-category">${row.categoryName || "Attraction"}</p>
+                    <p class="popup-address">${address}</p>
+                    <table class="popup-hours">${hours}</table>
+                    <p class="popup-rating">⭐ ${row.totalScore || "N/A"} (${row.reviewsCount || 0} reviews)</p>
+                    ${row.description && row.description.length < 200 ? `<p class="popup-description">${row.description}</p>` : ""}
+                    <a class="popup-link" href="${row.url}" target="_blank">More Info →</a>
+                </div>
+            `;
+
+            const marker = L.circleMarker([lat, lng], {
+                radius: 6,
+                color: "#f72585",
+                fillColor: "#f72585",
+                fillOpacity: 0.8
+            }).bindPopup(popupContent);
+
+            markerGroup.addLayer(marker);
+        }
     });
 
     markerGroup.addTo(map.value);
-};
+}
 
 
 /**
- * Food
+ * Food & Drinks
  */
-async function plotFoodDrinks() {
-    if(activeFilterExpanded.value == "food") {
-        activeFilterExpanded.value = ""
+ async function plotFoodDrinks() {
+    if (activeFilterExpanded.value === "food") {
+        activeFilterExpanded.value = "";
         markerGroup.clearLayers();
         return;
     }
+
     const data = await loadCSV("/maps/Food_Drinks.csv");
     markerGroup.clearLayers();
+
     data.forEach((row) => {
-    const lat = parseFloat(row["location/lat"]);
-    const lng = parseFloat(row["location/lng"]);
-    if (!isNaN(lat) && !isNaN(lng)) {
-        const marker = L.circleMarker([lat, lng], {
-        radius: 6,
-        color: "#ffb703",
-        fillColor: "#ffb703",
-        fillOpacity: 0.8
-        }).bindPopup(`<strong>Food/Drink</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        markerGroup.addLayer(marker);
-    }
+        const lat = parseFloat(row["location/lat"]);
+        const lng = parseFloat(row["location/lng"]);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            const address = `${row.street}, ${row.city}, ${row.state}`;
+
+            const popupContent = `
+                <div class="popup-content">
+                    <h3 class="popup-title">${row.title}</h3>
+                    <p class="popup-category">${row.categoryName || "Food & Beverage"}</p>
+                    <p class="popup-address">${address}</p>
+                    <p class="popup-rating">⭐ ${row.totalScore || "N/A"} (${row.reviewsCount || 0} reviews)</p>
+                    ${row.description && row.description.length < 200 ? `<p class="popup-description">${row.description}</p>` : ""}
+                    <a class="popup-link" href="${row.url}" target="_blank">More Info →</a>
+                </div>
+            `;
+
+            const marker = L.circleMarker([lat, lng], {
+                radius: 6,
+                color: "#ffb703",
+                fillColor: "#ffb703",
+                fillOpacity: 0.8
+            }).bindPopup(popupContent);
+
+            markerGroup.addLayer(marker);
+        }
     });
 
     markerGroup.addTo(map.value);
-};
-
+}
 /**
  * Groceries
  */
  async function plotGroceries() {
-    if(activeFilterExpanded.value == "groceries") {
-        activeFilterExpanded.value = ""
+    if (activeFilterExpanded.value === "groceries") {
+        activeFilterExpanded.value = "";
         markerGroup.clearLayers();
         return;
-    }    
+    }
+
     const data = await loadCSV("/maps/Groceries_ConvinienceStores.csv");
     markerGroup.clearLayers();
 
     data.forEach((row) => {
-    const lat = parseFloat(row["location/lat"]);
-    const lng = parseFloat(row["location/lng"]);
-    if (!isNaN(lat) && !isNaN(lng)) {
-        const marker = L.circleMarker([lat, lng], {
-        radius: 6,
-        color: "#2a9d8f",
-        fillColor: "#2a9d8f",
-        fillOpacity: 0.8
-        }).bindPopup(`<strong>Grocery/Convenience</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        markerGroup.addLayer(marker);
-    }
+        const lat = parseFloat(row["location/lat"]);
+        const lng = parseFloat(row["location/lng"]);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            const address = `${row.street}, ${row.city}, ${row.state}`;
+
+            const popupContent = `
+                <div class="popup-content">
+                    <h3 class="popup-title">${row.title}</h3>
+                    <p class="popup-category">${row.categoryName || "Grocery / Convenience"}</p>
+                    <p class="popup-address">${address}</p>
+                    <p class="popup-rating">⭐ ${row.totalScore || "N/A"} (${row.reviewsCount || 0} reviews)</p>
+                    ${row.description && row.description.length < 200 ? `<p class="popup-description">${row.description}</p>` : ""}
+                    <a class="popup-link" href="${row.url}" target="_blank">More Info →</a>
+                </div>
+            `;
+
+            const marker = L.circleMarker([lat, lng], {
+                radius: 6,
+                color: "#2a9d8f",
+                fillColor: "#2a9d8f",
+                fillOpacity: 0.8
+            }).bindPopup(popupContent);
+
+            markerGroup.addLayer(marker);
+        }
     });
 
     markerGroup.addTo(map.value);
-};
+}
+
 
 /**
  * Shopping
  */
  async function plotShopping() {
-    if(activeFilterExpanded.value == "shopping") {
-        activeFilterExpanded.value = ""
+    if (activeFilterExpanded.value === "shopping") {
+        activeFilterExpanded.value = "";
         markerGroup.clearLayers();
         return;
-    }    
+    }
+
     const data = await loadCSV("/maps/Shopping.csv");
     markerGroup.clearLayers();
 
     data.forEach((row) => {
-    const lat = parseFloat(row["location/lat"]);
-    const lng = parseFloat(row["location/lng"]);
-    if (!isNaN(lat) && !isNaN(lng)) {
-        const marker = L.circleMarker([lat, lng], {
-        radius: 6,
-        color: "#219ebc",
-        fillColor: "#219ebc",
-        fillOpacity: 0.8
-        }).bindPopup(`<strong>Shopping</strong><br>Lat: ${lat}, Lng: ${lng}`);
-        markerGroup.addLayer(marker);
-    }
+        const lat = parseFloat(row["location/lat"]);
+        const lng = parseFloat(row["location/lng"]);
+        if (!isNaN(lat) && !isNaN(lng)) {
+            const address = `${row.street}, ${row.city}, ${row.state}`;
+
+            const popupContent = `
+                <div class="popup-content">
+                    <h3 class="popup-title">${row.title}</h3>
+                    <p class="popup-category">${row.categoryName || "Shopping Center"}</p>
+                    <p class="popup-address">${address}</p>
+                    <p class="popup-rating">⭐ ${row.totalScore || "N/A"} (${row.reviewsCount || 0} reviews)</p>
+                    ${row.description && row.description.length < 200 ? `<p class="popup-description">${row.description}</p>` : ""}
+                    <a class="popup-link" href="${row.url}" target="_blank">More Info →</a>
+                </div>
+            `;
+
+            const marker = L.circleMarker([lat, lng], {
+                radius: 6,
+                color: "#219ebc",
+                fillColor: "#219ebc",
+                fillOpacity: 0.8
+            }).bindPopup(popupContent);
+
+            markerGroup.addLayer(marker);
+        }
     });
 
     markerGroup.addTo(map.value);
-};
+}
 
 </script>
 
@@ -522,6 +594,61 @@ width: 100%;
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup-content {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #333;
+  max-width: 260px;
+  line-height: 1.4;
+}
+
+.popup-title {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 5px 0;
+}
+
+.popup-category {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.popup-address {
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.popup-hours {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+  margin-bottom: 6px;
+}
+
+.popup-hours td {
+  padding: 2px 6px;
+}
+
+.popup-rating {
+  font-size: 13px;
+  color: #f39c12;
+  margin-bottom: 6px;
+}
+
+.popup-description {
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.popup-link {
+  display: inline-block;
+  font-size: 13px;
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 </style>

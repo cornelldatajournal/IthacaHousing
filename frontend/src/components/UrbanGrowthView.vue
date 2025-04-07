@@ -145,8 +145,8 @@ onMounted(async () => {
  * Define Options For Filter
  */
  const filterOptions = [
-    { value: "vacant", label: "Plot Vacant Lots", action: plotVacantLots },
-    { value: "all", label: "Plot All Parcels", action: plotLots },
+    { value: "vacant", label: "Underdeveloped Lots", action: plotVacantLots },
+    { value: "all", label: "All Parcels", action: plotLots },
     { value: "flood", label: "Flood Zones", action: plotFloodMap },
 ];
 
@@ -212,7 +212,7 @@ async function plotVacantLots() {
             polygon.bindPopup(
                 `<strong>ID:</strong> ${feature.OBJECTID}<br>
                 <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
-                <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()}`
+                <strong>Land-Value Ratio:</strong> ${(feature.RedevelopmentIndex).toFixed(3)}`
             );
             layerGroup.value.addLayer(polygon);
         }

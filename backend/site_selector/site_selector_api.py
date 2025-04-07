@@ -27,6 +27,7 @@ def load_and_prepare_data():
     gdf = gdf.to_crs("EPSG:4326")
 
     gdf["ValuePerAcre"] = gdf["ASMT"] / gdf["CALCACRES"]
+    gdf["RedevelopmentIndex"] = gdf["LAND"]/gdf["ASMT"]
 
     return gdf
 

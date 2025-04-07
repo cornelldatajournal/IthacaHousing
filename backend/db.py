@@ -12,7 +12,6 @@ DB_PORT=os.getenv("DB_PORT")
 DB_NAME=os.getenv("DB_NAME")
 
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-print(DATABASE_URL)
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

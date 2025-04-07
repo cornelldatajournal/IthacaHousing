@@ -267,7 +267,13 @@ import site_selector_api
 def get_vacant_lots():
     gdf = site_selector_api.load_and_prepare_data()
     gdf = site_selector_api.filter_ithaca_lots(gdf)
-    gdf = gdf[gdf["PROPCLASS"] == "Vacant"]
+
+    percentile_90 = gdf["RedevelopmentIndex"].quantile(0.9)
+    gdf = gdf[
+        (gdf["PROPCLASS"] == "Vacant") |
+        (gdf["RedevelopmentIndex"] >= percentile_90)
+    ]
+
     gdf = site_selector_api.add_zoning_metadata(gdf)
     gdf = gdf.fillna(np.nan)  
     return JSONResponse(content=site_selector_api.sanitize_for_json(gdf))

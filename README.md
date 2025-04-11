@@ -1,2 +1,2 @@
 # IthacaInsights.com
-[https://ithacainsights.com/](url)
+[Visit Here](https://ithacainsights.com/)

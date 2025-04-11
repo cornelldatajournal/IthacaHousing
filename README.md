@@ -16,9 +16,9 @@ Ithaca Insights is designed to serve students and renters looking for a fair dea
 ---
 ## Why It Exists
 
-**Finding housing in Ithaca is a tough cookie. Listings are scattered, and prices vary a ton.
-**---
+Finding housing in Ithaca is a tough cookie. Listings are scattered, and prices vary a ton.
 
+---
 ## Stack
 
 - **Frontend**: FastAPI, Vue + TS, deployed via Fly.io  

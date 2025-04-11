@@ -43,16 +43,6 @@ def client(override_get_db):
     app.dependency_overrides[get_db] = lambda: override_get_db
     return TestClient(app)
 
-@pytest.fixture(autouse=True)
-def override_get_db():
-    """
-    Creates a mock object to use for each test case, overrides dependency function 
-    """
-    db = MagicMock()
-    app.dependency_overrides[get_db] = lambda: db
-    yield db
-    app.dependency_overrides.clear()
-
 def mock_listing(**kwargs):
     """
     Mock test setup
@@ -88,6 +78,7 @@ def test_get_listings(client, override_get_db):
     db.commit()
 
     res = client.get("/listings/")
+    print(res)
     assert res.status_code == 200
     assert isinstance(res.json(), list)
 

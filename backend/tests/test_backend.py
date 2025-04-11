@@ -1,10 +1,17 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
-from main import app, get_db
 from db import HousingListing
 import numpy as np
+import os
+from pathlib import Path
+import sys
 
+BASE_DIR = Path(__file__).resolve().parent.parent  
+sys.path.append(str(BASE_DIR))
+
+from main import app
+from db import get_db 
 
 @pytest.fixture(autouse=True)
 def override_get_db():

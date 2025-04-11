@@ -39,7 +39,7 @@ def override_get_db():
         db.close()
 
 @pytest.fixture(scope="function")
-def client(client, override_get_db):
+def client(override_get_db):
     app.dependency_overrides[get_db] = lambda: override_get_db
     return TestClient(app)
 

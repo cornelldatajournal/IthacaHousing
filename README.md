@@ -14,11 +14,10 @@ Ithaca Insights is a real-time dashboard for housing data in Ithaca, NY. It help
 Ithaca Insights is designed to serve students and renters looking for a fair deal, as well as researchers and anyone looking to understand Ithaca’s housing landscape without guesswork.
 
 ---
-
 ## Why It Exists
 
-Finding housing in Ithaca is a tough cookie. Listings are scattered, and prices vary a ton.
----
+**Finding housing in Ithaca is a tough cookie. Listings are scattered, and prices vary a ton.
+**---
 
 ## Stack
 

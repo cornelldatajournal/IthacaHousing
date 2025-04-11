@@ -29,18 +29,6 @@ def mock_listing(**kwargs):
     Mock test setup
     """
     return HousingListing(
-        listingid=1,
-        rentamount=1000,
-        predictedrent=950,
-        rentamountadjusted=1000,
-        latitude=42.44,
-        longitude=-76.5,
-        bedrooms=2,
-        bathrooms=1.5,
-        pets="Yes",
-        avg_walking_time=10,
-        transit_score=75,
-        housingtype="Rent",
         **kwargs
     )
 

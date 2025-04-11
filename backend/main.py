@@ -256,7 +256,7 @@ SITE SELECTOR
 SITE_SELECTOR_PATH = "site_selector"
 
 if not os.path.exists(SITE_SELECTOR_PATH):
-    SITE_SELECTOR_PATH = str(Path(__file__).resolve().parent.parent / "model")
+    SITE_SELECTOR_PATH = str(Path(__file__).resolve().parent.parent / "site_selector")
 
 if SITE_SELECTOR_PATH not in sys.path:
     sys.path.append(SITE_SELECTOR_PATH)

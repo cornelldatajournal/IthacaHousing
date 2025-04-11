@@ -1,7 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
-from db import HousingListing
 import numpy as np
 import os
 from pathlib import Path
@@ -11,7 +10,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR))
 
 from main import app
-from db import get_db 
+from db import get_db, HousingListing
+
+client = TestClient(app)
 
 @pytest.fixture(autouse=True)
 def override_get_db():
@@ -22,8 +23,6 @@ def override_get_db():
     app.dependency_overrides[get_db] = lambda: db
     yield db
     app.dependency_overrides.clear()
-
-client = TestClient(app)
 
 def mock_listing(**kwargs):
     """

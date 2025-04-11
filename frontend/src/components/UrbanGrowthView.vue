@@ -212,6 +212,8 @@ async function plotVacantLots() {
             polygon.bindPopup(
                 `<strong>ID:</strong> ${feature.OBJECTID}<br>
                 <strong>Zoning:</strong> ${feature.ZoningCategory}<br>
+                <strong>Value:</strong> $${Math.round(feature.ASMT).toLocaleString()} <br> 
+                <strong>Value Per Acre:</strong> $${Math.round(feature.ValuePerAcre).toLocaleString()} <br>                
                 <strong>Land-Value Ratio:</strong> ${(feature.RedevelopmentIndex).toFixed(3)}`
             );
             layerGroup.value.addLayer(polygon);

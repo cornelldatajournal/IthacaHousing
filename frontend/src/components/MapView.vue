@@ -251,7 +251,10 @@ function addMarkers(listings, filtered) {
     });
 }
 
-
+/**
+ * Lifecycle Hook on Mount
+ * Fetches Data from API and initializes Map
+ */
 onMounted(async () => {
   messageInterval = setInterval(() => {
     messageIndex = (messageIndex + 1) % messages.length;
@@ -259,6 +262,7 @@ onMounted(async () => {
   }, 2500);
 
   try {
+    // Initialize Map
     map.value = L.map("map", {
           center: [42.455, -76.48],
           zoom: 14,
@@ -272,12 +276,14 @@ onMounted(async () => {
           accessToken: 'pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR'
       }).addTo(map.value);
 
+      // Grab Data from API
       allListings.value = await fetchListings();
       topTenListings.value = await fetchTopTenListings();
       bottomTenListings.value = await fetchBottomTenListings();
       clusteredListings.value = await fetchClusters();
       heatmapData.value = await fetchHeatMap();
 
+      // Initially, add all listings
       addMarkers(allListings.value, false); 
   }  catch (error) {
       console.error("Error loading data:", error);
@@ -465,6 +471,7 @@ const toggleWalk = async () => {
 function mergeFilters() {
   let mergedListings = allListings.value; 
 
+  // Merge Beds
   if (activeFilters.value.beds) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.beds.some(bedListing =>
@@ -473,6 +480,7 @@ function mergeFilters() {
     );
   }
 
+  // Merge Baths
   if (activeFilters.value.baths) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.baths.some(bathListing =>
@@ -481,6 +489,7 @@ function mergeFilters() {
     );
   }
 
+  // Merge Walks
   if (activeFilters.value.walk) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.walk.some(walkListing =>
@@ -489,6 +498,7 @@ function mergeFilters() {
     );
   }
 
+  // Merge Transit
   if (activeFilters.value.transit) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.transit.some(transitListing =>
@@ -497,6 +507,7 @@ function mergeFilters() {
     );
   }
 
+  // Merge Pets
   if (activeFilters.value.pets) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.pets.some(petsListing =>
@@ -505,6 +516,7 @@ function mergeFilters() {
     );
   }
   
+  // Merge Rooms to Rent
   if (activeFilters.value.roomtorent) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.roomtorent.some(roomListing =>
@@ -513,6 +525,7 @@ function mergeFilters() {
     );
   }
 
+  // Merge Rent
   if (activeFilters.value.rent) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.rent.some(rentListing =>
@@ -521,7 +534,7 @@ function mergeFilters() {
     );
   }
 
-
+  // Merge Shared
   if (activeFilters.value.shared) {
     mergedListings = mergedListings.filter(listing =>
       activeFilters.value.shared.some(sharedListing =>
@@ -530,6 +543,7 @@ function mergeFilters() {
     );
   }
 
+  // Add to map
   filteredListings.value = mergedListings;
   addMarkers(filteredListings.value);
 }

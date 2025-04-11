@@ -1,7 +1,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
-from app import app, get_db
+from main import app, get_db
 from db import HousingListing
 import numpy as np
 

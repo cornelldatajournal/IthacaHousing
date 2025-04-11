@@ -253,13 +253,10 @@ def get_listing(listing_id: int, db: Session = Depends(get_db)):
 """
 SITE SELECTOR
 """
-SITE_SELECTOR_PATH = "site_selector"
+SITE_SELECTOR_PATH = Path(__file__).resolve().parent / "site_selector"
 
-if not os.path.exists(SITE_SELECTOR_PATH):
-    SITE_SELECTOR_PATH = str(Path(__file__).resolve().parent.parent / "site_selector")
-
-if SITE_SELECTOR_PATH not in sys.path:
-    sys.path.append(SITE_SELECTOR_PATH)
+if SITE_SELECTOR_PATH.exists() and str(SITE_SELECTOR_PATH) not in sys.path:
+    sys.path.append(str(SITE_SELECTOR_PATH))
 
 import site_selector_api
 

@@ -74,7 +74,9 @@ def test_get_listings(client, override_get_db):
     Test case for getting all listings
     """
     db = override_get_db
-    db.add_all(mock_listings())
+    mocked = mock_listings()
+    print(mocked[0].__dict__)  
+    db.add_all(mocked)
     db.commit()
 
     res = client.get("/listings/")

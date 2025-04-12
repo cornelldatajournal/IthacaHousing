@@ -31,8 +31,11 @@ def setup_db():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture(scope="function")
-de():
-    """Override get_db for tests"""
+def override_get_db():
+    """
+    Provides a clean database session per test function.
+    Rolls back any changes after each test.
+    """
     db = TestingSessionLocal()
     try:
         yield db
@@ -89,6 +92,7 @@ def test_get_listings(client):
     Test case for getting all listings
     """
     res = client.get("/listings/")
+    print(res)
     assert res.status_code == 200
     assert isinstance(res.json(), list)
 

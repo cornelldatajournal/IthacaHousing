@@ -31,7 +31,7 @@ def setup_db():
     Base.metadata.drop_all(bind=engine)
 
 @pytest.fixture(scope="function")
-def override_get_db():
+de():
     """Override get_db for tests"""
     db = TestingSessionLocal()
     try:
@@ -40,10 +40,13 @@ def override_get_db():
         db.rollback()
         db.close()
 
-@pytest.fixture(scope="function")
-def client(override_get_db):
-    app.dependency_overrides[get_db] = lambda: override_get_db
-    return TestClient(app)
+@pytest.fixture(scope="session", autouse=True)
+def seed_test_data(setup_db):  
+    db = TestingSessionLocal()
+    db.query(HousingListing).delete()
+    db.add_all(mock_listings(20))
+    db.commit()
+    db.close()
 
 def mock_listing(**kwargs):
     """
@@ -81,45 +84,28 @@ def mock_listings(n: int = 10) -> List[HousingListing]:
 
     return listings
 
-
-
-def test_get_listings(client, override_get_db):
+def test_get_listings(client):
     """
     Test case for getting all listings
     """
-    db = override_get_db
-    mocked = mock_listings()
-    print(mocked[0].__dict__)  
-    db.add_all(mocked)
-    db.commit()
-
     res = client.get("/listings/")
-    print(res)
     assert res.status_code == 200
     assert isinstance(res.json(), list)
 
-def test_get_top_ten_listings(client, override_get_db):
+def test_get_top_ten_listings(client):
     """
     Test case for getting top 10 listings
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/top-ten-listings/")
     assert res.status_code == 200
     data = res.josn()
     assert isinstance(data, list)
     assert len(data) == 10
 
-def test_get_listing_beds(client, override_get_db):
+def test_get_listing_beds(client):
     """
     Test case for getting all listing with n number of beds
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/beds/2")
     assert res.status_code == 200
     data = res.json()
@@ -127,106 +113,74 @@ def test_get_listing_beds(client, override_get_db):
     assert all(listing["bedrooms"] == 2 for listing in data)
     
 
-def test_get_listing_baths(client, override_get_db):
+def test_get_listing_baths(client):
     """
     Test case for getting all listing with n number of baths
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/baths/3")  # 3/2 = 1.5
     assert res.status_code == 200
     data = res.json()
     assert isinstance(data, list)
     assert data[0]["bathrooms"] == 1.5
 
-def test_get_listing_walk(client, override_get_db):
+def test_get_listing_walk(client):
     """
     Test case for getting all listing with walkability score
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/walks")
     assert res.status_code == 200
     data = res.json()
     assert all(listing["avg_walking_time"] < 15 for listing in data)
 
 
-def test_get_listing_transit(client, override_get_db):
+def test_get_listing_transit(client):
     """
     Test case for getting all listing with transit score
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/transit")
     assert res.status_code == 200
     data = res.json()
     assert all(listing["transit_score"] > 60 for listing in data)
 
-def test_get_listing_pet(client, override_get_db):
+def test_get_listing_pet(client):
     """
     Test case for getting all listing with pet score
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/pets")
     assert res.status_code == 200
     data = res.json()
     assert all(listing["pets"] == "Yes" for listing in data)
 
 
-def test_get_listing_by_id(client, override_get_db):
+def test_get_listing_by_id(client):
     """
     Test case for getting a listing by its id
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/listing/1")
     assert res.status_code == 200
     data = res.json()
     assert data[0]["listingid"] == 1
 
-def test_get_cluster_neighborhoods(client, override_get_db):
+def test_get_cluster_neighborhoods(client):
     """
     Test case for clustering neighborhoods
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/clusters/")
     assert res.status_code == 200
     assert isinstance(res.json(), list)
 
-def test_get_heatmap_neighborhoods(client, override_get_db):
+def test_get_heatmap_neighborhoods(client):
     """
     Test case for heatmap of neighborhoods
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/heatmap/")
     assert res.status_code == 200
     assert "heat_data" in res.json()
 
-def test_metrics_endpoint(client, override_get_db):
+def test_metrics_endpoint(client):
     """
     Test case for metrics for Prometheus/Grafana
-    """
-    db = override_get_db
-    db.add_all(mock_listings())
-    db.commit()
-
+    """ 
     res = client.get("/metrics")
     assert res.status_code == 200
     assert b"prediction_error" in res.content

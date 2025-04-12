@@ -51,6 +51,14 @@ def seed_test_data(setup_db):
     db.commit()
     db.close()
 
+@pytest.fixture(scope="function")
+def client(override_get_db):
+    """
+    Provides a test client with DB override.
+    """
+    app.dependency_overrides[get_db] = lambda: override_get_db
+    return TestClient(app)
+
 def mock_listing(**kwargs):
     """
     Mock test setup

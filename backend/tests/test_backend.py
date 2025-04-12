@@ -7,6 +7,8 @@ from pathlib import Path
 import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import random
+from typing import List
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent  
@@ -51,22 +53,34 @@ def mock_listing(**kwargs):
         **kwargs
     )
 
-def mock_listings():
+def mock_listings(n: int = 10) -> List[HousingListing]:
     """
-    Returns a list of 10 mock HousingListing objects for test cases
+    Returns a list of n mock HousingListing objects for test cases,
+    with randomized but reasonable values.
     """
-    return [
-        mock_listing(listingid=1, bedrooms=1, bathrooms=1.0, pets="Yes", avg_walking_time=8, transit_score=70, housingtype="Rent"),
-        mock_listing(listingid=2, bedrooms=2, bathrooms=1.5, pets="No", avg_walking_time=12, transit_score=60, housingtype="Room to Rent"),
-        mock_listing(listingid=3, bedrooms=3, bathrooms=2.0, pets="Yes", avg_walking_time=15, transit_score=80, housingtype="Shared"),
-        mock_listing(listingid=4, bedrooms=1, bathrooms=1.0, pets="No", avg_walking_time=9, transit_score=85, housingtype="Rent"),
-        mock_listing(listingid=5, bedrooms=4, bathrooms=3.0, pets="Yes", avg_walking_time=5, transit_score=90, housingtype="Rent"),
-        mock_listing(listingid=6, bedrooms=2, bathrooms=1.0, pets="No", avg_walking_time=18, transit_score=55, housingtype="Shared"),
-        mock_listing(listingid=7, bedrooms=5, bathrooms=3.5, pets="Yes", avg_walking_time=7, transit_score=95, housingtype="Room to Rent"),
-        mock_listing(listingid=8, bedrooms=3, bathrooms=2.5, pets="Yes", avg_walking_time=11, transit_score=65, housingtype="Rent"),
-        mock_listing(listingid=9, bedrooms=1, bathrooms=1.0, pets="No", avg_walking_time=20, transit_score=50, housingtype="Shared"),
-        mock_listing(listingid=10, bedrooms=2, bathrooms=1.5, pets="Yes", avg_walking_time=10, transit_score=75, housingtype="Rent"),
-    ]
+    housing_types = ["Rent", "Room to Rent", "Shared"]
+    pets_options = ["Yes", "No"]
+
+    listings = []
+
+    for i in range(n):
+        listings.append(mock_listing(
+            listingid=i + 1,
+            bedrooms=random.randint(1, 5),
+            bathrooms=round(random.choice([1.0, 1.5, 2.0, 2.5, 3.0, 3.5]), 1),
+            pets=random.choice(pets_options),
+            avg_walking_time=random.randint(5, 20),
+            transit_score=random.randint(40, 100),
+            housingtype=random.choice(housing_types),
+            rentamount=round(random.uniform(800, 3000), 2),
+            predictedrent=round(random.uniform(800, 3000), 2),
+            rentamountadjusted=round(random.uniform(800, 3000), 2),
+            latitude=42.44 + random.uniform(-0.01, 0.01),
+            longitude=-76.5 + random.uniform(-0.01, 0.01)
+        ))
+
+    return listings
+
 
 
 def test_get_listings(client, override_get_db):

@@ -100,7 +100,6 @@ def test_get_listings(client):
     Test case for getting all listings
     """
     res = client.get("/listings/")
-    print(res)
     assert res.status_code == 200
     assert isinstance(res.json(), list)
 
@@ -110,7 +109,7 @@ def test_get_top_ten_listings(client):
     """ 
     res = client.get("/top-ten-listings/")
     assert res.status_code == 200
-    data = res.josn()
+    data = res.json()
     assert isinstance(data, list)
     assert len(data) == 10
 
@@ -171,7 +170,7 @@ def test_get_listing_by_id(client):
     res = client.get("/listing/1")
     assert res.status_code == 200
     data = res.json()
-    assert data[0]["listingid"] == 1
+    assert data["listingid"] == 1
 
 def test_get_cluster_neighborhoods(client):
     """

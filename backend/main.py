@@ -49,6 +49,15 @@ def get_listings(db: Session = Depends(get_db)):
     """
     Gets all listings in Database
     """
+    sse = get_sum_of_squares_error(db)
+    ssr = get_sum_of_squares_regression(db)
+    sst = get_sum_of_squares_total(db)
+
+    coefficient_of_determination = get_coefficient_of_determination(sse, sst)
+    print(f"SSE: {sse}")
+    print(f"SSR: {ssr}")
+    print(f"SST: {sst}")
+    print(f"R²: {coefficient_of_determination}")
     listings = db.query(HousingListing).all()
     return listings  
 
@@ -296,31 +305,38 @@ def health_check():
 
 def get_sum_of_squares_error(db: Session):
     """
-    Gets mean squared error from database
+    Sum of squared errors (SSE) in log-space.
+    Measures the total squared difference between log(actual) and log(predicted).
     """
     listings = db.query(HousingListing).all()
-    sse = [(listing.rentamount - listing.predictedrent)**2 for listing in listings]
-    return np.sum(sse)
+    squared_residuals = [
+        (np.log(float(listing.rentamountadjusted)) - np.log(float(listing.predictedrent)))**2
+        for listing in listings
+    ]
+    return np.sum(squared_residuals)
 
 def get_sum_of_squares_regression(db: Session):
     """
-    Gets mean squared error from database
+    Sum of squares due to regression (SSR) in log-space.
+    Measures how much of the variance in log(actual) is captured by the predictions.
     """
     listings = db.query(HousingListing).all()
-    rents = [listing.rentamount for listing in listings]
-    mean_rent = np.mean(rents)
-    ssr = [(listing.predictedrent - mean_rent)**2 for listing in listings]
-    return np.sum(ssr)
+    log_rents = [np.log(float(listing.rentamountadjusted)) for listing in listings]
+    log_preds = [np.log(float(listing.predictedrent)) for listing in listings]
+    mean_log_rent = np.mean(log_rents)
+    squared_regression_residuals = [(pred - mean_log_rent)**2 for pred in log_preds]
+    return np.sum(squared_regression_residuals)
 
 def get_sum_of_squares_total(db: Session):
     """
-    Gets mean squared error from database
+    Total sum of squares (SST) in log-space.
+    Measures the total variance in log(actual).
     """
     listings = db.query(HousingListing).all()
-    rents = [listing.rentamount for listing in listings]
-    mean_rent = np.mean(rents)
-    sst = [(rent - mean_rent)**2 for rent in rents]
-    return np.sum(sst)
+    log_rents = [np.log(float(listing.rentamountadjusted)) for listing in listings]
+    mean_log_rent = np.mean(log_rents)
+    total_squared_errors = [(rent - mean_log_rent)**2 for rent in log_rents]
+    return np.sum(total_squared_errors)
 
 def get_mse(sse):
     """
@@ -328,11 +344,11 @@ def get_mse(sse):
     """
     return np.mean(sse)
 
-def get_coefficient_of_determination(ssr, sst):
+def get_coefficient_of_determination(sse, sst):
     """
     Gets R^2 from SSR/SST
     """
-    return ssr/sst
+    return 1-sse/sst
 
 @app.get("/metrics")
 def metrics(db: Session = Depends(get_db)):
@@ -342,6 +358,12 @@ def metrics(db: Session = Depends(get_db)):
     sse = get_sum_of_squares_error(db)
     ssr = get_sum_of_squares_regression(db)
     sst = get_sum_of_squares_total(db)
+
+    print(f"SSE: {sse}")
+    print(f"SSR: {ssr}")
+    print(f"SST: {sst}")
+    print(f"R²: {coefficient_of_determination}")
+    print(f"MSE: {mse}")
 
     mse = get_mse(sse)
     PREDICTION_ERROR.observe(mse)

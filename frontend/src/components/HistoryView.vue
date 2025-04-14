@@ -16,6 +16,7 @@
         <!-- Graph Placeholder: Pie Chart - 1920 vs 1930 -->
         <section class="graph-section">
         <h3>Birthplace Origins of Ithaca Residents</h3>
+        <BirthplaceChart />
         <div class="graph-placeholder">[Insert Pie Chart: 1920 vs 1930]</div>
         </section>
 
@@ -113,6 +114,8 @@
 
 <script setup>
 import NavBar from "@/components/NavBar.vue";
+import BirthplaceChart from '@/components/charts/BirthplaceChart.vue';
+
 </script>
 
 <style scoped>

@@ -601,55 +601,75 @@ width: 100%;
 .popup-content {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
-  color: #333;
-  max-width: 260px;
-  line-height: 1.4;
+  color: #1f2937;
+  max-width: 280px;
+  background: #fff;
+  padding: 16px 18px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  line-height: 1.6;
+  border: 1px solid #e5e7eb;
 }
 
 .popup-title {
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0 0 5px 0;
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 6px;
+  color: #111827;
 }
 
 .popup-category {
   font-size: 13px;
-  color: #555;
-  margin-bottom: 6px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .popup-address {
-  font-size: 13px;
-  margin-bottom: 6px;
+  font-size: 13.5px;
+  color: #374151;
+  margin-bottom: 8px;
 }
 
 .popup-hours {
   width: 100%;
-  font-size: 12px;
+  font-size: 13px;
   border-collapse: collapse;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  color: #4b5563;
 }
 
 .popup-hours td {
-  padding: 2px 6px;
+  padding: 4px 6px;
+  vertical-align: top;
 }
 
 .popup-rating {
   font-size: 13px;
-  color: #f39c12;
-  margin-bottom: 6px;
+  color: #f59e0b;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .popup-description {
-  font-size: 12px;
-  color: #444;
-  margin-bottom: 6px;
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 10px;
 }
 
 .popup-link {
   display: inline-block;
   font-size: 13px;
-  color: #2563eb;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.popup-link:hover {
+  color: #1d4ed8;
   text-decoration: underline;
 }
 

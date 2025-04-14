@@ -9,7 +9,18 @@ def psql_insert_copy(df):
     DB_PORT = os.getenv("DB_PORT")
     DB_NAME = os.getenv("DB_NAME")
 
-    engine = create_engine(f"postgresql+psycopg2://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}", pool_pre_ping=True)
+    engine = create_engine(
+        f"postgresql+psycopg2://{DB_USER}:{DB_PWD}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
+        pool_pre_ping=True,
+        pool_recycle=1800, 
+        connect_args={
+            "keepalives": 1,
+            "keepalives_idle": 30,
+            "keepalives_interval": 10,
+            "keepalives_count": 5
+        }
+    )
+
     df.columns = (
         df.columns
         .str.strip()

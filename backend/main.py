@@ -287,28 +287,67 @@ def get_all_lots():
 METRICS
 Prometheus + Grafana
 """
-PREDICTION_ERROR = Summary("prediction_error", "Absolute error between prediction and actual")
+PREDICTION_ERROR = Gauge("prediction_error", "Absolute error between prediction and actual")
+COEFFICIENT_OF_DETERMINATION = Gauge("coefficient_of_determination", "Proportion of variation explained by regression model")
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
-def get_prediction_error(db: Session):
+def get_sum_of_squares_error(db: Session):
     """
     Gets mean squared error from database
     """
     listings = db.query(HousingListing).all()
-    errors = [(listing.rentamount - listing.predictedrent)**2 for listing in listings]
-    mse = np.mean(errors)
-    return mse
+    sse = [(listing.rentamount - listing.predictedrent)**2 for listing in listings]
+    return np.sum(sse)
+
+def get_sum_of_squares_regression(db: Session):
+    """
+    Gets mean squared error from database
+    """
+    listings = db.query(HousingListing).all()
+    rents = [listing.rentamount for listing in listings]
+    mean_rent = np.mean(rents)
+    ssr = [(listing.predictedrent - mean_rent)**2 for listing in listings]
+    return np.sum(ssr)
+
+def get_sum_of_squares_total(db: Session):
+    """
+    Gets mean squared error from database
+    """
+    listings = db.query(HousingListing).all()
+    rents = [listing.rentamount for listing in listings]
+    mean_rent = np.mean(rents)
+    sst = [(rent - mean_rent)**2 for rent in rents]
+    return np.sum(sst)
+
+def get_mse(sse):
+    """
+    Gets MSE from SSE np.mean(SSE)
+    """
+    return np.mean(sse)
+
+def get_coefficient_of_determination(ssr, sst):
+    """
+    Gets R^2 from SSR/SST
+    """
+    return ssr/sst
 
 @app.get("/metrics")
 def metrics(db: Session = Depends(get_db)):
     """
     Gets metrics for Prometheus
     """
-    mse = get_prediction_error(db)
+    sse = get_sum_of_squares_error(db)
+    ssr = get_sum_of_squares_regression(db)
+    sst = get_sum_of_squares_total(db)
+
+    mse = get_mse(sse)
     PREDICTION_ERROR.observe(mse)
+    
+    coefficient_of_determination = get_coefficient_of_determination(ssr, sst)
+    COEFFICIENT_OF_DETERMINATION.observe(coefficient_of_determination)
 
     data = generate_latest()
 

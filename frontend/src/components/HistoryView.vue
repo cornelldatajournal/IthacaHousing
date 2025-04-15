@@ -52,8 +52,8 @@
         <!-- Map Placeholder: Highway Growth Maps -->
         <section class="map-section">
         <h3>Automobile Road Maps</h3>
-        <div class="map-placeholder">[Insert 1918 Road Map]</div>
-        <div class="map-placeholder">[Insert 1930 Road Map]</div>
+        <div class="map-placeholder"><img src="/graphs/automobile1918.png"> </img></div>
+        <div class="map-placeholder"><img src="/graphs/automobile1930.png"> </img></div>
         </section>
 
         <section class="text-block">
@@ -69,7 +69,7 @@
         <!-- Graph Placeholder: Country of Origin Bubbles -->
         <section class="graph-section">
         <h3>Immigrant Country of Origin Map</h3>
-        <div class="graph-placeholder">[Insert Interactive Bubble Map]</div>
+        <ImmigrantMap />
         <p>
             This interactive map represents the many countries that immigrants in Ithaca originally came from, with bubble size corresponding to the number of people from each country. The legend on the side corresponds to the top 15 most common places of birth, outside of the US. Evidently, the majority of immigrants are from Europe, with the most coming from Italy and Ireland. 
         </p>
@@ -115,141 +115,75 @@
 <script setup>
 import NavBar from "@/components/NavBar.vue";
 import BirthplaceChart from '@/components/charts/BirthplaceChart.vue';
+import ImmigrantMap from '@/components/charts/ImmigrantMap.vue';
 
 </script>
 
 <style scoped>
-
 .story-page {
-  font-family: 'Inter', sans-serif;
-  line-height: 1.7;
-  padding: 40px max(10%, 80px);
-  color: #ffffff;
-  width: 100vw;
-  justify-content: center;
+  font-family: 'Georgia', serif;
+  background: linear-gradient(to bottom, #fefaf5, #f8efe2);
+  padding: 4rem 5vw;
+  color: #2c2c2c;
+  width: 80vw;
+  margin: 10%;
+  line-height: 1.8;
+  font-size: 1.1rem;
   margin-top: 60px;
 }
 
-.title {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
 
 .subtitle {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  color: #6a4e3d;
+  font-weight: 600;
   margin-bottom: 2rem;
-  color: #555;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 1.6rem;
+  color: #4b2e1f;
+  border-left: 6px solid #a98274;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
 }
 
 .text-block {
-  margin-bottom: 2.5rem;
-  font-size: 1rem;
+  margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+}
+
+.styled-list {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  list-style-type: disc;
+  color: #4b2e1f;
 }
 
 .graph-section, .map-section {
-  margin: 3rem 0;
+  margin: 4rem 0;
+  background-color: #fff9f5;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .graph-placeholder, .map-placeholder {
-  border: 2px dashed #bbb;
-  border-radius: 10px;
-  padding: 60px;
+  border: 3px dashed #c7b8aa;
+  border-radius: 12px;
+  padding: 4rem;
   text-align: center;
-  background-color: #fff;
-  margin-bottom: 1rem;
-  font-size: 0.95rem;
-  color: #888;
-}
-
-/* */
-.body-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 95vw;
-    height: 100vh; /* Full viewport height */
-    overflow: hidden;
-    background: none;
-}
-
-/* 🎨 Main Container */
-.coming-soon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    padding: 20px;
-    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-    font-family: 'DM Sans', sans-serif;
-    text-align: center;
-
-}
-
-
-/* 📜 Content */
-.coming-soon-content {
-max-width: 800px;
-background: #ffffff;
-padding: 30px;
-border-radius: 12px;
-box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-animation: fadeIn 1s ease-in-out;
-}
-
-/* 🖋️ Text Styles */
-.coming-soon-title {
-font-size: 3rem;
-font-weight: bold;
-color: #151366;
-margin-bottom: 10px;
-}
-
-.coming-soon-subtitle {
-font-size: 1.4rem;
-color: #4b5563;
-margin-bottom: 20px;
-}
-
-.coming-soon-text {
-font-size: 1.1rem;
-color: #6b7280;
-margin-bottom: 30px;
-line-height: 1.5;
-}
-
-/* 🏷️ Badge */
-.coming-soon-badge {
-display: inline-block;
-padding: 10px 20px;
-font-size: 1.2rem;
-font-weight: bold;
-color: white;
-background: #151366;
-border-radius: 8px;
-box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
-animation: pulse 2s infinite;
-}
-
-/* 🎥 Animations */
-@keyframes fadeIn {
-0% {
-    opacity: 0;
-    transform: translateY(20px);
-}
-100% {
-    opacity: 1;
-    transform: translateY(0);
-}
-}
-
-@keyframes pulse {
-0%, 100% {
-    transform: scale(1);
-}
-50% {
-    transform: scale(1.05);
-}
+  background-color: #fcf7f1;
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-style: italic;
+  color: #9c7e66;
 }
 </style>
+
   

@@ -17,7 +17,6 @@
         <section class="graph-section">
         <h3>Birthplace Origins of Ithaca Residents</h3>
         <BirthplaceChart />
-        <div class="graph-placeholder">[Insert Pie Chart: 1920 vs 1930]</div>
         </section>
 
         <section class="text-block">
@@ -76,12 +75,15 @@
         </section>
 
         <section class="text-block">
+        <div class="map-placeholder"><img src="/graphs/IrishImmigration.png"> </img></div>
         <p>Between 1920 and 1930, we can observe a significant decrease in the immigrant population from Ireland, and a concurrent increase in the immigrant population from Italy. This could be due to a multitude of reasons, but placing it in historical context, it's likely a combination of the effects of the Great Depression on general mobility, and the Immigration Act of 1924. 
         
         Irish immigration to the United States experienced an all time low in the 1930s and 1940s, as depicted in the bar chart to the left, and as reflected in the visible decrease of Irish immigrants residing in Ithaca during that time.  They were a population group disproportionately targeted by the Immigration Act of 1924, and its effects became visible in their gradually decreasing numbers. 
         </p>
+        <div class="map-placeholder"><img src="/graphs/ItalianImmigration.png"> </img></div>
         <p>We also notice a sizable increase in the Italian immigrant population between 1920 and 1930, likely following the massive surge in total Italian immigrants coming to the United States in 1920. This surge would not have been very noticeable until the 1930 census, so despite there being an Act passed during this decade, the effects of the Act aren't displayed until quite a few years later. 
         </p>
+        <div class="map-placeholder"><img src="/graphs/ChineseImmigration.png"> </img></div>
         <p>The hardest pattern to explain would be the increase in Chinese residents in Ithaca from 1920 to 1940, despite the Immigration Act most directly excluding Asian countries via quotas. However, since Ithaca is also so heavily associated with its proximity to institutions like Cornell University, the increase in Chinese immigration is likely due to students being accepted to study in US schools. In 1931, the Overseas Chinese Affairs Committee of the Nationalist Government was established, which justifies the slight but gradual increase in the number of Chinese immigrants over the course of the two decades (https://www.proquest.com/ dissertations-theses/cultural-journey-experiences-chinese-students /docview/304296509/se-2?accountid=10267)
         </p>
         <p>
@@ -92,9 +94,7 @@
         <!-- Map Placeholder: Enclave Maps -->
         <section class="map-section">
         <h3>Ethnic Enclave Maps</h3>
-        <div class="map-placeholder">[Insert Interactive Map: 1920]</div>
-        <div class="map-placeholder">[Insert Interactive Map: 1930]</div>
-        <div class="map-placeholder">[Insert Interactive Map: 1940]</div>
+        <EthnicEnclavesMap />
         </section>
 
         <section class="text-block">
@@ -116,6 +116,7 @@
 import NavBar from "@/components/NavBar.vue";
 import BirthplaceChart from '@/components/charts/BirthplaceChart.vue';
 import ImmigrantMap from '@/components/charts/ImmigrantMap.vue';
+import EthnicEnclavesMap from "./charts/EthnicEnclavesMap.vue";
 
 </script>
 

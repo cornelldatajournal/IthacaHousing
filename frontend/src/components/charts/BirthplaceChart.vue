@@ -19,8 +19,8 @@ import Plotly from 'plotly.js-dist';
       ];
       const colors = ['#f8b195', '#f67280', '#c06c84', '#6c5b7b'];
   
-      const values1920 = [120, 80, 60, 40]; // Replace with your data
-      const values1930 = [100, 100, 90, 60];
+      const values1920 = [50.1, 24.9, 14.7, 10.3];
+      const values1930 = [43, 26.7, 19.9, 10.4];
   
       const data = [
         {

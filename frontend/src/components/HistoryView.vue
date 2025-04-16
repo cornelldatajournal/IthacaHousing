@@ -133,6 +133,9 @@ import EthnicEnclavesMap from "./charts/EthnicEnclavesMap.vue";
   margin-top: 60px;
 }
 
+.story-page p {
+  margin-top: 2%;
+}
 
 .subtitle {
   font-size: 1.5rem;

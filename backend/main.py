@@ -49,10 +49,6 @@ def get_listings(db: Session = Depends(get_db)):
     """
     Gets all listings in Database
     """
-    sse = get_sum_of_squares_error(db)
-    ssr = get_sum_of_squares_regression(db)
-    sst = get_sum_of_squares_total(db)
-
     listings = db.query(HousingListing).all()
     return listings  
 
@@ -355,10 +351,10 @@ def metrics(db: Session = Depends(get_db)):
     sst = get_sum_of_squares_total(db)
     mse = get_mse(sse)
     
-    PREDICTION_ERROR.observe(mse)
+    PREDICTION_ERROR.set(mse)
     
     coefficient_of_determination = get_coefficient_of_determination(ssr, sst)
-    COEFFICIENT_OF_DETERMINATION.observe(coefficient_of_determination)
+    COEFFICIENT_OF_DETERMINATION.set(coefficient_of_determination)
 
     data = generate_latest()
 

@@ -71,17 +71,17 @@
         <tr>
             <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
             <td>Walk Time:</td>
-            <td>{{ (listing.walk_time).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing.walk_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-car text-yellow-500"></i></td>
             <td>Drive Time:</td>
-            <td>{{ (listing.drive_time).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing.drive_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-bicycle text-yellow-500"></i></td>
             <td>Bike Time:</td>
-            <td>{{ (listing.bike_time).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing.bike_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>

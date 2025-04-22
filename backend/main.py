@@ -13,7 +13,7 @@ from shapely.geometry import Polygon
 import geopandas as gpd
 from sqlalchemy import func
 from prometheus_fastapi_instrumentator import Instrumentator
-from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from prometheus_client import CollectorRegistry, generate_latest, multiprocess, CONTENT_TYPE_LATEST
 from prometheus_client import Summary, Gauge
 import numpy as np
 import os
@@ -287,14 +287,18 @@ def get_all_lots():
 METRICS
 Prometheus + Grafana
 """
+SSE = Gauge("sse", "Sum of Squared Error")
+SSR = Gauge("ssr", "Sum of Squared Residuals")
+SST = Gauge("sst", "Sum of Squared Total")
 PREDICTION_ERROR = Gauge("prediction_error", "Absolute error between prediction and actual")
 COEFFICIENT_OF_DETERMINATION = Gauge("coefficient_of_determination", "Proportion of variation explained by regression model")
+ROWS = Gauge("rows", "Proportion of variation explained by regression model")
 
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
-def get_sum_of_squares_error(db: Session):
+def get_sum_of_squares_error(db: Session = Depends(get_db)):
     """
     Sum of squared errors (SSE) in log-space.
     Measures the total squared difference between log(actual) and log(predicted).
@@ -306,7 +310,7 @@ def get_sum_of_squares_error(db: Session):
     ]
     return np.sum(squared_residuals)
 
-def get_sum_of_squares_regression(db: Session):
+def get_sum_of_squares_regression(db: Session = Depends(get_db)):
     """
     Sum of squares due to regression (SSR) in log-space.
     Measures how much of the variance in log(actual) is captured by the predictions.
@@ -318,7 +322,7 @@ def get_sum_of_squares_regression(db: Session):
     squared_regression_residuals = [(pred - mean_log_rent)**2 for pred in log_preds]
     return np.sum(squared_regression_residuals)
 
-def get_sum_of_squares_total(db: Session):
+def get_sum_of_squares_total(db: Session = Depends(get_db)):
     """
     Total sum of squares (SST) in log-space.
     Measures the total variance in log(actual).
@@ -351,14 +355,37 @@ def metrics(db: Session = Depends(get_db)):
     sst = get_sum_of_squares_total(db)
     mse = get_mse(sse)
     
+    SSE.set(sse)
+    SSR.set(ssr)
+    SST.set(sst)
+
     PREDICTION_ERROR.set(mse)
     
     coefficient_of_determination = get_coefficient_of_determination(ssr, sst)
     COEFFICIENT_OF_DETERMINATION.set(coefficient_of_determination)
+    
+    rows = db.query(HousingListing).all()
+    ROWS.set(len(rows))
+
+    registry = CollectorRegistry()
+    multiprocess.MultiProcessCollector(registry)
 
     data = generate_latest()
-
     return Response(content=data, media_type=CONTENT_TYPE_LATEST)
+
+@app.get("/metrics-debug")
+def metrics_debug(db: Session = Depends(get_db)):
+    sse = get_sum_of_squares_error(db)
+    ssr = get_sum_of_squares_regression(db)
+    sst = get_sum_of_squares_total(db)
+    rows = db.query(HousingListing).all()
+    return {
+        "sse": sse,
+        "ssr": ssr,
+        "sst": sst,
+        "r_squared": get_coefficient_of_determination(ssr, sst),
+        "rows": len(rows)
+    }
 
 @app.get("/")
 async def root():

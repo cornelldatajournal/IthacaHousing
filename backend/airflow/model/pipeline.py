@@ -18,7 +18,7 @@ def housing_data_pipeline():
     """
     apartments_for_rent = fetch_housing_data.housing_data_preprocessing()
     
-    apartments_for_rent = calculate_travel_times_distance.run_travel_time_calculations(apartments_for_rent)
+    apartments_for_rent = calculate_travel_times_distance.compute_all_travel_times(apartments_for_rent)
     apartments_for_rent = calculate_transit_score.calculate_transit_score(apartments_for_rent)
     apartments_for_rent = calculate_amenity_score.calculate_amenity_score(apartments_for_rent)
     apartments_for_rent = extract_safety_features.calculate_safety_score(apartments_for_rent)

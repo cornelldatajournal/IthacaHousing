@@ -53,7 +53,7 @@
             <td>Transit Score:</td>
             <td>{{ listing.transit_score ?? "N/A" }}</td>
         </tr>
-        <tr>
+        <!-- <tr>
             <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
             <td>Arts Quad:</td>
             <td>{{ (listing.ag_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
@@ -67,11 +67,26 @@
             <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
             <td>Uris Hall:</td>
             <td>{{ (listing.uris_hall_time/60).toFixed(0) ?? "N/A" }} min</td>
-        </tr>
+        </tr> -->
         <tr>
             <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
-            <td>Avg. Walking Time:</td>
-            <td>{{ (listing.avg_walking_time/60).toFixed(0) ?? "N/A" }} min</td>
+            <td>Walk Time:</td>
+            <td>{{ (listing.walk_time).toFixed(0) ?? "N/A" }} min</td>
+        </tr>
+        <tr>
+            <td><i class="fa-solid fa-car text-yellow-500"></i></td>
+            <td>Drive Time:</td>
+            <td>{{ (listing.drive_time).toFixed(0) ?? "N/A" }} min</td>
+        </tr>
+        <tr>
+            <td><i class="fa-solid fa-bicycle text-yellow-500"></i></td>
+            <td>Bike Time:</td>
+            <td>{{ (listing.bike_time).toFixed(0) ?? "N/A" }} min</td>
+        </tr>
+        <tr>
+            <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
+            <td>Luxury Score:</td>
+            <td>{{ (listing.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
         </tr>
         </table>
     </div>
@@ -103,11 +118,6 @@
             <td><i class="fa fa-home text-indigo-600"></i></td>
             <td>Rent Type:</td>
             <td>{{ listing.renttype ?? "N/A" }}</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
-            <td>Luxury Score:</td>
-            <td>{{ (listing.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
         </tr>
         </table>
     </div>

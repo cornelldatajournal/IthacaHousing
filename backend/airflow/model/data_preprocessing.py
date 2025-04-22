@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 numerical_columns = [
-    "LengthAvailable", "combined_bedrooms_bathrooms", "avg_walking_time", "transit_score", "amenities_score", "OverallSafetyRating"
+    "LengthAvailable", "combined_bedrooms_bathrooms", "drive_time", "transit_score", "amenities_score", "OverallSafetyRating"
 ]
 
 categorical_columns = [

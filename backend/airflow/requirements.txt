@@ -10,3 +10,5 @@ statsmodels
 spreg
 tensorflow
 contextily
+networkx
+osmnx

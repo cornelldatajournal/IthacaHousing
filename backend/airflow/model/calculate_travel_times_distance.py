@@ -1,67 +1,39 @@
-import openrouteservice
-import pandas as pd
-from datetime import datetime
-import numpy as np
 
-api_key = "5b3ce3597851110001cf62480add9e6cc09a45b782be5f6b39437111"
-client = openrouteservice.Client(key=api_key)
+import networkx as nx
+import osmnx as ox
 
-def batch_travel_times(origins, destinations, mode="foot-walking"):
-    """
-    Fetch travel times for multiple origins to multiple destinations using ORS Matrix API.
+uris_lat, uris_lon = 42.4475, -76.4836
+
+def get_graph_and_uris_node(mode, dist, uris_lat, uris_lon):
+    G = ox.graph_from_point((uris_lat, uris_lon), dist=dist, network_type=mode)
+
+    speed_kph = {'walk': 3.5, 'bike': 10, 'drive': 25}[mode]
+    for u, v, k, data in G.edges(keys=True, data=True):
+        data["speed_kph"] = speed_kph
+    G = ox.add_edge_travel_times(G)
+
+    uris_node = ox.distance.nearest_nodes(G, uris_lon, uris_lat)
+    return G, uris_node
+
+def compute_all_travel_times(apartments_for_rent, dist=2000):
+    for mode in ['walk', 'bike', 'drive']:
+        print(f"Processing mode: {mode}")
+        G, uris_node = get_graph_and_uris_node(mode, dist, uris_lat, uris_lon)
+        times = []
+
+        apartment_nodes = ox.distance.nearest_nodes(G, apartments_for_rent['longitude'], apartments_for_rent['latitude'])
+
+        for apt_node in apartment_nodes:
+            try:
+                route = nx.shortest_path(G, apt_node, uris_node, weight="travel_time")
+                time_min = sum(G[u][v][k]["travel_time"] for u, v, k in zip(route[:-1], route[1:], [0]*len(route)))
+                if mode == "drive":
+                    time_min *= 1.8  
+                times.append(round(time_min / 60, 2))
+            except (nx.NetworkXNoPath, nx.NodeNotFound):
+                times.append(None)
+
+        apartments_for_rent[f"{mode}_time"] = times
     
-    Returns a dictionary {(lat, lon): [time_to_AgQuad, time_to_ArtsQuad, time_to_UrisHall]}.
-    """
-    try:
-        response = client.distance_matrix(
-            locations=[list(origin[::-1]) for origin in origins] + [list(dest[::-1]) for dest in destinations],
-            profile=mode,
-            metrics=["duration"],
-            sources=list(range(len(origins))),
-            destinations=list(range(len(origins), len(origins) + len(destinations)))
-        )
-
-        travel_times = response["durations"]
-
-        return {origins[i]: travel_times[i] for i in range(len(origins))}
-
-    except openrouteservice.exceptions.ApiError as e:
-        print(f"⚠️ ORS API Error: {e}")
-        return {}
-    except Exception as e:
-        print(f"⚠️ Unexpected Error: {e}")
-        return {}
-
-def run_travel_time_calculations(apartments_for_rent):
-    """
-    Runs the travel time location query call
-    Adds a new column for walking time (sec)
-    Args:
-        apartment_for_rent: input dataframe with housing data
-    """
-    valid_listings = apartments_for_rent.dropna(subset=["latitude", "longitude"])
-    rental_locations = list(zip(valid_listings["latitude"], valid_listings["longitude"]))
-
-    campus_destinations = [
-        (42.448662, -76.477313),  # Ag Quad
-        (42.449163, -76.484725),  # Arts Quad
-        (42.4471938, -76.4822012) # Uris Hall
-    ]
-
-    travel_times_dict = batch_travel_times(rental_locations, campus_destinations)
-
-    def extract_travel_times(row, index):
-        times = travel_times_dict.get((row["latitude"], row["longitude"]), [])
-        return times[index] if len(times) > index else None
-
-    for i, label in enumerate(["ag_quad_time", "arts_quad_time", "uris_hall_time"]):
-        apartments_for_rent[label] = apartments_for_rent.apply(lambda row: extract_travel_times(row, i), axis=1)
-
-    def get_mean_travel_time(row):
-        times = [row["ag_quad_time"], row["arts_quad_time"], row["uris_hall_time"]]
-        times = [t for t in times if t is not None] 
-        return np.mean(times) if times else None
-
-    apartments_for_rent["avg_walking_time"] = apartments_for_rent.apply(get_mean_travel_time, axis=1)
-
     return apartments_for_rent
+        

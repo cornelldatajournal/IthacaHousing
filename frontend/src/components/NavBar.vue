@@ -12,11 +12,11 @@
 
         <!-- Navigation Menu -->
         <ul class="navbar-menu">
-            <li><router-link to="/" active-class="active-link">Rental Valuation</router-link></li>
+            <li><router-link to="/" active-class="active-link">Home</router-link></li>
+            <li><router-link to="/rent" active-class="active-link">Rental Valuation</router-link></li>
             <li><router-link to="/history" active-class="active-link">Time Capsule</router-link></li>
             <li><router-link to="/urbangrowth" active-class="active-link">Zoning & Site Selection</router-link></li>
             <li><a href="https://cornelldatajournal.org/" target="_blank" active-class="active-link">Cornell Data Journal</a></li>
-            <li><router-link to="/about" active-class="active-link">About</router-link></li>
         </ul>
     </div>
 </nav>
@@ -28,8 +28,8 @@
     background: rgba(255, 255, 255, 0.9);  /* Translucent white */
     backdrop-filter: blur(12px);            /* Frosted glass effect */
     -webkit-backdrop-filter: blur(12px);    /* For Safari support */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); */
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
     padding: 8px 20px;
     position: fixed;
     top: 0;

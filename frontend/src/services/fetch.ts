@@ -23,6 +23,25 @@ export const fetchListings = async (): Promise<Listing[]> => {
 
 
 /**
+ * Fetches listing with specific ID from PostgreSQL Database
+ * @returns Listing with that listing id
+ */
+export const fetchListing = async (listing_id: Number): Promise<Listing | null> => {
+    try {
+        const response: AxiosResponse<Listing> = await axios.get(`${baseURL}/listing/${listing_id}`);
+        if (response.status === 200) {
+            return response.data; 
+        } else {
+            throw new Error(`Unexpected status code: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error fetching listings:", error);
+        return null; 
+    }
+};
+
+
+/**
  * Fetches top ten listings from PostgreSQL Database
  * @returns Listing[] with the top ten listings
  */

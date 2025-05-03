@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 from sqlalchemy import create_engine, text
+from shapely import LineString
 
 def psql_insert_copy(df):
     DB_USER = os.getenv("DB_USER")
@@ -20,6 +21,11 @@ def psql_insert_copy(df):
             "keepalives_count": 5
         }
     )
+
+    for col in ["walk_routes", "bike_routes", "drive_routes"]:
+        df[col] = df[col].apply(
+            lambda x: x.wkt if isinstance(x, LineString) else x
+        )
 
     df.columns = (
         df.columns

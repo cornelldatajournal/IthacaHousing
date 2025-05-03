@@ -55,10 +55,9 @@ def ml_durbin_model(X, y, apartments_for_rent):
 
     return apartments_for_rent
 
-def spatial_random_forest_regressor(X, y, apartments_for_rent):
+def get_spatial_coefficients(X, apartments_for_rent):
     """
-    Fits Spatial Durbin Model, extracts spatial lag features, 
-    trains Random Forest on full data, and attaches residuals back to the dataframe.
+    Extract Spatial Coefficients Using Spatial Lag
     """
     coords = apartments_for_rent[["latitude", "longitude"]].values
     knn_weights = KNN.from_array(coords, k=5)
@@ -69,6 +68,13 @@ def spatial_random_forest_regressor(X, y, apartments_for_rent):
     for col in X.columns:
         X_with_spatial[f"W_{col}"] = lag_spatial(knn_weights, X[col])
 
+    return X_with_spatial
+
+def spatial_random_forest_regressor(X_with_spatial, y, apartments_for_rent):
+    """
+    Fits Spatial Durbin Model, extracts spatial lag features, 
+    trains Random Forest on full data, and attaches residuals back to the dataframe.
+    """
     rf = RandomForestRegressor(n_estimators=100, max_depth=10, random_state=42)
     rf.fit(X_with_spatial, y)
 

@@ -30,8 +30,7 @@ app.add_middleware(
     allow_headers=["*"], 
 )
 
-instrumentator = Instrumentator()
-instrumentator.instrument(app).expose(app)
+instrumentator = Instrumentator().instrument(app).expose(app)
 
 @app.options("/{full_path:path}")
 async def preflight_handler():

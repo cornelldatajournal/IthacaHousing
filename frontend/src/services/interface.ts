@@ -11,6 +11,8 @@ export interface Listing {
     longitude: number;
     listingphotos: JSON;
     differenceInFairValue: number;
+    rentAmountAdjusted: number;
+    
 }
 
 export interface HeatmapData {

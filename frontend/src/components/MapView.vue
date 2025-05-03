@@ -171,6 +171,7 @@ const selectedBeds = ref(0); // Number of Selected Beds
 const bedOptions = [1, 2, 3, 4, 5]; // Adjust based on available data
 const selectedBaths = ref(0); // Number of Selected Beds
 const bathOptions = [1, 1.5, 2, 2.5, 3]; // Adjust based on available data
+const currentRoute = ref(null);
 
 const isLoading = ref(true); // Add loading state
 
@@ -244,6 +245,7 @@ function addMarkers(listings, filtered) {
 
         marker.on("click", () => {
             selectedListing.value = listing;
+            currentRoute.value = plotRoute(listing).addTo(map.value);
             isSidebarVisible.value = true;
         });
 
@@ -251,6 +253,37 @@ function addMarkers(listings, filtered) {
     });
 }
 
+/**
+ * Plots Route for listing
+ */
+function plotRoute(listing) {
+  currentRoute.value?.remove()
+  /**
+   * WKT Shapely to Lat, Lng Coords  
+   * @param wkt 
+   */
+  function parseWKTLineString(wkt) {
+    const coordsText = wkt
+      .replace('LINESTRING (', '')
+      .replace(')', '')
+      .trim();
+
+    const coords = coordsText.split(',').map(pair => {
+      const [lng, lat] = pair.trim().split(' ').map(Number);
+      return [lat, lng]; 
+    });
+
+    return coords;
+  }
+
+  const currentPolyline = L.polyline(parseWKTLineString(listing.walk_routes), {
+    color: 'orange',
+    weight: 4,
+    opacity: 0.7
+  })
+
+  return currentPolyline;
+}
 /**
  * Lifecycle Hook on Mount
  * Fetches Data from API and initializes Map
@@ -624,6 +657,7 @@ const filterOptions = [
  */
 const closePopup = () => {
     isSidebarVisible.value = false;
+    currentRoute.value?.remove();
 };
 
 /**
@@ -637,7 +671,7 @@ const zoomToListing = (coords) => {
 };
 </script>
 
-<style>
+<style scoped>
 /* MAP */
 #map {
   position: absolute;

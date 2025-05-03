@@ -490,9 +490,117 @@ async function plotFloodMap() {
 
 <style scoped>
 #map {
-height: 100vh;
-width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
 }
+
+/* FILTER BUTTON */
+.filter-container {
+  position: absolute;
+  top: 100px;
+  left: 20px;
+  z-index: 1000;
+  width: 300px;
+  background: rgba(21, 19, 102, 0.2); 
+  backdrop-filter: blur(8px); 
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border-radius: 14px;
+  padding: 20px;
+  width: 320px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.filter-title {
+  font-size: 1.6rem;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+
+/* Tab Navigation */
+.tab-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  font-weight: bold;
+  border: none;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: black;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-button.active {
+  background: #507cb6;
+  color: white;
+}
+
+/* Tab Content */
+.tab-content {
+  background: white;
+  color: black;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Radio Buttons */
+.radio-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  color: black;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-button:hover {
+  background: #e0e0e0;
+}
+
+.filter-button.active {
+  background: #507cb6;
+  color: white;
+  border: 2px solid #0f5dc7;
+}
+
+.filter-button.active .filter-label {
+  color: white;
+}
+
+
+.checkmark .icon {
+  width: 16px;
+  height: 16px;
+}
+
 
 /* 🔵 LEGEND STYLING */
 .legend {

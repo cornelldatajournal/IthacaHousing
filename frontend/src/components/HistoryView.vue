@@ -108,7 +108,7 @@
 </template>
   
 
-<script setup>
+<script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
 import BirthplaceChart from '@/components/charts/BirthplaceChart.vue';
 import ImmigrantMap from '@/components/charts/ImmigrantMap.vue';

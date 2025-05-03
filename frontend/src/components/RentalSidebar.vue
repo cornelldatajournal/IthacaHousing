@@ -4,9 +4,9 @@
     <div class="popup-header">
         <div class="popup-title-container">
             <h3 class="popup-title">
-                {{ listing.listingaddress }}, 
-                <span v-if="listing.listingcity">{{ listing.listingcity }},</span> 
-                {{ listing.listingzip }}
+                {{ listing?.listingaddress }}, 
+                <span v-if="listing?.listingcity">{{ listing?.listingcity }},</span> 
+                {{ listing?.listingzip }}
             </h3>
         </div>
         <button class="close-btn" @click="closePopup">✖</button>
@@ -14,33 +14,33 @@
 
     <div class="popup-image-container">
         <!-- Left Arrow (Previous Image) -->
-        <button v-if="listing.listingphotos && listing.listingphotos.length > 0" @click="prevImage" class="nav-arrow left-arrow">❮</button>
+        <button v-if="listing?.listingphotos && listing?.listingphotos.length > 0" @click="prevImage" class="nav-arrow left-arrow">❮</button>
 
         <!-- Image Display -->
         <img 
-        v-if="extractPhoto(listing.listingphotos).length > 0" 
-        :src="extractPhoto(listing.listingphotos)[currentImageIndex].PhotoUrl" 
+        v-if="extractPhoto(listing?.listingphotos).length > 0" 
+        :src="extractPhoto(listing?.listingphotos)[currentImageIndex].PhotoUrl" 
         alt="Listing Photo" 
         class="listing-image"
         >
         <!-- Right Arrow (Next Image) -->
-        <button v-if="extractPhoto(listing.listingphotos).length > 1" @click="nextImage" class="nav-arrow right-arrow">❯</button>
+        <button v-if="extractPhoto(listing?.listingphotos).length > 1" @click="nextImage" class="nav-arrow right-arrow">❯</button>
     </div>
 
      <!-- Rental Information -->
     <div class="rent-section">
         <div class="rent-box">
             <strong>Rent:</strong>
-            <span>${{ listing.rentamountadjusted.toFixed(2) }}</span>
+            <span>${{ listing?.rentamountadjusted.toFixed(2) }}</span>
         </div>
         <div class="rent-box">
             <strong>Predicted Rent:</strong>
-            <span :class="{'text-green': listing.differenceinfairvalue < 0, 'text-red': listing.differenceinfairvalue > 0}">
-            ${{ listing.predictedrent.toFixed(2) }}
+            <span :class="{'text-green': listing?.differenceinfairvalue < 0, 'text-red': listing?.differenceinfairvalue > 0}">
+            ${{ listing?.predictedrent.toFixed(2) }}
             </span>
         </div>
-    <div class="rent-diff" :class="{'text-red': ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2)  < 0, 'text-green': ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2)  > 0}">
-        Percent Change: {{ ((listing.predictedrent-listing.rentamountadjusted)/listing.rentamountadjusted*100).toFixed(2) }}%
+    <div class="rent-diff" :class="{'text-red': ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2)  < 0, 'text-green': ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2)  > 0}">
+        Percent Change: {{ ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2) }}%
     </div>
     </div>
     <!-- Main Content (2-Column Layout) -->
@@ -51,42 +51,42 @@
         <tr>
             <td><i class="fa-solid fa-bus text-blue-500"></i></td>
             <td>Transit Score:</td>
-            <td>{{ listing.transit_score ?? "N/A" }}</td>
+            <td>{{ listing?.transit_score ?? "N/A" }}</td>
         </tr>
         <!-- <tr>
             <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
             <td>Arts Quad:</td>
-            <td>{{ (listing.ag_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing?.ag_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
             <td>Ag Quad:</td>
-            <td>{{ (listing.arts_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing?.arts_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
             <td>Uris Hall:</td>
-            <td>{{ (listing.uris_hall_time/60).toFixed(0) ?? "N/A" }} min</td>
+            <td>{{ (listing?.uris_hall_time/60).toFixed(0) ?? "N/A" }} min</td>
         </tr> -->
         <tr>
             <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
             <td>Walk Time:</td>
-            <td>{{ (listing.walk_time) ?? "N/A" }} min</td>
+            <td>{{ (listing?.walk_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-car text-yellow-500"></i></td>
             <td>Drive Time:</td>
-            <td>{{ (listing.drive_time) ?? "N/A" }} min</td>
+            <td>{{ (listing?.drive_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-bicycle text-yellow-500"></i></td>
             <td>Bike Time:</td>
-            <td>{{ (listing.bike_time) ?? "N/A" }} min</td>
+            <td>{{ (listing?.bike_time) ?? "N/A" }} min</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
             <td>Luxury Score:</td>
-            <td>{{ (listing.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
+            <td>{{ (listing?.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
         </tr>
         </table>
     </div>
@@ -97,27 +97,27 @@
         <tr>
             <td><i class="fa-solid fa-bed text-indigo-500"></i></td>
             <td>Bedrooms:</td>
-            <td>{{ listing.bedrooms }}</td>
+            <td>{{ listing?.bedrooms }}</td>
         </tr>
         <tr>
             <td><i class="fa-solid fa-toilet text-purple-500"></i></td>
             <td>Bathrooms:</td>
-            <td>{{ listing.bathrooms }}</td>
+            <td>{{ listing?.bathrooms }}</td>
         </tr>
         <tr>
             <td><i class="fa fa-paw text-yellow-600"></i></td>
             <td>Pets:</td>
-            <td>{{ listing.pets === "Yes" ? "Allowed" : "Not Allowed" }}</td>
+            <td>{{ listing?.pets === "Yes" ? "Allowed" : "Not Allowed" }}</td>
         </tr>
         <tr>
             <td><i class="fa fa-home text-indigo-600"></i></td>
             <td>Housing Type:</td>
-            <td>{{ listing.housingtype ?? "N/A" }}</td>
+            <td>{{ listing?.housingtype ?? "N/A" }}</td>
         </tr>
         <tr>
             <td><i class="fa fa-home text-indigo-600"></i></td>
             <td>Rent Type:</td>
-            <td>{{ listing.renttype ?? "N/A" }}</td>
+            <td>{{ listing?.renttype ?? "N/A" }}</td>
         </tr>
         </table>
     </div>
@@ -125,25 +125,44 @@
 
     <!-- Description -->
     <div class="popup-description">
-    {{ listing.shortdescription }}
+        {{ listing?.shortdescription }}
     </div>
 
     <!-- Amenities Section -->
     <div class="popup-amenities">
-    <strong>Amenities: </strong>
-    <span class="amenities-list">
-        {{ listing.amenities ? listing.amenities.replace(/[\[\]']/g, "") : "None Listed" }}
-    </span>
+        <strong>Amenities: </strong>
+        <span class="amenities-list">
+            {{ listing?.amenities ? listing?.amenities.replace(/[\[\]']/g, "") : "None Listed" }}
+        </span>
     </div>
 
-   
+    <div class="popup-similar-listings">
+        <strong>Similar Listings: </strong>
+        <div class="similar-listings-list">
+            <div 
+            v-for="(listing, index) in similarListings" 
+            :key="index" 
+            class="similar-listing-item"
+            >
+            <div class="image-container">
+                <img 
+                :src="extractPhoto(listing?.listingphotos)[0].PhotoUrl" 
+                alt="Listing Photo" 
+                class="listing-photo"
+                />
+            </div>
+            <p class="listing-address">{{ listing?.listingaddress }}</p>
+            </div>
+        </div>
+    </div>
 
-    <!-- Zoom Button -->
 </div>
 </template>
 
-<script setup>
-import { defineProps, defineEmits, ref, computed } from 'vue';
+<script setup lang="ts">
+import { defineProps, defineEmits, ref, computed, onMounted, watch } from 'vue';
+import { fetchListing }  from "@/services/fetch"; 
+import type { Listing } from "@/services/interface"
 
 const props = defineProps({
     listing: Object,
@@ -156,18 +175,18 @@ const closePopup = () => {
 };
 
 const currentImageIndex = ref(0); // Holds the current index of the images in the gallery
-const totalImages = computed(() => extractPhoto(props.listing.listingphotos).length); // Holds the number of images in the gallery
+const totalImages = computed(() => extractPhoto(props.listing?.listingphotos).length); // Holds the number of images in the gallery
+const similarListings = ref<Listing[]>([]);
 
 /**
  * Extracts and Processes JSON String to get photos.
  * @param {string} listingPhotosStr - JSON string of listing photos.
  * @returns {Array} - Parsed array of photo objects, or an empty array if invalid.
  */
- const extractPhoto = (listingPhotosStr) => {
-    if (!listingPhotosStr) return []; // Ensure a valid input
+ const extractPhoto = (listingPhotosStr: String) => {
+    if (!listingPhotosStr) return []
 
     try {
-        // Normalize and clean up the JSON string
         const cleanedStr = listingPhotosStr
             .replace(/'/g, '"')          
             .replace(/\bTrue\b/g, 'true')
@@ -177,15 +196,13 @@ const totalImages = computed(() => extractPhoto(props.listing.listingphotos).len
             .replace(/\\t/g, '')      
             .trim();                   
 
-        // Parse JSON safely
         const listingPhotos = JSON.parse(cleanedStr);
 
-        // Ensure it's an array and return, otherwise return an empty array
         return Array.isArray(listingPhotos) ? listingPhotos : [];
 
-    } catch (error) {
+    } catch (error: any) {
         console.error("JSON Parsing Error:", error.message);
-        return []; // Return an empty array on failure
+        return []; 
     }
 };
 
@@ -211,6 +228,61 @@ const prevImage = () => {
     currentImageIndex.value = totalImages.value - 1;
   }
 };
+
+/**
+ * Parses PostgreSQL Array of Nearest Neighbors
+ * @param pgArrayString 
+ */
+function parsePostgresArray(pgArrayString: String) {
+  if (!pgArrayString || pgArrayString.length < 2) {
+    return [];
+  }
+
+  return pgArrayString
+    .slice(1, -1)
+    .split(',')
+    .map(num => Number(num.trim()));
+}
+
+/**
+ * 
+ */
+async function fetchSimilarListings() {
+    const ids = parsePostgresArray(props.listing?.nearest_neighbor_listingids);
+    console.log(ids)
+
+    const fetchedListings = await Promise.all(
+    ids.map(id => fetchListing(id))
+    );
+
+    similarListings.value = fetchedListings.filter(listing => listing !== null) as Listing[];
+}
+
+/**
+ * 
+ */
+onMounted(async () => {
+    const ids = parsePostgresArray(props.listing?.nearest_neighbor_listingids);
+    console.log(ids)
+
+    const fetchedListings = await Promise.all(
+    ids.map(id => fetchListing(id))
+    );
+
+    similarListings.value = fetchedListings.filter(listing => listing !== null) as Listing[];
+});
+
+watch(
+  () => props.listing, 
+  async (newListing: Listing) => {
+    if (newListing) {
+      await fetchSimilarListings();
+    }
+  }
+);
+
+
+
 
 </script>
   
@@ -438,6 +510,59 @@ const prevImage = () => {
     font-size: 1rem;
     color: #444;
 }
+
+/* 📌 SIMILAR LISTINGS SECTION */
+.popup-similar-listings {
+    width: 100%;
+    padding: 1rem;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    margin-top: 16px;
+    font-size: 1rem;
+    color: #444;
+}
+
+.similar-listings-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.similar-listing-item {
+    flex: 1;
+    max-width: calc(100% / 3 - 0.67rem); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.listing-photo {
+    filter: blur(0px);
+    width: 100%;
+    height: auto;
+    transition: filter 0.3s ease;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.listing-photo:hover {
+  filter: blur(0px);
+}
+
+.listing-address {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  text-align: center;
+  color: #333;
+}
+
 
 /* 🔍 ZOOM BUTTON */
 .zoom-btn {

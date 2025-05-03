@@ -8,8 +8,8 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: '/rent',
+      name: 'rent',
       component: MapView,
     }, 
     {
@@ -23,8 +23,8 @@ const router = createRouter({
       component: UrbanGrowthView,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/',
+      name: 'home',
       component: AboutView,
     },
   ],

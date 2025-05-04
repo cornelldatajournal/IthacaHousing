@@ -40,10 +40,10 @@
 
 /* Inner Flex Container */
 .navbar-inner {
-display: flex;
-align-items: center;
-max-width: 100%;
-margin: 0 auto;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .navbar-brand {
@@ -66,6 +66,11 @@ margin: 0 auto;
     line-height: 1.2; 
 }
 
+.navbar-title a:hover {
+    background: none !important;
+    color: initial !important;
+}
+
 /* Main Title */
 .navbar-name {
     font-size: 1.1rem;
@@ -85,32 +90,33 @@ margin: 0 auto;
 
 /* Menu Links */
 .navbar-menu {
-display: flex;
-gap: 25px;
-list-style: none;
+    display: flex;
+    gap: 8px;
+    list-style: none;
 }
 
 .navbar-menu li {
-font-size: 0.95rem;
+    font-size: 0.95rem;
 }
 
 .navbar-menu a {
-text-decoration: none;
-color: #374151;
-transition: color 0.2s ease-in-out;
-padding: 2px 0;
-display: inline-block;
-border-bottom: 2px solid transparent;
+    text-decoration: none;
+    color: #374151;
+    transition: color 0.2s ease-in-out;
+    padding: 4px 12px;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    border-radius: 4px;
 }
 
 .navbar-menu a:hover {
-color: #1d4ed8;
+    color: #1d4ed8;
 }
 
 .active-link {
-color: #1d4ed8;
-font-weight: bold;
-border-bottom: 2px solid #1d4ed8;
+    color: #1d4ed8;
+    font-weight: bold;
+    border-bottom: 2px solid #1d4ed8;
 }
 </style>
   

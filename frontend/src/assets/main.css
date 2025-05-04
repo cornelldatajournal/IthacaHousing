@@ -1,5 +1,6 @@
 @import './base.css';
 
+
 #app {
   margin: 0 auto;
   padding: 2rem;
@@ -8,6 +9,10 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
+}
+
+h1, h2, h3 {
+  line-height: 120%;
 }
 
 a,

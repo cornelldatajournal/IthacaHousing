@@ -702,15 +702,12 @@ const zoomToListing = (coords) => {
   left: 20px;
   z-index: 1000;
   width: 300px;
-  background: rgba(21, 19, 102, 0.2); 
-  backdrop-filter: blur(8px); 
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
+  background: none;
   backdrop-filter: blur(12px);
   border-radius: 14px;
-  padding: 20px;
   width: 320px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); */
   text-align: center;
 }
 
@@ -726,7 +723,6 @@ const zoomToListing = (coords) => {
 .tab-header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
 }
 
 .tab-button {

@@ -686,7 +686,7 @@ const zoomToListing = (coords) => {
   position: absolute;
   top: 0%; 
   right: 0;
-  width: 350px;
+  width: 600px;
   height: calc(100vh);
   overflow-y: auto;
   background: white;

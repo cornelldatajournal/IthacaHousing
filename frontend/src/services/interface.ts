@@ -9,9 +9,10 @@ export interface Listing {
     bathrooms: number;
     latitude: number;
     longitude: number;
-    listingphotos: JSON;
+    listingphotos: String;
     differenceInFairValue: number;
     rentAmountAdjusted: number;
+    listingaddress: Text;
     
 }
 

@@ -90,6 +90,7 @@ import NavBar from "@/components/NavBar.vue";
   display: flex;
   flex-direction: column;
   align-items: center; 
+  gap: 20px
 }
 
 
@@ -99,6 +100,7 @@ import NavBar from "@/components/NavBar.vue";
   padding: 3rem 5vw;
   text-align: center;
   align-items: center;
+  margin-top: 2%;
   
 }
 
@@ -149,7 +151,7 @@ import NavBar from "@/components/NavBar.vue";
 
 /* Value Prop Section */
 .value-prop-section {
-  padding: 80px 20px;
+  padding: 20px 20px;
   font-family: 'DM Sans', sans-serif;
 }
 

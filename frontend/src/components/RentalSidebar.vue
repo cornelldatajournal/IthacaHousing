@@ -39,9 +39,15 @@
             ${{ listing?.predictedrent.toFixed(2) }}
             </span>
         </div>
-    <div class="rent-diff" :class="{'text-red': ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2)  < 0, 'text-green': ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2)  > 0}">
-        Percent Change: {{ ((listing?.predictedrent-listing?.rentamountadjusted)/listing?.rentamountadjusted*100).toFixed(2) }}%
-    </div>
+        <div
+            class="rent-diff"
+            :class="{
+            'text-red': percentChange < 0,
+            'text-green': percentChange > 0
+            }"
+        >
+            Percent Change: {{ percentChange.toFixed(2) }}%
+        </div> 
     </div>
     <!-- Main Content (2-Column Layout) -->
     <div class="popup-content grid grid-cols-2 gap-4">
@@ -179,6 +185,15 @@ const totalImages = computed(() => extractPhoto(props.listing?.listingphotos).le
 const similarListings = ref<Listing[]>([]);
 
 /**
+ * Percent Change
+ */
+const percentChange = computed(() => {
+  if (!props.listing?.predictedrent || !props.listing?.rentamountadjusted) return 0;
+  return ((props.listing.predictedrent - props.listing.rentamountadjusted) / props.listing.rentamountadjusted) * 100;
+});
+
+
+/**
  * Extracts and Processes JSON String to get photos.
  * @param {string} listingPhotosStr - JSON string of listing photos.
  * @returns {Array} - Parsed array of photo objects, or an empty array if invalid.
@@ -272,9 +287,9 @@ onMounted(async () => {
     similarListings.value = fetchedListings.filter(listing => listing !== null) as Listing[];
 });
 
-watch(
-  () => props.listing, 
-  async (newListing: Listing) => {
+watch<Listing | undefined>(
+  () => props.listing as Listing,
+  async (newListing) => {
     if (newListing) {
       await fetchSimilarListings();
     }

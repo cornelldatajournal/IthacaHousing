@@ -781,5 +781,53 @@ async function plotFloodMap() {
   text-decoration: underline;
 }
 
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.3); /* subtle frosted glass effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.loading-text {
+  margin-top: 16px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1e1e1e;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  opacity: 0.9;
+  letter-spacing: 0.3px;
+}
+
+/* New sexy spinner */
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid transparent;
+  border-top: 5px solid #0077ff;
+  border-right: 5px solid #0077ff;
+  border-radius: 50%;
+  animation: spin 0.7s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  box-shadow: 0 0 10px rgba(0, 119, 255, 0.3);
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
   

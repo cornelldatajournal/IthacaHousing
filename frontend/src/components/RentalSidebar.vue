@@ -152,7 +152,7 @@
             >
             <div class="image-container">
                 <img 
-                :src="extractPhoto(listing?.listingphotos)[0].PhotoUrl" 
+                :src="extractPhoto(listing?.listingphotos.toString())[0].PhotoUrl" 
                 alt="Listing Photo" 
                 class="listing-photo"
                 />

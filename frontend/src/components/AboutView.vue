@@ -26,9 +26,9 @@
           </div>
 
           <div class="value-card">
-            <h3 class="value-title">Data-Driven Intelligence</h3>
+            <h3 class="value-title">Data-Driven Insights</h3>
             <p class="value-text">
-            We incorporate real-time data from Tompkins County into regression models and geospatial analysis tools that turn raw data into actionable insights.
+            We incorporate real-time data from Tompkins County into regression models and geospatial analysis tools that turn raw data into actionable intelligence.
             </p>
           </div>
 
@@ -246,6 +246,7 @@ const teamMembers = [
   font-weight: 600;
   color: #1e3a8a;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .value-text {

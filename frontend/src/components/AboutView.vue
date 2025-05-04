@@ -232,7 +232,8 @@ const teamMembers = [
   background: #ffffff;
   padding: 30px 25px;
   border-radius: 12px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  /* box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06); */
   width: 300px;
   transition: transform 0.3s ease;
 }

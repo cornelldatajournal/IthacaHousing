@@ -2,17 +2,15 @@
 <NavBar />
 <div class="info-section">
     <!--Hero Section MAKE BALANCE SMOOTHER MAKE WORDS ON EACH LINE EQUAL-->
-    <section class="hero">
-        <div class="hero-content">
-          <div class="hero-text">
-            <h1 class="hero-title">Explore Fair Rent in Ithaca</h1>
-            <p class="hero-subtitle">
-                Ithaca Insights is a live dashboard uncovering rental pricing inefficiencies across Tompkins County.
-            </p>
-          </div>
-          <li><router-link to="/rent" class="cta-button">View Map</router-link></li>
-        </div>
-    </section>
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">Explore Fair Rent in Ithaca</h1>
+        <p class="hero-subtitle">Ithaca Insights is a live dashboard uncovering rental pricing inefficiencies across Tompkins County.</p>
+        <button class="cta-button">View Map</button>
+      </div>
+    </div>
+
 
     <!--Value Prop Section-->
     <section class="value-prop-section">
@@ -23,21 +21,21 @@
           <div class="value-card">
             <h3 class="value-title">Transparent Pricing</h3>
             <p class="value-text">
-              We reveal overpriced listings by comparing market rent to actual listing data—empowering renters and informing city planners.
+              We reveal the true price of listings by comparing market rent to actual listing data—empowering renters and informing city planners. 
             </p>
           </div>
 
           <div class="value-card">
             <h3 class="value-title">Data-Driven Intelligence</h3>
             <p class="value-text">
-              Backed by web scraping, regression models, and geospatial analysis, our dashboard transforms raw housing data into actionable insights.
+            We incorporate real-time data from Tompkins County into regression models and geospatial analysis tools that turn raw data into actionable insights.
             </p>
           </div>
 
           <div class="value-card">
             <h3 class="value-title">Accessible for All</h3>
             <p class="value-text">
-              Built for students, landlords, and policymakers alike—our interface is intuitive, fast, and freely available to the public.
+              Built for students, landlords, and policymakers alike. Our interface is intuitive, fast, and freely available to the public.
             </p>
           </div>
 
@@ -47,29 +45,22 @@
 
     <!--Team Section-->
     <section class="team-section">
-        <h2 class="team-title">Meet the Team</h2>
-        <div class="team-grid">
-        <div class="team-card">
-            <div class="avatar-placeholder"></div>
-            <h3 class="member-name">Arjun Maitra</h3>
-            <p class="member-role">Data Scientist</p>
+      <h2 class="team-title">Meet the Team</h2>
+      <div class="team-grid">
+        <div
+          class="team-card"
+          v-for="(member, index) in teamMembers"
+          :key="index"
+        >
+          <img
+            class="avatar-face"
+            :src="member.avatar"
+            :alt="`${member.name}'s avatar`"
+          />
+          <h3 class="member-name">{{ member.name }}</h3>
+          <p class="member-role">{{ member.role }}</p>
         </div>
-        <div class="team-card">
-            <div class="avatar-placeholder"></div>
-            <h3 class="member-name">Steven Zhou</h3>
-            <p class="member-role">Data Scientist</p>
-        </div>
-        <div class="team-card">
-            <div class="avatar-placeholder"></div>
-            <h3 class="member-name">Vivian Guo</h3>
-            <p class="member-role">Researcher</p>
-        </div>
-        <div class="team-card">
-            <div class="avatar-placeholder"></div>
-            <h3 class="member-name">N/a</h3>
-            <p class="member-role"></p>
-        </div>
-        </div>
+      </div>
     </section>
 </div>
 </template>
@@ -77,6 +68,34 @@
   
 <script setup lang="ts">
 import NavBar from "@/components/NavBar.vue";
+import arjunImg from '@/assets/avatars/arjunmaitra.jpeg';
+import stevenImg from '@/assets/avatars/stevenzhou.jpeg';
+import vivianImg from '@/assets/avatars/vivianguo.jpeg';
+import lillianImg from '@/assets/avatars/lillianwang.jpeg';
+
+const teamMembers = [
+  {
+    name: 'Arjun Maitra',
+    role: 'Data Scientist',
+    avatar: arjunImg
+  },
+  {
+    name: 'Steven Zhou',
+    role: 'Data Scientist',
+    avatar: stevenImg
+  },
+  {
+    name: 'Vivian Guo',
+    role: 'Researcher',
+    avatar: vivianImg
+  },
+  {
+    name: 'Lillian Wang',
+    role: 'Researcher',
+    avatar: lillianImg
+  }
+];
+
 </script>
 
 <style scoped>
@@ -98,27 +117,46 @@ import NavBar from "@/components/NavBar.vue";
 
 /* Hero Section */
 .hero {
-  /* background: linear-gradient(135deg, #dbeafe 0%, #f0f4ff 100%); */
-  padding: 3rem 5vw;
+  position: relative;
+  padding: 3rem 0;
   text-align: center;
-  align-items: center;
   margin-top: 2%;
   width: 100%;
-  background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('@/assets/ithaca.jpg');
-  background-blend-mode: lighten;
+  background-image: url('@/assets/ithaca.jpg');
   background-size: cover;
   background-position: center;
-  background-color: rgba(255, 255, 255, 0.55);
+  overflow: hidden;
+  border-bottom: 1px solid black;
 }
 
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Let clicks through */
+  z-index: 1;
+  backdrop-filter: blur(4px);
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6) 25%,
+    rgba(0, 0, 0, 0.75) 50%,
+    rgba(0, 0, 0, 0.6) 75%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  
+}
 
 .hero-content {
-  align-items: center;
-  text-align: center;
-  animation: fadeIn 1.5s ease-in-out;
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
+  color: white;
 }
 
 .hero-text {
@@ -130,15 +168,17 @@ import NavBar from "@/components/NavBar.vue";
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #ffffff; /* pure white for max contrast */
   white-space: nowrap;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6); /* adds subtle shadow for readability */
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: #000000;
+  color: #f0f0f0;
   line-height: 1.6;
   max-width: 600px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .cta-button {
@@ -148,10 +188,13 @@ import NavBar from "@/components/NavBar.vue";
   font-weight: 600;
   color: white;
   background: #1e3a8a;
-  border-radius: 8px;
   transition: all 0.3s ease;
-  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.3);
+  border: none;             
+  box-shadow: none;           
+  appearance: none;          
+  border-radius: 6px;         
 }
+
 
 .cta-button:hover {
   transform: scale(1.05);
@@ -241,13 +284,24 @@ import NavBar from "@/components/NavBar.vue";
   text-align: left;
 }
 
-.avatar-placeholder {
+.avatar-face {
   width: 100%;
-  padding-top: 100%;
+  aspect-ratio: 1/1;         /* Ensures it's a perfect square */
   background: #e0e7ff;
   border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 1rem;
 }
+
+.avatar-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 .member-name {
   font-size: 1.2rem;

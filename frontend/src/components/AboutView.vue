@@ -246,7 +246,7 @@ const teamMembers = [
   font-weight: 600;
   color: #1e3a8a;
   margin-bottom: 1rem;
-  text-align: center;
+  text-align: left;
 }
 
 .value-text {

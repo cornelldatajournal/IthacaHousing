@@ -30,7 +30,7 @@ class HousingListing(Base):
     PostgreSQL Database Model for Housing Listings
     """
     __tablename__ = "housing_listings"
-
+    
     listingid = Column(Integer, primary_key=True, index=True)
     accountid = Column(Integer)
     dateavailable = Column(String)

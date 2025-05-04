@@ -90,7 +90,9 @@ import NavBar from "@/components/NavBar.vue";
   display: flex;
   flex-direction: column;
   align-items: center; 
-  gap: 20px
+  gap: 20px;
+  
+
 }
 
 
@@ -101,11 +103,18 @@ import NavBar from "@/components/NavBar.vue";
   text-align: center;
   align-items: center;
   margin-top: 2%;
-  
+  width: 100%;
+  background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('@/assets/ithaca.jpg');
+  background-blend-mode: lighten;
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(255, 255, 255, 0.55);
 }
 
+
 .hero-content {
-  max-width: 720px;
+  align-items: center;
+  text-align: center;
   animation: fadeIn 1.5s ease-in-out;
   display: flex;
   flex-direction: column;
@@ -127,7 +136,7 @@ import NavBar from "@/components/NavBar.vue";
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: #374151;
+  color: #000000;
   line-height: 1.6;
   max-width: 600px;
 }

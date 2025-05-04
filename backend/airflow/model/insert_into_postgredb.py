@@ -27,6 +27,11 @@ def psql_insert_copy(df):
             lambda x: x.wkt if isinstance(x, LineString) else x
         )
 
+    for col in ["HasValidCertificateOfOccupancy","MeetsMinimumRequirements","ExceedsRequirements","HasFireResistantConstructionType","SatisfiesApplicableCode"]:
+        df[col] = df[col].astype(bool)
+
+        
+
     df.columns = (
         df.columns
         .str.strip()
@@ -34,6 +39,8 @@ def psql_insert_copy(df):
         .str.replace(r"[^\w]", "", regex=True)  
         .str.replace("_pct", "pct")
     )
+
+
     with engine.begin() as conn: 
         df.head(0).to_sql("housing_listings", con=conn, if_exists="append", index=False)
         conn.execute(text("TRUNCATE TABLE housing_listings RESTART IDENTITY CASCADE;"))

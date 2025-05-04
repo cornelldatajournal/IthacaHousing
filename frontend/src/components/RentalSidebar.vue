@@ -260,31 +260,22 @@ function parsePostgresArray(pgArrayString: String) {
 }
 
 /**
- * 
+ * Fetch Similar Listings
  */
-async function fetchSimilarListings() {
-    const ids = parsePostgresArray(props.listing?.nearest_neighbor_listingids);
-    console.log(ids)
+ async function fetchSimilarListings() {
+  const ids = Array.from(props.listing?.nearest_neighbor_listingids || []) as number[];
 
-    const fetchedListings = await Promise.all(
+  const fetched = await Promise.all(
     ids.map(id => fetchListing(id))
-    );
+  );
 
-    similarListings.value = fetchedListings.filter(listing => listing !== null) as Listing[];
+  similarListings.value = fetched.filter(l => l !== null) as Listing[];
 }
-
 /**
  * 
  */
 onMounted(async () => {
-    const ids = parsePostgresArray(props.listing?.nearest_neighbor_listingids);
-    console.log(ids)
-
-    const fetchedListings = await Promise.all(
-    ids.map(id => fetchListing(id))
-    );
-
-    similarListings.value = fetchedListings.filter(listing => listing !== null) as Listing[];
+    await fetchSimilarListings()
 });
 
 watch<Listing | undefined>(

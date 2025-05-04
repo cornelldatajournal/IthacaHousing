@@ -198,27 +198,27 @@ const percentChange = computed(() => {
  * @param {string} listingPhotosStr - JSON string of listing photos.
  * @returns {Array} - Parsed array of photo objects, or an empty array if invalid.
  */
- const extractPhoto = (listingPhotosStr: String) => {
-    if (!listingPhotosStr) return []
+ const extractPhoto = (listingPhotosStr: string): Array<any> => {
+  if (!listingPhotosStr) return [];
 
-    try {
-        const cleanedStr = listingPhotosStr
-            .replace(/'/g, '"')          
-            .replace(/\bTrue\b/g, 'true')
-            .replace(/\bFalse\b/g, 'false')
-            .replace(/\bNone\b/g, 'null')
-            .replace(/\\n/g, '')         
-            .replace(/\\t/g, '')      
-            .trim();                   
+  try {
+    const cleanedStr = listingPhotosStr
+      .replace(/\\/g, '\\\\')        
+      .replace(/'/g, '"')            
+      .replace(/\bTrue\b/g, 'true')  
+      .replace(/\bFalse\b/g, 'false')
+      .replace(/\bNone\b/g, 'null') 
+      .replace(/\\n/g, '')          
+      .replace(/\\t/g, '')         
+      .trim();
 
-        const listingPhotos = JSON.parse(cleanedStr);
+    const parsed = JSON.parse(cleanedStr);
 
-        return Array.isArray(listingPhotos) ? listingPhotos : [];
-
-    } catch (error: any) {
-        console.error("JSON Parsing Error:", error.message);
-        return []; 
-    }
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error: any) {
+    console.error("JSON Parsing Error:", error.message);
+    return [];
+  }
 };
 
 

@@ -111,6 +111,7 @@
 
 .navbar-menu a:hover {
     color: #1d4ed8;
+    background-color: #1d4fd82e;
 }
 
 .active-link {

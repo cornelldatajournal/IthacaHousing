@@ -143,7 +143,7 @@
     </div>
 
     <div class="popup-similar-listings">
-        <strong>Similar Listings: </strong>
+        <span class="similar-listing-title"><strong>Similar Listings: </strong></span>
         <div class="similar-listings-list">
             <div 
             v-for="(listing, index) in similarListings" 
@@ -311,21 +311,22 @@ watch<Listing | undefined>(
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #e5e7eb;
-    padding: 16px;
+    /* border-bottom: 2px solid #e5e7eb; */
+    padding: 16px 0px;
     border-radius: 8px 8px 0 0;
 }
 
 /* Centered Title */
 .popup-title-container {
     flex-grow: 1;
-    text-align: center;
 }
 
-.popup-title {
+.popup-title, .popup-title span {
     font-size: 1.3rem;
     color: #222;
     margin: 0;
+    text-align: left;
+    font-weight: bold;
 }
 
 /* Close Button */
@@ -420,16 +421,17 @@ watch<Listing | undefined>(
 .rent-section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 16px;
     background: none;
-    padding: 20px;
     border: 1px solid none;
     text-align: center;
     font-family: "Inter", sans-serif;
     align-items: center;
-    border-top: 2px solid #e5e7eb;
+    /* border-top: 2px solid #e5e7eb; */
     border-bottom: 2px solid #e5e7eb;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
 }
 
 .rent-box {
@@ -438,9 +440,10 @@ watch<Listing | undefined>(
     justify-content: center;
     align-items: center;
     background: none;
-    padding: 10px;
+    padding: 8px;
     width: 100%;
     border: 2px solid #e5e7eb;
+    border-radius: 8px;
 }
 
 .rent-box strong {
@@ -467,10 +470,10 @@ watch<Listing | undefined>(
     font-size: 1rem;
     font-weight: bold;
     color: #374151;
-    margin-top: 10px;
     background: none;
     padding: 10px;
     border: 2px solid #e5e7eb;
+    border-radius: 8px;
 }
 
 .rent-diff.text-red {
@@ -502,16 +505,16 @@ watch<Listing | undefined>(
     font-size: 1rem;
     color: #555;
     border-top: 2px solid #e5e7eb;
-    padding-top: 14px;
+    padding-top: 16px;
     margin-top: 16px;
 }
 
 
 /* 📌 AMENITIES SECTION */
 .popup-amenities {
-    border-top: 2px solid #e5e7eb;
-    padding-top: 14px;
-    padding-bottom: 14px;
+    /* border-top: 2px solid #e5e7eb; */
+    padding-top: 16px;
+    padding-bottom: 8px;
     margin-top: 16px;
     font-size: 1rem;
     color: #444;
@@ -520,19 +523,21 @@ watch<Listing | undefined>(
 /* 📌 SIMILAR LISTINGS SECTION */
 .popup-similar-listings {
     width: 100%;
-    padding: 1rem;
     border-top: 2px solid #e5e7eb;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    margin-top: 16px;
+    padding-top: 16px;
+    padding-bottom: 16px;
     font-size: 1rem;
     color: #444;
+}
+
+.similar-listing-title {
+    padding: 0 0;
 }
 
 .similar-listings-list {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    margin-top: 4px;
     width: 100%;
 }
 

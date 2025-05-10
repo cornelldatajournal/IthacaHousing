@@ -237,11 +237,15 @@ function addMarkers(listings, filtered) {
         const color = getColor(listing.rentamountadjusted, listing.predictedrent);
 
         const marker = L.circleMarker([listing.latitude, listing.longitude], {
-            color,
-            fillColor: color,
-            fillOpacity: 0.75,
-            radius: 8,
+          color,
+          fillColor: color,                // dynamic fill based on pricing
+          fillOpacity: 0.85,               // more saturated look
+          radius: 10,                      // slightly larger for mobile UX
+          weight: 2,                       // thin border
+          opacity: 1,                      // full circle border visibility
+          className: 'modern-dot'          // for custom CSS glow
         }).addTo(map.value);
+
 
         marker.on("click", () => {
             selectedListing.value = listing;
@@ -303,11 +307,13 @@ onMounted(async () => {
       });
 
       L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
+      const tileLayer = L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
           attribution: '<a href="https://jawg.io" target="_blank">&copy; Jawg Maps</a> &copy; OpenStreetMap contributors',
           minZoom: 0,
           maxZoom: 22,
           accessToken: 'pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR'
-      }).addTo(map.value);
+      })
+      tileLayer.addTo(map.value);
 
       // Grab Data from API
       allListings.value = await fetchListings();
@@ -669,6 +675,12 @@ const closePopup = () => {
 const zoomToListing = (coords) => {
     map.value.setView([coords.lat, coords.lng], 16);
 };
+
+/**
+ * Toggle Menu
+ */
+// const menuOpen = ref(true);
+const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 </script>
 
 <style scoped>
@@ -697,7 +709,7 @@ const zoomToListing = (coords) => {
 
 /* FILTER BUTTON */
 .filter-container {
-  position: absolute;
+  /* position: absolute;
   top: 100px;
   left: 20px;
   z-index: 1000;
@@ -707,8 +719,8 @@ const zoomToListing = (coords) => {
   backdrop-filter: blur(12px);
   border-radius: 14px;
   width: 320px;
-  /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); */
-  text-align: center;
+  text-align: center; */
+  visibility: hidden;
 }
 
 .filter-title {
@@ -943,4 +955,91 @@ const zoomToListing = (coords) => {
     transform: rotate(360deg);
   }
 }
+
+/* Hamburger Icon (Mobile only) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 420px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    animation: slideUp 0.4s ease-out;
+    overflow: hidden;
+    padding: 16px;
+  }
+
+  .tab-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .tab-button {
+    flex: 1;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    background: #f1f1f1;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: #333;
+  }
+
+  .tab-button.active {
+    background: #507cb6;
+    color: white;
+  }
+
+  .tab-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .rental-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95vw;
+    max-height: 85vh;
+    height: auto;
+    border-radius: 16px 16px 0 0;
+    border-left: none;
+    border-right: none;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    overflow-y: auto;
+    background: #ffffff;
+    padding: 16px;
+    animation: slideUp 0.3s ease-in-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translate(-50%, 100%);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, 0%);
+      opacity: 1;
+    }
+  }
+}
+
 </style>

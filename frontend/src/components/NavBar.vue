@@ -10,6 +10,13 @@
             </div>
         </div>
 
+         <!-- Hamburger Icon (Mobile only) -->
+        <div class="hamburger" @click="toggleMenu">
+            <div class="bar" />
+            <div class="bar" />
+            <div class="bar" />
+        </div>
+
         <!-- Navigation Menu -->
         <ul class="navbar-menu">
             <li><router-link to="/" active-class="active-link">Home</router-link></li>
@@ -21,6 +28,13 @@
     </div>
 </nav>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+const menuOpen = ref(false);
+const toggleMenu = () => (menuOpen.value = !menuOpen.value);
+</script>
+
 
 <style scoped>
 /* Navbar Container */
@@ -119,5 +133,54 @@
     font-weight: bold;
     border-bottom: 2px solid #1d4ed8;
 }
+
+/* Hamburger Icon (Mobile only) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.bar {
+  width: 24px;
+  height: 3px;
+  background-color: #374151;
+  border-radius: 2px;
+}
+
+
+@media (max-width: 768px) {
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    margin: 0 auto;
+
+    flex-wrap: wrap;
+  }
+
+  .navbar-menu {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 1rem;
+  }
+
+  .navbar-menu.menu-open {
+    display: flex;
+  }
+
+  .navbar-menu li {
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+
 </style>
   

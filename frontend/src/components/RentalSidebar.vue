@@ -686,4 +686,73 @@ watch<Listing | undefined>(
   user-select: none;
 }
 
+@media (max-width: 768px) {
+  .popup-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95vw;
+    max-height: 85vh;
+    background: white;
+    z-index: 10000;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.25);
+    padding: 16px;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease-in-out;
+  }
+
+  .popup-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .popup-title {
+    font-size: 1.1rem;
+    text-align: left;
+  }
+
+  .popup-image-container {
+    max-height: 180px;
+    border-radius: 12px;
+  }
+
+  .popup-content {
+    grid-template-columns: 1fr; 
+  }
+
+  .rent-section {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .rent-diff {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  .similar-listings-list {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .similar-listing-item {
+    max-width: 100%;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0%);
+    opacity: 1;
+  }
+}
+
+
 </style>

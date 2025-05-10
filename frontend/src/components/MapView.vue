@@ -306,12 +306,14 @@ onMounted(async () => {
           maxZoom: 20,
       });
 
-      L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
-      const tileLayer = L.tileLayer('https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR', {
+      
+      const JAWG_API_KEY = import.meta.env.VITE_JAWG_API_KEY;
+      console.log(JAWG_API_KEY)
+      const tileLayer = L.tileLayer(`https://tile.jawg.io/f67529a2-5ea7-4b7a-81a7-c5147a45b5f0/{z}/{x}/{y}{r}.png?access-token=${JAWG_API_KEY}`, {
           attribution: '<a href="https://jawg.io" target="_blank">&copy; Jawg Maps</a> &copy; OpenStreetMap contributors',
           minZoom: 0,
           maxZoom: 22,
-          accessToken: 'pSUjHs1tEnhDqSIJpBV3miDFcODgE5a8MEyjIAmHPPMCZicbKrH3Z1O0mbhtTQTR'
+          accessToken: JAWG_API_KEY
       })
       tileLayer.addTo(map.value);
 
@@ -1010,7 +1012,7 @@ const toggleMenu = () => (menuOpen.value = !menuOpen.value);
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .rental-sidebar {
     position: fixed;
     bottom: 0;

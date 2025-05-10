@@ -52,82 +52,167 @@
     <!-- Main Content (2-Column Layout) -->
     <div class="popup-content grid grid-cols-2 gap-4">
     <!-- Left Column (Transit & Walking Info) -->
-    <div class="popup-left">
-        <table class="info-table">
-        <tr>
-            <td><i class="fa-solid fa-bus text-blue-500"></i></td>
-            <td>Transit Score:</td>
-            <td>{{ listing?.transit_score ?? "N/A" }}</td>
-        </tr>
-        <!-- <tr>
-            <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
-            <td>Arts Quad:</td>
-            <td>{{ (listing?.ag_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
-            <td>Ag Quad:</td>
-            <td>{{ (listing?.arts_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
-            <td>Uris Hall:</td>
-            <td>{{ (listing?.uris_hall_time/60).toFixed(0) ?? "N/A" }} min</td>
-        </tr> -->
-        <tr>
-            <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
-            <td>Walk Time:</td>
-            <td>{{ (listing?.walk_time) ?? "N/A" }} min</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-car text-yellow-500"></i></td>
-            <td>Drive Time:</td>
-            <td>{{ (listing?.drive_time) ?? "N/A" }} min</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-bicycle text-yellow-500"></i></td>
-            <td>Bike Time:</td>
-            <td>{{ (listing?.bike_time) ?? "N/A" }} min</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
-            <td>Luxury Score:</td>
-            <td>{{ (listing?.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
-        </tr>
-        </table>
+        <div class="popup-left">
+            <table class="info-table">
+                <tr>
+                    <td><i class="fa-solid fa-bus text-blue-500"></i></td>
+                    <td><span class="stat-label">Transit Score:</span></td>
+                    <td>{{ listing?.transit_score ?? "N/A" }}</td>
+                </tr>
+                <!-- <tr>
+                    <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
+                    <td>Arts Quad:</td>
+                    <td>{{ (listing?.ag_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
+                    <td>Ag Quad:</td>
+                    <td>{{ (listing?.arts_quad_time/60).toFixed(0) ?? "N/A" }} min</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-person-walking text-green-500"></i></td>
+                    <td>Uris Hall:</td>
+                    <td>{{ (listing?.uris_hall_time/60).toFixed(0) ?? "N/A" }} min</td>
+                </tr> -->
+                <tr>
+                    <td><i class="fa-solid fa-person-walking text-yellow-500"></i></td>
+                    <td>Walk Time:</td>
+                    <td>{{ (listing?.walk_time) ?? "N/A" }} min</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-car text-yellow-500"></i></td>
+                    <td>Drive Time:</td>
+                    <td>{{ (listing?.drive_time) ?? "N/A" }} min</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-bicycle text-yellow-500"></i></td>
+                    <td>Bike Time:</td>
+                    <td>{{ (listing?.bike_time) ?? "N/A" }} min</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-shield-halved text-yellow-500"></i></td>
+                    <td>Luxury Score:</td>
+                    <td>{{ (listing?.amenities_score).toFixed(2) ?? "N/A" }}/100</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Right Column (Bedrooms, Pets, Amenities) -->
+        <div class="popup-right">
+            <table class="info-table">
+                <tr>
+                    <td><i class="fa-solid fa-bed text-indigo-500"></i></td>
+                    <td>Bedrooms:</td>
+                    <td>{{ listing?.bedrooms }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa-solid fa-toilet text-purple-500"></i></td>
+                    <td>Bathrooms:</td>
+                    <td>{{ listing?.bathrooms }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-paw text-yellow-600"></i></td>
+                    <td>Pets:</td>
+                    <td>{{ listing?.pets === "Yes" ? "Allowed" : "Not Allowed" }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-home text-indigo-600"></i></td>
+                    <td>Housing Type:</td>
+                    <td>{{ listing?.housingtype ?? "N/A" }}</td>
+                </tr>
+                <tr>
+                    <td><i class="fa fa-home text-indigo-600"></i></td>
+                    <td>Rent Type:</td>
+                    <td>{{ listing?.renttype ?? "N/A" }}</td>
+                </tr>
+            </table>
+        </div>
     </div>
 
-    <!-- Right Column (Bedrooms, Pets, Amenities) -->
-    <div class="popup-right">
-        <table class="info-table">
-        <tr>
-            <td><i class="fa-solid fa-bed text-indigo-500"></i></td>
-            <td>Bedrooms:</td>
-            <td>{{ listing?.bedrooms }}</td>
-        </tr>
-        <tr>
-            <td><i class="fa-solid fa-toilet text-purple-500"></i></td>
-            <td>Bathrooms:</td>
-            <td>{{ listing?.bathrooms }}</td>
-        </tr>
-        <tr>
-            <td><i class="fa fa-paw text-yellow-600"></i></td>
-            <td>Pets:</td>
-            <td>{{ listing?.pets === "Yes" ? "Allowed" : "Not Allowed" }}</td>
-        </tr>
-        <tr>
-            <td><i class="fa fa-home text-indigo-600"></i></td>
-            <td>Housing Type:</td>
-            <td>{{ listing?.housingtype ?? "N/A" }}</td>
-        </tr>
-        <tr>
-            <td><i class="fa fa-home text-indigo-600"></i></td>
-            <td>Rent Type:</td>
-            <td>{{ listing?.renttype ?? "N/A" }}</td>
-        </tr>
-        </table>
-    </div>
-    </div>
+    <div class="popup-mobile-stats">
+        <!-- Location Info -->
+        <div class="info-row">
+            <i class="fa-solid fa-bus text-blue-500"></i>
+            <div class="info-text">
+            <div class="label">Transit Score</div>
+            <div class="value">{{ listing?.transit_score ?? "N/A" }}</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa-solid fa-person-walking text-yellow-500"></i>
+            <div class="info-text">
+            <div class="label">Walk Time</div>
+            <div class="value">{{ listing?.walk_time ?? "N/A" }} min</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa-solid fa-car text-yellow-500"></i>
+            <div class="info-text">
+            <div class="label">Drive Time</div>
+            <div class="value">{{ listing?.drive_time ?? "N/A" }} min</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa-solid fa-bicycle text-yellow-500"></i>
+            <div class="info-text">
+            <div class="label">Bike Time</div>
+            <div class="value">{{ listing?.bike_time ?? "N/A" }} min</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa-solid fa-shield-halved text-yellow-500"></i>
+            <div class="info-text">
+            <div class="label">Luxury Score</div>
+            <div class="value">{{ listing?.amenities_score?.toFixed(2) ?? "N/A" }}/100</div>
+            </div>
+        </div>
+
+        <!-- Housing Info -->
+        <div class="info-row">
+            <i class="fa-solid fa-bed text-indigo-500"></i>
+            <div class="info-text">
+            <div class="label">Bedrooms</div>
+            <div class="value">{{ listing?.bedrooms }}</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa-solid fa-toilet text-purple-500"></i>
+            <div class="info-text">
+            <div class="label">Bathrooms</div>
+            <div class="value">{{ listing?.bathrooms }}</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa fa-paw text-yellow-600"></i>
+            <div class="info-text">
+            <div class="label">Pets</div>
+            <div class="value">{{ listing?.pets === "Yes" ? "Allowed" : "Not Allowed" }}</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa fa-home text-indigo-600"></i>
+            <div class="info-text">
+            <div class="label">Housing Type</div>
+            <div class="value">{{ listing?.housingtype ?? "N/A" }}</div>
+            </div>
+        </div>
+
+        <div class="info-row">
+            <i class="fa fa-home text-indigo-600"></i>
+            <div class="info-text">
+            <div class="label">Rent Type</div>
+            <div class="value">{{ listing?.renttype ?? "N/A" }}</div>
+            </div>
+        </div>
+        </div>
+
 
     <!-- Description -->
     <div class="popup-description">
@@ -392,29 +477,45 @@ watch<Listing | undefined>(
   color: black;
 }
 
-/* 📊 MAIN GRID LAYOUT */
 .popup-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+  font-size: 1rem;
+  color: #444;
 }
 
-/* 📌 LEFT & RIGHT SECTIONS */
-.popup-left,
-.popup-right {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    font-size: 1rem;
-    color: #444;
+.popup-mobile-stats {
+    display: none;
 }
 
-.popup-left p,
-.popup-right p {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+/* Style for both tables */
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.info-table td {
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+/* Icon column */
+.info-table td:first-child {
+  width: 24px;
+  text-align: center;
+}
+
+/* Label column */
+.info-table td:nth-child(2) {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Value column */
+.info-table td:last-child {
+  text-align: left;
 }
 
 /* 💰 RENT INFO BOX */
@@ -687,61 +788,158 @@ watch<Listing | undefined>(
 }
 
 @media (max-width: 768px) {
-  .popup-container {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 95vw;
-    max-height: 85vh;
-    background: white;
-    z-index: 10000;
-    border-radius: 16px 16px 0 0;
-    box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.25);
-    padding: 16px;
-    overflow-y: auto;
-    animation: slideUp 0.3s ease-in-out;
-  }
+    .popup-container {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 95vw;
+        max-height: 90vh;
+        background: white;
+        z-index: 10000;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.25);
+        padding: 16px;
+        overflow-y: auto;
+        animation: slideUp 0.3s ease-in-out;
+    }
 
-  .popup-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+    .popup-header {
+        /* flex-direction: column; */
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: white;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e5e7eb;
+        align-items: flex-start;
+        gap: 8px;
+    }
 
-  .popup-title {
-    font-size: 1.1rem;
-    text-align: left;
-  }
+    .popup-title {
+        font-size: 0.9rem;
+        font-weight: bold;
+        text-align: left;
+        word-break: break-word;
+    }
 
-  .popup-image-container {
-    max-height: 180px;
-    border-radius: 12px;
-  }
+    .popup-image-container {
+        max-height: 180px;
+        border-radius: 12px;
+        margin-bottom: 12px;
+    }
 
-  .popup-content {
-    grid-template-columns: 1fr; 
-  }
+    .listing-image {
+        max-height: 180px;
+        object-fit: cover;
+        border-radius: 12px;
+    }
 
-  .rent-section {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
+    .nav-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+    }
 
-  .rent-diff {
-    font-size: 0.95rem;
-    padding: 8px;
-  }
+    .popup-content {
+        display: none;
+    }
 
-  .similar-listings-list {
-    flex-direction: column;
-    gap: 12px;
-  }
+    .popup-mobile-stats {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px 0;
+    }
 
-  .similar-listing-item {
-    max-width: 100%;
-  }
+    .info-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .info-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-grow: 1;
+    }
+
+    .label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .value {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .rent-section {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .rent-box {
+        font-size: 0.95rem;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .rent-box span {
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    .rent-diff {
+        font-size: 0.95rem;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .info-table {
+        font-size: 0.9rem;
+    }
+
+    .info-table td {
+        padding: 4px 6px;
+    }
+
+    .popup-description,
+        .popup-amenities {
+        font-size: 0.95rem;
+    }
+
+    .popup-similar-listings {
+        padding-top: 12px;
+        font-size: 0.95rem;
+    }
+
+    .similar-listings-list {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .similar-listing-item {
+        max-width: 100%;
+    }
+
+    .similar-listing-item img {
+        border-radius: 8px;
+    }
+
+    .listing-address {
+        font-size: 0.95rem;
+    }
 }
+
 
 @keyframes slideUp {
   from {

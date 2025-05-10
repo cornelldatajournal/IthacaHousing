@@ -1014,11 +1014,11 @@ const toggleMenu = () => (menuOpen.value = !menuOpen.value);
 
   .rental-sidebar {
     position: fixed;
-    bottom: 0;
+    top: 35%;
     left: 50%;
     transform: translateX(-50%);
     width: 95vw;
-    max-height: 85vh;
+    max-height: 60vh;
     height: auto;
     border-radius: 16px 16px 0 0;
     border-left: none;
@@ -1028,6 +1028,7 @@ const toggleMenu = () => (menuOpen.value = !menuOpen.value);
     overflow-y: auto;
     background: #ffffff;
     padding: 16px;
+    padding-top: 0px;
     animation: slideUp 0.3s ease-in-out;
   }
 

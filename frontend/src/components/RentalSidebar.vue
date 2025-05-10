@@ -861,6 +861,7 @@ watch<Listing | undefined>(
         gap: 12px;
         padding: 10px 0;
         border-bottom: 1px solid #eee;
+        color: #444;
     }
 
     .info-text {

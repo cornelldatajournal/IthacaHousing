@@ -7,7 +7,7 @@
       <div class="hero-content">
         <h1 class="hero-title">Explore Fair Rent in Ithaca</h1>
         <p class="hero-subtitle">Ithaca Insights is a live dashboard uncovering rental pricing inefficiencies across Tompkins County.</p>
-        <button class="cta-button">View Map</button>
+        <button class="cta-button"><router-link to="/rent">View Map</router-link></button>
       </div>
     </div>
 
@@ -195,6 +195,9 @@ const teamMembers = [
   border-radius: 6px;         
 }
 
+.cta-button a {
+  color: white;
+}
 
 .cta-button:hover {
   transform: scale(1.05);

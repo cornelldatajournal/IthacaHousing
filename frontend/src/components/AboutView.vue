@@ -328,5 +328,86 @@ const teamMembers = [
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .hero-title {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    white-space: normal;
+    padding: 0 1rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    padding: 0 1.5rem;
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .cta-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .value-prop-heading {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .value-prop-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .value-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .value-title {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .value-text {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .team-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .team-card {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .avatar-face {
+    width: 100%;
+    max-width: 120px;
+    margin: 0 auto 1rem;
+  }
+
+  .member-name {
+    font-size: 1rem;
+  }
+
+  .member-role {
+    font-size: 0.9rem;
+  }
+
+  .info-section {
+    gap: 12px;
+  }
+}
+
 </style>
   

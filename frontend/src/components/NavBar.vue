@@ -18,7 +18,7 @@
         </div>
 
         <!-- Navigation Menu -->
-        <ul class="navbar-menu">
+        <ul class="navbar-menu" :class="{ 'menu-open': menuOpen }">
             <li><router-link to="/" active-class="active-link">Home</router-link></li>
             <li><router-link to="/rent" active-class="active-link">Rental Valuation</router-link></li>
             <li><router-link to="/history" active-class="active-link">Time Capsule</router-link></li>

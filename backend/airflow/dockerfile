@@ -1,0 +1,20 @@
+FROM apache/airflow:2.10.5-python3.12
+
+USER root
+
+RUN apt-get update && apt-get install -y --fix-missing \
+    libpq-dev gcc python3-dev build-essential \
+    gdal-bin libgdal-dev libproj-dev
+
+USER airflow
+
+ENV AIRFLOW_HOME=/opt/airflow
+
+COPY --chown=50000:50000 requirements.txt /requirements.txt
+RUN pip install --no-cache-dir -r /requirements.txt
+
+COPY --chown=50000:50000 entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

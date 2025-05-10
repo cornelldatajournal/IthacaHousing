@@ -1,4 +1,7 @@
-
-.DS_Store
-Scraping/.ipynb_checkpoints/Redfin-checkpoint.ipynb
-.ipynb_checkpoints/Realtor-checkpoint.ipynb
+myenv
+.env.local
+backend/airflow/logs
+new-key.pem
+table_backup.dump
+task-definition.json
+.env

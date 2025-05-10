@@ -1,0 +1,12 @@
+# flyctl launch added from myenv/lib/python3.12/site-packages/libpysal/.gitignore
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/points
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/Untitled.ipynb
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/color.ipynb
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/dispatch.ipynb
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/geotable_plot.html
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/rect5.png
+myenv/lib/python3.12/site-packages/libpysal/**/contrib/viz/selected.png
+myenv/lib/python3.12/site-packages/libpysal/**/inequality/gini_decomp.ipynb
+myenv/lib/python3.12/site-packages/libpysal/tools/gh_api.py
+
+fly.toml

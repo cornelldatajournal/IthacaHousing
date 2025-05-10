@@ -1,0 +1,6 @@
+__pycache__/
+.venv/
+*.csv
+*.sqlite3
+*.db
+.git/

@@ -1,18 +1,32 @@
-# Ithaca Housing: Finding the Best Bang per Buck
+# IthacaInsights.com  
+[Visit Here](https://ithacainsights.com/)
 
-Hi! This is the repository for the Ithaca Housing project in the [Cornell Data Journal](https://www.cornelldatajournal.org/) (Fall 2023 and Spring 2024 Semesters).
+Ithaca Insights is a real-time dashboard for housing data in Ithaca, NY. It helps users explore rental trends, compare listings, and understand the local Ithaca housing market.
 
-## Project Abstract
+---
 
-This project aims to explore the housing prices in Ithaca, or potentially beyond. We will analyze housing prices over space and time, evaluating key factors (e.g., transportation, access to shops, parks), and potentially building a multivariable regression model. From this, we can evaluate where or which options are the best. Specifically, we will consider the comparison between on or off-campus options, especially assessing whether on-campus housing prices are fair. Tools we are planning to use include ArcGIS and Python (via pandas/geopandas). 
+## Features
 
+- Maps available housing listings in Ithaca
+- Compares predicted vs. listed rents
+- Clusters neighborhoods by price and location
+- Interactive Zoning Data and Intelligent Parcel Site-Selection (WIP)
 
-## Our Team
+Ithaca Insights is designed to serve students and renters looking for a fair deal, as well as researchers and anyone looking to understand Ithaca’s housing landscape without guesswork.
 
-Group members (SP24):  
-- Team Leads: Winston Ni, Steven Zhou
-- Members: Abigale Watson, Athena	Deng, Jason Stein, Milo Schlittgen-Li, Omowunmi Akingbola, Yixuan Zhou
+---
+## Why It Exists
 
-Group members (FA23):  
-- Team Leads: Steven Zhou, Tim Holt
-- Members: Danielle Smith, Winston Ni, Ciara Malamug, Omowunmi Akingbola, Abigale Watson
+Finding housing in Ithaca is a tough cookie. Listings are scattered, and prices vary a ton.
+
+---
+## Stack
+
+- **Frontend**: FastAPI, Vue.js, deployed via Fly.io  
+- **Backend**: PostgreSQL, SQLAlchemy, and REST endpoints  
+- **Data**: Parsed live from Ithaca’s rental feeds
+- **Model**: Spatial Random Forest Regressor
+- **Infra**: Docker app with CI/CD on GitHub Actions  
+- **Monitoring**: Prometheus + Grafana metrics available at `/metrics`
+  
+---
